@@ -1,0 +1,140 @@
+CHARACTER CLASS SPECIFIC DATA =========================
+    -> SKILLS
+    -> INITIAL STAT POINTS
+    -> ITEMS (*PALY SHIELDS, BARB HELMS, DRUID PELTS, *NECRO HEADS, *SORC ORBS, *AMAZON WEAPONS, *ASSASSIN KATARS)
+
+
+CHARACTER CLASS SHARED DATA ===========================
+    -> SKILLS (OSKILLS, PALY AURAS)
+
+    *** OSKILLS, AURAS PRIORITY LAWS, ETC: https://diablo2.diablowiki.net/Item_Skill_Bonuses
+
+
+
+    *** MORE CONTENTS: http://www.d2tomb.com/skills.shtml
+
+
+
+CHARACTER SETUP =======================================
+
+==> LEVEL (INPUT - NUMBER)
+
+==> SKILL QUESTS SELECTION (CHECKBOX - BOOLEAN)
+
+==> SKILL POINTS REMAINING COUNT (RETURN - NUMBER)
+
+
+
+
+SKILL TREE ============================================
+
+==> TAB SKILLS
+
+==> EXTRA SKILL POINTS
+    -> ADD EXTRA SKILL FORM
+       PROVIDER (INPUT - STRING) ---> SKILL TYPE (SEL - NUMBER [ID]) ---> QTY (SEL - NUMBER - MAX +3)
+  eg.: HEMET: +1 TO ALL CHAR SKILLS
+  eg.: AMULET: +3 TO TAB SKILLS
+  eg.: COMPLETE SET: +2 TO ALL SKILLS
+  eg.: BATCH OF EVERITHING: +2 TO ALL SKILLS
+
+==> SIDE PANEL INFOS
+    -> SKILL POINTS REMAINING
+    -> RESET BTN
+    -> SKILL INFO (ON-MOUSE-HOVER - OBJ)
+
+
+
+
+GEAR AND STATS =========================================
+
+==> STATS
+    -> STRENGTH (INPUT - NUMBER)(FOR DAMAGE MEANING CALC)
+    -> DEXTERITY (INPUT - NUMBER)(FOR CTH AND CTB CALC)
+
+==> GEAR
+    -> WEAPON (SEL - OBJ - [MAX/MIN DMG, SPEED, STR/DEX REQ?])(DMG, IAS)
+    -> SHIELD (SEL - OBJ - [MIN/MAX SMITE DMG, CTB, STR REQ])(DMG, CTB)
+
+
+
+==> BONUSES
+    ADD BONUS FORM (i - POP-UP WITH MORE INFO?)
+    BONUS TYPE (SEL - OBJ) ---> AMOUNT (INPUT - NUMBER)
+    ** BONUS TYPES:
+     - WEAPON ED%
+     - TOTAL OFF-WEAPON ED% (JEWELS, ARMOR, GLOVES, ETC...)
+     - DMG +X (GRIEF, RUNEMASTER, ETC...)
+     - TOTAL MIN DMG (CHARMS, JEWELS, GEAR LIKE TRAVS, ETC...)
+     - TOTAL MAX DMG (CHARMS, JEWELS, GEAR LIKE TRAVS, ETC...)
+     - TOTAL IAS (WEAPON + OFF-WEAPONS IAS [JEWELS, SHAEL`D ITEMS])
+     - ANYTHING ELSE???
+  eg.: DAMAGE: +396
+  eg.: OFF-WEAPON ED%: 132%
+  eg.: TOTAL IAS%: 75%
+
+
+
+
+
+RESULTS =========================================
+
+==> PRIMARY ATTACK, SECONDARY ATTACK/AURA AND EXTRA AURAS SELECTION
+    -> PRIMARY ATTACK BOX (CUSTOM SEL - OBJ)
+    -> SECONDARY ATTACK/AURA BOX (CUSTOM SEL - OBJ)
+    -> ADD EXTRA AURAS FORM (i - POP-UP WITH MORE INFO?)
+       PROVIDER (INPUT - STRING) ---> AURA (SEL - OBJ [ID, SYNERGIES]) ---> LVL (INPUT - NUMBER)
+  eg.: WEAPON: FANATICISM LVL 9
+  eg.: MERC: BLESSED AIM LVL 9
+
+       *** MERC CALC SITES --> http://www.mannm.org/d2library/faqtoids/hire_tabs.html
+                               https://www.diabloii.net/forums/threads/ultimate-merc-guide-v3-0.306061/
+       *** MERC AURAS FORMULA --> ??? 7 + [(hlvl - 43) × 8 / 32] ??? NEEDS TO VALIDATE
+
+==> DAMAGE
+    -> PRIMARY ATTACK DMG (RETURN - OBJ)
+  eg.: ZEAL DAMAGE: 200-800
+       PHYSICAL: 199-300
+       LIGHTNING: 1-500
+
+    -> SECONDARY ATTACK DMG (RETURN - OBJ)
+  eg.: SMITE DAMAGE: 50-80
+
+    -> APLIFY DMG (CHECKBOX - BOOLEAN)
+
+==> CTB
+    -> TOTAL CTB (RETURN - NUMBER)
+  eg.: TOTAL CTB: 54%
+    "YOU ARE 32 (RETURN - NUMBER) DEXTERITY POINTS AWAY TO ACHIEVE MAX 75% CTB"
+
+    *** CTB FORMULA: T = [B * (D - 15) / (2 * C)]
+        T = TOTAL CHANCE
+        B = TOTAL BLOCKING BONUS (CHAR INIT VALUES + SHIELD CTB + ICB FROM ITEMS + HS SKILL)
+        D = DEX
+        C = CHAR LVL
+
+        BLOCKING BONUS BY CLASS
+        - Paladin: +30 (%)
+        - Amazon, Assassin, Barbarian: +25 (%)
+        - Druid, Necromancer, Sorceress: +20 (%)
+
+        * MAX BLOCK CALC WEBSITE http://www.baronsbazaar.ca/forum/ppr/block_calc.html
+
+==> IAS + FPA + APS
+    -> FPA (RETURN - NUMBER)
+    -> APS (RETURN - NUMBER)
+    -> TABLE BREAKPOINTS
+                             FPA  APS
+  eg.: +13% IAS TO ACHIEVE...9    2.77
+  eg.: +34% IAS TO ACHIEVE...8    3.12
+  eg.: +72% IAS TO ACHIEVE...7    3.57
+    "FURTHER IAS POINTS WILL BE DISCARTED"
+
+    *** IAS WEBSITE https://mmmpld.github.io/pod-attack-calc/
+
+==> CTH FORM
+    -> MONSTER (SEL - OBJ)
+  eg.: BAAL: 76%
+  eg.: DIABLO: 85%
+  eg.: FALEN: 95%
+    
