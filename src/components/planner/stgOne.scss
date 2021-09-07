@@ -1,0 +1,99 @@
+@use '../../assets/scss/abstracts/' as *;
+
+.planner {
+  .stage-character-level {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 7rem;
+    & > [class*="level-"] {
+      display: flex;
+      align-items: center;
+    }
+    .level-form {
+      input {
+        font-size: 3rem;
+        text-align: center;
+        width: 2.2em;
+        height: 2.2em;
+      }
+    }
+    .level-result {
+      .result {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $gold;
+        text-align: center;
+        font-family: "Exocet Light";
+        font-size: 5.5rem;
+        font-weight: bold;
+        letter-spacing: -0.75rem;
+        text-align: center;
+        text-indent: -0.75rem;
+      }
+    }
+    .btn {
+      margin-left: 2rem;
+      min-width: 5.1em;
+    }
+  }
+  .stage-skill-quests {
+    margin-top: 2em;
+    .difficulties {
+      @include grix(3, $gap, fixed);
+      .diff {
+        padding: 0 0.75em;
+        background: rgba(#000, 0.3);
+        .diff-header {
+          margin: 0;
+          padding: 0.75em 0 0.55em;
+          border-bottom: 1px solid $gold;
+          color: $gold;
+          font-size: 1.6rem;
+          text-align: center;
+        }
+        .quests {
+          padding: 0.75em 0.35em;
+          text-align: left;
+          .quest {
+            display: flex;
+            align-items: flex-start;
+            &:not(:first-child) {
+              margin-top: 0.75em;
+            }
+            .quest-description {
+              .desc-name {
+                color: $blue;
+                font-size: 1.4rem;
+              }
+              .desc-details {
+                display: block;
+                font-size: 1rem;
+                font-style: italic;
+                opacity: 0.5;
+              }
+            }
+          }
+        }
+      }
+    }
+    .quests-toggle-controller {
+      margin-top: 3rem;
+      color: $gold;
+      text-align: center;
+    }
+  }
+  .stage-total-skill-points-remaining {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .result {
+      margin: 0 0.3em;
+      color: $gold;
+      font-size: 3rem;
+      font-family: "Exocet Light";
+    }
+  }
+}

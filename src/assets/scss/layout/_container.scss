@@ -1,0 +1,18 @@
+@use '../abstracts/mixins' as *;
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  @include bp(md-max){
+    padding: 0 10px;
+  }
+  @include bp(md) {
+    padding: 0 20px;
+  }
+  @include bp(lg) {
+    width: 950px;
+  }
+  @include bp(xl) {
+    width: 1170px;
+  }
+}

@@ -1,0 +1,34 @@
+/* 
+* GRIX v3.0.0
+* @author Eduardo Moreno - eduardocmoreno[at]gmail[dot]com
+* https://github.com/eduardocmoreno/grix
+*/
+@use 'sass:math';
+@mixin grix($cols, $gap: 0px, $width: flex) {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > * {
+    &:not(:nth-child(-n + #{$cols})) {
+      margin-top: if(type-of($gap) == list, nth($gap, 2), $gap);
+    }
+
+    $wCalc: 100%;
+
+    @if ($cols > 1) {
+      &:not(:nth-child(#{$cols}n + 1)) {
+        margin-left: nth($gap, 1);
+      }
+
+      //eg: 3 cols, gap 10px
+      $calcFactor_A: math.div(100%, $cols); //100%/3 = 33.3%
+      $calcFactor_B: $cols - 1; //3 - 1 = 2
+      $calcFactor_C: if(nth($gap, 1) == 0, nth($gap, 1) * 1px, nth($gap, 1)); //10px
+      $calcFactor_D: math.div($calcFactor_C, $cols); //3.3px
+
+      $wCalc: calc(#{$calcFactor_A} - #{$calcFactor_B * $calcFactor_D}); //33.3% - (2 * 3.3px) = 33.3% - 6.6px
+    }
+
+    #{if($width == fixed, 'width', 'flex')}: $wCalc !important;
+  }
+}

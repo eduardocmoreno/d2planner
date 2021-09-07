@@ -1,0 +1,136 @@
+@use '../abstracts/' as *;
+
+.divider {
+  margin: 2em 0;
+  padding: 12px 0;
+  @include pseudo(before, after);
+  &::before {
+    top: 50%;
+    left: 50%;
+    width: 11px;
+    height: 11px;
+    background: linear-gradient(135deg, lighten($blue, 15%) 30%, darken($blue, 25%) 60%);
+    border: 2px solid;
+    border-color: $gold darken($gold, 25%) darken($gold, 25%) $gold;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: 1;
+  }
+  &::after {
+    top: calc(50% - 2px);
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient($gold 50%, darken($gold, 25%) 50%);
+  }
+}
+
+.back-to-the-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(#000, 0.2);
+  color: $red;
+  font-size: 60px;
+  &:before {
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    height: 0;
+    transform: translateX(-50%);
+    line-height: 1.2;
+    content: "^";
+  }
+}
+
+%tooltip {
+  @include pseudo(before, after);
+  &::before,
+  &::after {
+    display: none;
+  }
+  &::before {
+    content: attr(data-tooltip);
+    top: 0;
+    left: 0;
+    padding: 0.5em 0.75em;
+    border-bottom: 1px solid $gold;
+    background: darken($blue, 25%);
+    box-shadow: 0 0 20px rgba(#000, 0.5), inset 0 -5px 20px rgba(#000, 0.5);
+    color: $gold;
+    font-style: italic;
+    font-size: 1.4rem;
+    text-align: center;
+    transform: translateY(calc(-100% - 1rem));
+    white-space: nowrap;
+  }
+  &::after {
+    top: -1.4rem;
+    left: 1rem;
+    width: 7px;
+    height: 7px;
+    border-style: solid;
+    border-color: $gold;
+    border-width: 0 0 1px 1px;
+    background: linear-gradient(45deg, darken($blue, 32%) 50%, transparent 50%);
+    transform: rotate(-45deg);
+  }
+}
+
+%tooltip-center {
+  left: 50%;
+  transform: translate(-50%, calc(-100% - 0.75em));
+  &::before {
+    left: 50%;
+    transform: translateX(-50%) rotate(-45deg);
+  }
+}
+%tooltip-right {
+  right: 0;
+  &::before {
+    right: 0.5em;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tooltip {
+  @extend %tooltip;
+  &:not(&-focus):hover {
+    &::before,
+    &::after {
+      display: block;
+      animation: fadeIn $duration;
+    }
+  }
+  &-focus {
+    &:focus-within {
+      &::before,
+      &::after {
+        display: block;
+        animation: fadeIn $duration;
+      }
+    }
+  }
+  &-center {
+    &::before {
+      left: 50%;
+      transform: translate(-50%, calc(-100% - 1rem));
+    }
+    &::after {
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+  }
+}

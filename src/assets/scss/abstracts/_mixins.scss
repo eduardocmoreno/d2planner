@@ -1,0 +1,29 @@
+$breakpoints: (
+  "sm": "(max-width: 767px)",
+  "md": "(min-width: 768px) and (max-width: 1023px)",
+  "md-min": "(min-width: 768px)",
+  "md-max": "(max-width: 1023px)",
+  "lg": "(min-width: 1024px) and (max-width: 1279px)",
+  "lg-min": "(min-width: 1024px)",
+  "lg-max": "(max-width: 1279px)",
+  "xl": "(min-width: 1280px)",
+);
+
+@mixin bp($sizes...) {
+  @each $size in $sizes {
+    @media #{map-get($breakpoints, $size)} {
+      @content;
+    }
+  }
+}
+
+@mixin pseudo($args...) {
+  position: relative;
+  @each $pseudo in $args {
+    &::#{$pseudo} {
+      display: block;
+      position: absolute;
+      content: "";
+    }
+  }
+}
