@@ -1,8 +1,9 @@
-//routes
-interface IRoutes {
+/// <reference types="react" />
+
+//route
+interface IRoute {
   path: string;
   name: string;
   exact?: boolean;
-  Component: React.ComponentType;
-  props?: any;
+  Component: ComponentType;
 }

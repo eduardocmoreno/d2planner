@@ -41,9 +41,9 @@
   }  
   &-blue {
     color: $gold;
-    background: darken($blue, 35%);
+    background: darken($blue, 32%);
     &:hover {
-      background: darken($blue, 32%);
+      background: darken($blue, 25%);
     }
   }
 }

@@ -1,41 +1,36 @@
+/// <reference types="react" />
+
 //planner context
 interface IPlannerContext {
-  characterLevel: number;
-  setCharacterLevel: React.Dispatch<React.SetStateAction<number>>;
-  totalSkillPointsRemaining: number;
-  setTotalSkillPointsRemaining: React.Dispatch<React.SetStateAction<number>>;
-  plannerTabs: IPlannerTabs[];
-  setPlannerTabs: React.Dispatch<React.SetStateAction<IPlannerTabs[]>>;
+  characterData: ICharacterData;
+
+  level: number;
+  setLevel: React.Dispatch<React.SetStateAction<number>>;
+
+  attrs: IAttrsState;
+  dispatchAttrs: React.Dispatch<IAttrsAction>;
+
+  attrPoints: number;
+  setAttrPoints: React.Dispatch<React.SetStateAction<number>>;
+
+  skills: ISkill[];
+  dispatchSkills: React.Dispatch<ISkillsAction>;
+
+  skillTabs: ISkillTab[];
+  setSkillTabs: React.Dispatch<React.SetStateAction<ISkillTab[]>>;
+
+  skillPoints: number;
+  setSkillPoints: React.Dispatch<React.SetStateAction<number>>;
+
+  planner: IPlanner[];
+  setPlanner: React.Dispatch<React.SetStateAction<IPlanner[]>>;
 };
 
 
 //planner tab
-interface IPlannerTabs {
+interface IPlanner {
   id: number;
   name: string;
-  className: string;
-  Component: React.ComponentType;
+  Component: ComponentType;
   isActive: boolean;
-}
-
-//stage one - skill quests
-interface ISkillQuest {
-  name: string,
-  act: string,
-  adds: number,
-  active: boolean
-}
-
-interface ISkillQuestsInit {
-  diff: string,
-  quests: ISkillQuest[]
-}
-
-interface ISkillQuestsAction {
-  type: 'TOGGLE' | 'TOGGLEALL' | 'RESET';
-  payload?: {
-    diff: string;
-    quest: string;
-    initialState?: ISkillQuestsInit[]
-  }
 }

@@ -1,0 +1,65 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  outline: none;
+  color: inherit;
+  font-family: inherit;
+}
+:root {
+  font-size: 62.5%;
+  line-height: 1.15;
+}
+body {
+  background: #000;
+  color: #ddd;
+  font-family: "Spectral", Arial, sans-serif;
+  font-size: 1.6rem;
+}
+:where(body, button, ul, figure, h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  padding: 0;
+}
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: "D2font", Arial, sans-serif;
+}
+ul {
+  list-style: none;
+}
+button {
+  background: transparent;
+  border: 0;
+}
+:where(a, button, label, input[type=checkbox]) {
+  cursor: pointer;
+}
+a {
+  display: inline-block;
+  text-decoration: none;
+  transition: 0.35s;
+}
+img {
+  display: inline-block;
+  border: 0;
+}
+input {
+  padding: 0;
+  border: 0;
+  &[type="number"] {
+    /* Firefox */
+    -moz-appearance: textfield;
+
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+table {
+  border-collapse: collapse;
+}
+small {
+  font-size: 80%;
+}

@@ -1,25 +1,25 @@
 import { BrowserRouter as Routes, Redirect, Route, Switch } from 'react-router-dom';
-import routes from './config/routes';
-import Header from './components/Header';
-import './assets/scss/main.scss';
+import routes from 'config/routes';
+import Header from 'components/ui/Header';
+import Main from 'components/ui/Main';
 
 function App() {
   return (
     <Routes>
       <Header />
-      <main className="container">
+      <Main>
         <Switch>
-          {<Redirect exact from="/" to="/class/paladin" />}
-          {routes.map(route =>
+          <Redirect exact from="/" to="/class/paladin" />
+          {routes.map(({ name, path, exact, Component }: IRoute) =>
             <Route
-              key={route.name}
-              path={route.path}
-              exact={route.exact}
-              component={route.Component}
+              key={name}
+              path={path}
+              exact={exact}
+              component={Component}
             />
           )}
         </Switch>
-      </main>
+      </Main>
     </Routes>
   );
 }

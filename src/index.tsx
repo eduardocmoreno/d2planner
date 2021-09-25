@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { StyleSheetManager } from 'styled-components';
+import App from 'App';
+import 'assets/scss/styles.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <StyleSheetManager disableVendorPrefixes={process.env.NODE_ENV === 'development'}>
+      <App />
+    </StyleSheetManager>
   </React.StrictMode>,
   document.getElementById('root')
 );

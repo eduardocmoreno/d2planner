@@ -1,7 +1,7 @@
 import About from "../pages/About";
 import Planner from "../pages/Planner";
 
-const routes: IRoutes[] = [
+const routes: IRoute[] = [
   {
     path: '/about',
     name: 'About',

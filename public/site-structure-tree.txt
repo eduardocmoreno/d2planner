@@ -19,6 +19,10 @@ CHARACTER SETUP =======================================
 
 ==> LEVEL (INPUT - NUMBER)
 
+==> STATS
+    -> STRENGTH (INPUT - NUMBER)(FOR DAMAGE MEANING CALC)
+    -> DEXTERITY (INPUT - NUMBER)(FOR CTH AND CTB CALC)
+
 ==> SKILL QUESTS SELECTION (CHECKBOX - BOOLEAN)
 
 ==> SKILL POINTS REMAINING COUNT (RETURN - NUMBER)
@@ -46,17 +50,11 @@ SKILL TREE ============================================
 
 
 
-GEAR AND STATS =========================================
-
-==> STATS
-    -> STRENGTH (INPUT - NUMBER)(FOR DAMAGE MEANING CALC)
-    -> DEXTERITY (INPUT - NUMBER)(FOR CTH AND CTB CALC)
+GEAR ========================================================
 
 ==> GEAR
     -> WEAPON (SEL - OBJ - [MAX/MIN DMG, SPEED, STR/DEX REQ?])(DMG, IAS)
     -> SHIELD (SEL - OBJ - [MIN/MAX SMITE DMG, CTB, STR REQ])(DMG, CTB)
-
-
 
 ==> BONUSES
     ADD BONUS FORM (i - POP-UP WITH MORE INFO?)
@@ -72,7 +70,6 @@ GEAR AND STATS =========================================
   eg.: DAMAGE: +396
   eg.: OFF-WEAPON ED%: 132%
   eg.: TOTAL IAS%: 75%
-
 
 
 

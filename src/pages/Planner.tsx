@@ -1,69 +1,168 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useReducer, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import plannerTabsInit from "../config/plannerTabs";
-import '../pages/planner.scss';
+import Stages from "components/planner/Stages";
+import Tabs from "components/planner/Tabs";
+import { PageTitle } from "components/ui/Headings";
+import plannerInit from "config/planner";
+import reduceSkills from "reducers/skills";
+import attrsInit from "config/attrs";
+import reduceAttrs from "reducers/attrs";
 
-//context: planner tabs
-export const PlannerContext = createContext<IPlannerContext>({} as IPlannerContext);
+//context
+export const PlannerContext = createContext({} as IPlannerContext);
 
-//component: planner
+
+// TODO: CONSIDER USING THE CONTEXT AS A CUSTOM HOOK
+// export const usePlanner = () => useContext(PlannerContext);
+// const { ...props } = usePlanner();
+
+
+const gearsInit: IGear[] = [
+  {
+    type: 'ARMOR',
+    props: {
+      strength: 10,
+      dexterity: 5
+    }
+  },
+  {
+    type: 'WEAPON',
+    props: {
+      strength: 20
+    }
+  },
+  {
+    type: 'AMULET',
+    props: {
+      allAttrs: 5
+    }
+  }
+]
+
+function reduceGearAttrProps(attr: keyof IGearProps, gearArr: IGear[]) {
+  return gearArr
+    .filter(g => g.props[attr!])
+    .flatMap(g => g.props[attr!])
+    .reduce((a, b) => a! + b!, 0);
+}
+
 export default function Planner() {
-  //route params: char class
-  const characterClass = useParams<{ character: string }>().character;
+  //route params
+  const charClass = useParams<{ character: string }>().character;
 
-  //state: char level
-  const [characterLevel, setCharacterLevel] = useState(1);
+  //state
+  const [planner, setPlanner] = useState(plannerInit);
+  const [characterData, setCharacterData] = useState({} as ICharacterData);
 
-  //state: planner tabs and stages
-  const [plannerTabs, setPlannerTabs] = useState(plannerTabsInit);
 
-  //state: total skill points
-  const [totalSkillPointsRemaining, setTotalSkillPointsRemaining] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [attrs, dispatchAttrs] = useReducer(reduceAttrs, attrsInit);
+  const [attrPoints, setAttrPoints] = useState(0);
 
-  //props: planner context props
+
+  const [skills, dispatchSkills] = useReducer(reduceSkills, []);
+  const [skillTabs, setSkillTabs] = useState([] as ISkillTab[]);
+  const [skillPoints, setSkillPoints] = useState(0);
+
+  const [gears, setGears] = useState(gearsInit);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  //props
   const plannerContextProps: IPlannerContext = {
-    characterLevel, setCharacterLevel, totalSkillPointsRemaining, setTotalSkillPointsRemaining, plannerTabs, setPlannerTabs
+    characterData,
+
+    planner, setPlanner,
+
+    level, setLevel,
+    attrs, dispatchAttrs,
+    attrPoints, setAttrPoints,
+
+    skills, dispatchSkills,
+    skillTabs, setSkillTabs,
+    skillPoints, setSkillPoints
   }
 
-  //handle planner tabs
-  const handlePlannerTabs = (id: number) => {
-    setPlannerTabs(plannerTabs.map(t => {
-      return {
-        ...t,
-        isActive: id === t.id ? true : false
+  //on mount: retrieve character data
+  useEffect(() => {
+    setIsLoading(true);
+    (async function () {
+      try {
+        const response = await fetch(`https://d2calc-24ee1-default-rtdb.firebaseio.com/class/${charClass}.json`);
+        const data = await response.json();
+        const { skills, attributes }: ICharacterData = data;
+
+        setCharacterData(data);
+
+        dispatchAttrs({
+          type: 'RESET',
+          payload: {
+            initialState: {
+              strength: {
+                ...attrsInit.strength,
+                base: attributes.strength,
+                total: attributes.strength
+              },
+              dexterity: {
+                ...attrsInit.dexterity,
+                base: attributes.dexterity,
+                total: attributes.dexterity
+              },
+              vitality: {
+                ...attrsInit.vitality,
+                base: attributes.vitality,
+                total: attributes.vitality
+              },
+              energy: {
+                ...attrsInit.energy,
+                base: attributes.energy,
+                total: attributes.energy
+              }
+            }
+          }
+        });
+
+        let attrs: Array<keyof IAttrs> = ['strength', 'dexterity', 'vitality', 'energy'];
+
+        attrs.forEach(a => {
+          dispatchAttrs({
+            type: 'ADD',
+            payload: {
+              attr: a,
+              prop: 'extras',
+              batch: reduceGearAttrProps(a, gears)
+            }
+          });
+        });
+
+
+        dispatchSkills({
+          type: 'INIT',
+          payload: {
+            initialState: skills
+          }
+        });
+
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        console.error(error);
       }
-    }))
-  }
+    })();
+  }, [charClass, gears]);
+
 
   return (
-    <div className="planner devil-box">
-      <h2 className="box-main-title">{characterLevel > 1 && `Level ${characterLevel} `}{characterClass}</h2>
-      <div className="planner-tabs">
-        {plannerTabs.map(({id, name, isActive}) => {
-          return (
-            <div
-              key={id}
-              className={`tab ${isActive && 'active'}`}
-              onClick={() => handlePlannerTabs(id)}
-            >{name}</div>
-          )
-        })}
-      </div>
-      <div className="planner-stages">
+    <>
+      <PageTitle>{level > 1 && `Level ${level} `}{charClass}</PageTitle>
+      {isLoading ?
+        <div>LOADING DATA...</div>
+        :
         <PlannerContext.Provider value={plannerContextProps}>
-          {plannerTabs.map(({id, className, Component, isActive}) => {
-            return (
-              <div
-                className={`stage ${className} ${isActive && 'active'}`}
-                key={id}
-              >
-                <Component />
-              </div>
-            )
-            return null;
-          })}
+          <Tabs />
+          <Stages />
         </PlannerContext.Provider>
-      </div>
-    </div>
+      }
+    </>
   )
 }
