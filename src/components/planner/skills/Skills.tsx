@@ -45,7 +45,7 @@ export default function Skills() {
         <div className="skill-tree"></div>
         <div className="skill-panel">
           <div className="panel-points">
-            <div className="points-remaining">{skillPointsRemaining}</div>
+            <div className="points-remaining">pts rem: {skillPointsRemaining}</div>
           </div>
           <div className="divider" />
           <div className="panel-skill-details">

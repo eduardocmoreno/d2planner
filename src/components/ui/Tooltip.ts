@@ -26,7 +26,7 @@ const Tooltip = styled.div<ITooltip>(({ focus, center }) => css`
     font-size: 1.4rem;
     text-align: center;
     transform: translateY(calc(-100% - 1rem));
-    white-space: nowrap;
+    white-space: pre;
   }
   ::after {
     top: -1.4rem;
@@ -59,23 +59,3 @@ const Tooltip = styled.div<ITooltip>(({ focus, center }) => css`
 `);
 
 export default Tooltip;
-
-  // &-focus {
-  //   &:focus-within {
-  //     &::before,
-  //     &::after {
-  //       display: block;
-  //       animation: fadeIn $duration;
-  //     }
-  //   }
-  // }
-  // &-center {
-  //   &::before {
-  //     left: 50%;
-  //     transform: translate(-50%, calc(-100% - 1rem));
-  //   }
-  //   &::after {
-  //     left: 50%;
-  //     transform: translateX(-50%) rotate(-45deg);
-  //   }
-  // }

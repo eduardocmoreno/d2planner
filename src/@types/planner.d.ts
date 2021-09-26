@@ -4,17 +4,23 @@
 interface IPlannerContext {
   characterData: ICharacterData;
 
+  planner: IPlanner[];
+  setPlanner: React.Dispatch<React.SetStateAction<IPlanner[]>>;
+
   level: number;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
 
   attrs: IAttrsState;
-  dispatchAttrs: React.Dispatch<IAttrsAction>;
+  dispatchAttrs: React.Dispatch<IAttrsReducer>;
 
   attrPoints: number;
   setAttrPoints: React.Dispatch<React.SetStateAction<number>>;
 
+  quests: IQuest[];
+  dispatchQuests: React.Dispatch<IQuestsReducer>;
+
   skills: ISkill[];
-  dispatchSkills: React.Dispatch<ISkillsAction>;
+  dispatchSkills: React.Dispatch<ISkillsReducer>;
 
   skillTabs: ISkillTab[];
   setSkillTabs: React.Dispatch<React.SetStateAction<ISkillTab[]>>;
@@ -22,8 +28,8 @@ interface IPlannerContext {
   skillPoints: number;
   setSkillPoints: React.Dispatch<React.SetStateAction<number>>;
 
-  planner: IPlanner[];
-  setPlanner: React.Dispatch<React.SetStateAction<IPlanner[]>>;
+  gears: IGear[];
+  setGears: React.Dispatch<React.SetStateAction<IGear[]>>;
 };
 
 

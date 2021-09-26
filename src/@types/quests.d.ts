@@ -6,13 +6,13 @@ interface IQuestsDifficulty {
 interface IQuest {
   name: string;
   act: string;
-  reward: 'skill' | 'stat';
+  reward: 'SKILLS' | 'ATTRS';
   adds: number;
   difficulty: IQuestsDifficulty[];
 }
 
 //skill quests dispatch action
-interface IQuestsAction {
+interface IQuestsReducer {
   type: 'TOGGLE' | 'TOGGLEBYDIFFICULTY' | 'TOGGLEBYQUEST' | 'TOGGLEALL' | 'RESET';
   payload?: {
     difficulty?: string;

@@ -1,6 +1,6 @@
-import Setup from 'components/planner/setup/Index';
-import Skills from 'components/planner/skills/Index';
-import Gear from 'components/planner/gear/Index';
+import Setup from 'components/planner/setup/Setup';
+import Skills from 'components/planner/skills/Skills';
+import Gear from 'components/planner/gear/Gear';
 import Output from 'components/planner/output/Index';
 
 const plannerInit: IPlanner[] = [

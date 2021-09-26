@@ -1,12 +1,17 @@
 import { useState, createContext, useReducer, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import Stages from "components/planner/Stages";
 import Tabs from "components/planner/Tabs";
 import { PageTitle } from "components/ui/Headings";
+
 import plannerInit from "config/planner";
-import reduceSkills from "reducers/skills";
+import questsInit from "config/quests";
 import attrsInit from "config/attrs";
-import reduceAttrs from "reducers/attrs";
+
+import questsReducer, { questsRewardsReducer } from "reducers/quests";
+import attrsReducer from "reducers/attrs";
+import skillsReducer from "reducers/skills";
 
 //context
 export const PlannerContext = createContext({} as IPlannerContext);
@@ -21,14 +26,13 @@ const gearsInit: IGear[] = [
   {
     type: 'ARMOR',
     props: {
-      strength: 10,
-      dexterity: 5
+      strength: 10
     }
   },
   {
     type: 'WEAPON',
     props: {
-      strength: 20
+      dexterity: 20
     }
   },
   {
@@ -38,13 +42,6 @@ const gearsInit: IGear[] = [
     }
   }
 ]
-
-function reduceGearAttrProps(attr: keyof IGearProps, gearArr: IGear[]) {
-  return gearArr
-    .filter(g => g.props[attr!])
-    .flatMap(g => g.props[attr!])
-    .reduce((a, b) => a! + b!, 0);
-}
 
 export default function Planner() {
   //route params
@@ -56,11 +53,12 @@ export default function Planner() {
 
 
   const [level, setLevel] = useState(1);
-  const [attrs, dispatchAttrs] = useReducer(reduceAttrs, attrsInit);
+  const [attrs, dispatchAttrs] = useReducer(attrsReducer, attrsInit);
   const [attrPoints, setAttrPoints] = useState(0);
 
+  const [quests, dispatchQuests] = useReducer(questsReducer, questsInit);
 
-  const [skills, dispatchSkills] = useReducer(reduceSkills, []);
+  const [skills, dispatchSkills] = useReducer(skillsReducer, []);
   const [skillTabs, setSkillTabs] = useState([] as ISkillTab[]);
   const [skillPoints, setSkillPoints] = useState(0);
 
@@ -78,9 +76,14 @@ export default function Planner() {
     attrs, dispatchAttrs,
     attrPoints, setAttrPoints,
 
+    quests,
+    dispatchQuests,
+
     skills, dispatchSkills,
     skillTabs, setSkillTabs,
-    skillPoints, setSkillPoints
+    skillPoints, setSkillPoints,
+
+    gears, setGears
   }
 
   //on mount: retrieve character data
@@ -122,20 +125,6 @@ export default function Planner() {
           }
         });
 
-        let attrs: Array<keyof IAttrs> = ['strength', 'dexterity', 'vitality', 'energy'];
-
-        attrs.forEach(a => {
-          dispatchAttrs({
-            type: 'ADD',
-            payload: {
-              attr: a,
-              prop: 'extras',
-              batch: reduceGearAttrProps(a, gears)
-            }
-          });
-        });
-
-
         dispatchSkills({
           type: 'INIT',
           payload: {
@@ -149,8 +138,14 @@ export default function Planner() {
         console.error(error);
       }
     })();
-  }, [charClass, gears]);
+  }, [charClass]);
 
+  //watch: attributes and skills points
+  useEffect(() => {
+    let levelFactor = level - 1;
+    setSkillPoints(levelFactor);
+    setAttrPoints(questsRewardsReducer(quests, 'ATTRS') + levelFactor * 5);
+  }, [level, quests])
 
   return (
     <>

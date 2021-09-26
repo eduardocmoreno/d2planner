@@ -1,7 +1,6 @@
-
 let initialState: ISkill[];
 
-export default function reduceSkills(skills: ISkill[], action: ISkillsAction) {
+export default function skillsReducer(skills: ISkill[], action: ISkillsReducer) {
   switch (action.type) {
     case 'INCREMENT':
       return skills.map(skill => {

@@ -31,7 +31,7 @@ interface ISkillTab {
 }
 
 //skill reducer action
-interface ISkillsAction {
+interface ISkillsReducer {
   type: 'INIT' | 'INCREMENT' | 'DECREMENT' | 'RESET';
   payload: {
     id?: number;

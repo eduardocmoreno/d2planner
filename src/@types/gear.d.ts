@@ -3,6 +3,6 @@ interface IGearProps extends IAttrs {
 }
 
 interface IGear {
-  type: 'ARMOR' | 'WEAPON' | 'AMULET';
+  type: 'ARMOR' | 'WEAPON' | 'AMULET' | 'RING';
   props: IGearProps;
 }

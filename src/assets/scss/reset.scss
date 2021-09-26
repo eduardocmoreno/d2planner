@@ -26,10 +26,6 @@ body {
 ul {
   list-style: none;
 }
-button {
-  background: transparent;
-  border: 0;
-}
 :where(a, button, label, input[type=checkbox]) {
   cursor: pointer;
 }

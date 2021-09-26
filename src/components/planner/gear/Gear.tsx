@@ -1,4 +1,4 @@
-export default function StgThree() {
+export default function Gear() {
   return (
     <>
       

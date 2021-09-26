@@ -1,8 +1,10 @@
-import { MouseEvent, useContext } from "react";
+import { MouseEvent, useContext, useEffect } from "react";
 import { PlannerContext } from "pages/Planner";
 import styled from "styled-components";
 import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
+import Tooltip from "components/ui/Tooltip";
+import { gearsAttrReducer } from "reducers/gears";
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,83 +50,98 @@ const StatResults = styled.div`
 
 let active = false;
 
-export default function Attr({ name }: { name: keyof IAttrsState }) {
 
-  const { attrs, dispatchAttrs } = useContext(PlannerContext);
-  const { total, applied, extras, base } = attrs[name];
+export default function Attr({ attr }: { attr: keyof IAttrsState }) {
 
-  function batch(shift: boolean): number {
-    return shift ? 10 : 1;
-  }
+  const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gears } = useContext(PlannerContext);
+  const { total, applied, bonnus, base } = attrs[attr];
 
-  // function increase(e: MouseEvent<HTMLButtonElement>) {
-  //   let newStat = batch(e.shiftKey);
-
-  //   if (newStat > statPoints) {
-  //     newStat = 0;
-  //   }
-
-  //   statPoints > 0 && setState(state + batch(e.shiftKey));
-  // }
-
-  // function decrease(e: MouseEvent<HTMLButtonElement>) {
-  //   active && setState(state - batch(e.shiftKey));
-  // }
-
-  // function reset() {
-  //   setState(charDefaultStats[stat]);
-  // }
-
-  function handle(e: MouseEvent<HTMLButtonElement>, type: IAttrsAction['type']) {
+  useEffect(() => {
     dispatchAttrs({
-      type: type,
+      type: 'BONNUS',
       payload: {
-        attr: name,
-        prop: "applied",
-        batch: batch(e.shiftKey)
+        attr,
+        prop: 'bonnus',
+        batch: gearsAttrReducer(attr, gears)
       }
     });
-  }
+  }, [gears, dispatchAttrs]);
 
-  function add(e: MouseEvent<HTMLButtonElement>) {
+  function handleClick(e: MouseEvent<HTMLButtonElement>, type: IAttrsReducer['type']) {
+
+    console.log(type);
+
+    let batch = e.shiftKey ? 10 : 1;
+
+    let source = 0;
+    let factor = 1;
+
+    if (type === 'ADD') {
+      source = attrPoints;
+      factor = -1;
+    }
+
+    if (type === 'SUB') {
+      source = applied!;
+    }
+
+    if(source > 0) {
+      batch = batch > source ? source : batch;
+    } else {
+      return;
+    }
+
+    setAttrPoints(prev => prev + (batch * factor));
+
     dispatchAttrs({
-      type: 'ADD',
+      type,
       payload: {
-        attr: name,
+        attr,
         prop: "applied",
-        batch: batch(e.shiftKey)
+        batch: batch
       }
     });
+
   }
 
-  function sub(e: MouseEvent<HTMLButtonElement>) {
-    dispatchAttrs({
-      type: 'SUB',
-      payload: {
-        attr: name,
-        prop: "applied",
-        batch: batch(e.shiftKey)
-      }
-    });
+  let extraPointsFromGear = gears.filter(g => g.props[attr] || g.props.allAttrs);
+
+  function extraPoints() {
+    let gearArr = extraPointsFromGear;
+    let result = ``;
+
+    if (gearArr.length) {
+      result += `Bonnus from:\n`;
+      gearArr.forEach((g, i) => {
+        result += `${g.type}: +${g.props[attr] || g.props.allAttrs}`;
+        i + 1 !== gearArr.length && (result += `\n`)
+      });
+    }
+
+    return result;
   }
+
+  const htmlAttrs = extraPointsFromGear.length ? {
+    as: Tooltip,
+    center: true,
+    'data-tooltip': extraPoints()
+  } : {};
 
   return (
     <Wrapper>
-      <GoldenFrame>
-        <Label>{name}</Label>
+      <GoldenFrame {...htmlAttrs}>
+        <Label>{attr}</Label>
         <FrameContent>
           <StatResults>
             <strong className={active ? 'active' : ''}>{total}</strong>
-            <div>a: {applied}</div>
-            <div>e: {extras}</div>
-            <div>b: {base}</div>
+            <div>{base}</div>
           </StatResults>
         </FrameContent>
       </GoldenFrame>
 
       <ButtonsWrapper>
-        <Button blue arrowLeft onClick={(e) => handle(e, 'ADD')}>t</Button>
-        <Button blue noArrows onClick={(e) => handle(e, 'SUB')}>-</Button>
+        <Button blue arrowLeft onClick={(e) => handleClick(e, 'ADD')}>t</Button>
+        <Button blue noArrows onClick={(e) => handleClick(e, 'SUB')}>-</Button>
         <Button red arrowRight>0</Button>
       </ButtonsWrapper>
     </Wrapper>

@@ -1,14 +1,9 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
-import questsInit from "config/quests";
-import reduceQuests from "reducers/quests";
 
 export default function Quests() {
   //context: planner
-  const { level, setAttrPoints, setSkillPoints } = useContext(PlannerContext);
-
-  //state: quests
-  const [quests, dispatchQuests] = useReducer(reduceQuests, questsInit);
+  const { quests, dispatchQuests } = useContext(PlannerContext);
 
   //state: toggle quests selection
   const [toggleAllQuests, setToggleAllQuests] = useState(false);
@@ -17,22 +12,6 @@ export default function Quests() {
   useEffect(() => {
     setToggleAllQuests(quests.flatMap(q => q.difficulty).every(q => q.active === true) ? true : false);
   }, [quests]);
-
-  //watch: skill/stts points remaining
-  useEffect(() => {
-    const reduceQuestsRewards = (reward: IQuest['reward']) => {
-      return quests
-        .filter(q => q.reward === reward)
-        .map(q => {
-          let diffCount = q.difficulty.filter(d => d.active === true).length;
-          return diffCount * q.adds;
-        })
-        .reduce((a: number, b: number) => a + b, 0);
-    };
-
-    setSkillPoints(reduceQuestsRewards('skill') + level - 1);
-    setAttrPoints(reduceQuestsRewards('stat') + (level - 1) * 5);
-  }, [quests, level, setSkillPoints, setAttrPoints]);
 
   return (
     <>

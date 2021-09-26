@@ -7,7 +7,7 @@ interface IAttrs {
 
 interface IAttrProps {
   total?: number;
-  extras?: number;
+  bonnus?: number;
   applied?: number;
   base?: number;
 }
@@ -26,8 +26,8 @@ interface IAttrPoints {
   byQuests: number;
 }
 
-interface IAttrsAction {
-  type: 'ADD' | 'SUB' | 'RESET';
+interface IAttrsReducer {
+  type: 'ADD' | 'SUB' | 'BONNUS' | 'RESET';
   payload?: {
     attr?: keyof IAttrs;
     prop?: keyof IAttrProps;

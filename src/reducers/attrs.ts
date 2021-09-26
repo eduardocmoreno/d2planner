@@ -1,29 +1,31 @@
-export default function reduceAttrs(prev: IAttrsState, action: IAttrsAction) {
+export default function attrsReducer(prev: IAttrsState, action: IAttrsReducer) {
+  const { attr, prop } = action.payload!;
+  const props = prev[attr!];
+
+  let batch = action.payload?.batch || 0;
+
   switch (action.type) {
-    case 'ADD': {
-      const { attr, prop, batch } = action.payload!;
-      const props = prev[attr!];
+    case 'ADD':
+    case 'SUB': {
+      batch = action.type === 'SUB' ? batch * -1 : batch;
 
       return {
         ...prev,
         [attr!]: {
           ...props,
-          [prop!]: props[prop!]! + batch!,
-          total: props.base! + props.applied! + props.extras! + batch!
+          [prop!]: props[prop!]! + batch,
+          total: props.base! + props.applied! + props.bonnus! + batch
         }
       };
     }
 
-    case 'SUB': {
-      const { attr, prop, batch } = action.payload!;
-      const props = prev[attr!];
-
+    case 'BONNUS': {
       return {
         ...prev,
         [attr!]: {
           ...props,
-          [prop!]: props[prop!]! - batch!,
-          total: props.base! + props.applied! + props.extras! - batch!
+          bonnus: batch,
+          total: props.base! + props.applied! + batch
         }
       };
     }

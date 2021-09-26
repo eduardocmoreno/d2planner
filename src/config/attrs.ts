@@ -1,27 +1,22 @@
+const initProps = {
+  base: 0,
+  applied: 0,
+  bonnus: 0,
+  total: 0
+}
+
 const attrsInit: IAttrsState = {
   strength: {
-    base: 0,
-    applied: 0,
-    extras: 0,
-    total: 0
+    ...initProps
   },
   dexterity: {
-    base: 0,
-    applied: 0,
-    extras: 0,
-    total: 0
+    ...initProps
   },
   vitality: {
-    base: 0,
-    applied: 0,
-    extras: 0,
-    total: 0
+    ...initProps
   },
   energy: {
-    base: 0,
-    applied: 0,
-    extras: 0,
-    total: 0
+    ...initProps
   }
 }
 

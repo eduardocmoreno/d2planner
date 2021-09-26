@@ -1,6 +1,16 @@
 import questsInit from "../config/quests";
 
-export default function reduceQuests(prevQuests: IQuest[], action: IQuestsAction) {
+export const questsRewardsReducer = (quests: IQuest[], reward: IQuest['reward']) => {
+  return quests
+    .filter(q => q.reward === reward)
+    .map(q => {
+      let diffCount = q.difficulty.filter(d => d.active === true).length;
+      return diffCount * q.adds;
+    })
+    .reduce((a: number, b: number) => a + b, 0);
+};
+
+export default function questsReducer(prevQuests: IQuest[], action: IQuestsReducer) {
   switch (action.type) {
     case 'TOGGLE':
       return prevQuests.map(q => {

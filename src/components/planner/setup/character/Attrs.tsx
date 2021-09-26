@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { PlannerContext } from "pages/Planner";
 import Attr from "./Attr";
@@ -41,20 +41,21 @@ const StatsWrapper = styled.div`
   grid-template-columns: repeat(4, 1fr);
 `;
 
+
 export default function Attrs() {
 
-  const ctxProps = useContext(PlannerContext);
+  const { attrPoints } = useContext(PlannerContext);
 
   return (
     <Wrapper>
       <PointsRemaining>
-        <strong>{ctxProps.attrPoints}</strong><i>attribute points remaining</i>
+        <strong>{attrPoints}</strong><i>attribute points remaining</i>
       </PointsRemaining>
       <StatsWrapper>
-        <Attr name="strength" />
-        <Attr name="dexterity" />
-        <Attr name="vitality" />
-        <Attr name="energy" />
+        <Attr attr="strength" />
+        <Attr attr="dexterity" />
+        <Attr attr="vitality" />
+        <Attr attr="energy" />
       </StatsWrapper>
     </Wrapper>
   )

@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { PlannerContext } from "pages/Planner";
-import Character from "./character/Index";
+import Character from "./character/Character";
 import Quests from "./quests/Quests";
 
 import { SectionDescription, SectionTitle } from "../../ui/Headings";
