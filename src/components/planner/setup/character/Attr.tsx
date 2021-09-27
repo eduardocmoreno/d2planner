@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(1px, 1fr));
   margin-top: var(--spacing-md);
   border: 2px solid;
   border-color: var(--golden-border);
@@ -32,7 +32,7 @@ const Label = styled(FrameLabel)`
   font-size: 1.2rem;
 `;
 
-const StatResults = styled.div`
+const Results = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -42,19 +42,16 @@ const StatResults = styled.div`
   font-family: var(--font-family-main);
   font-size: 2.2rem;
   line-height: 1;
-  .active {
+  strong {
     color: var(--color-gold);
     font-size: 2.7rem;
   }
 `;
 
-let active = false;
-
-
 export default function Attr({ attr }: { attr: keyof IAttrsState }) {
-
   const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gears } = useContext(PlannerContext);
-  const { total, applied, bonnus, base } = attrs[attr];
+  const { total, applied, base } = attrs[attr];
+  const gearBonuses = gears.filter(g => g.props[attr] || g.props.allAttrs);
 
   useEffect(() => {
     dispatchAttrs({
@@ -65,14 +62,10 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
         batch: gearsAttrReducer(attr, gears)
       }
     });
-  }, [gears, dispatchAttrs]);
+  }, [attr, gears, dispatchAttrs]);
 
   function handleClick(e: MouseEvent<HTMLButtonElement>, type: IAttrsReducer['type']) {
-
-    console.log(type);
-
-    let batch = e.shiftKey ? 10 : 1;
-
+    let batch = 1;
     let source = 0;
     let factor = 1;
 
@@ -81,11 +74,13 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
       factor = -1;
     }
 
-    if (type === 'SUB') {
-      source = applied!;
-    }
+    if (type === 'SUB') source = applied!;
 
-    if(source > 0) {
+    if (e.shiftKey) batch = 10;
+
+    if (e.ctrlKey) batch = source;
+
+    if (source > 0) {
       batch = batch > source ? source : batch;
     } else {
       return;
@@ -101,27 +96,23 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
         batch: batch
       }
     });
-
   }
 
-  let extraPointsFromGear = gears.filter(g => g.props[attr] || g.props.allAttrs);
-
   function extraPoints() {
-    let gearArr = extraPointsFromGear;
     let result = ``;
 
-    if (gearArr.length) {
-      result += `Bonnus from:\n`;
-      gearArr.forEach((g, i) => {
+    if (gearBonuses.length) {
+      result += `Gear Bonuses:\n`;
+      gearBonuses.forEach((g, i) => {
         result += `${g.type}: +${g.props[attr] || g.props.allAttrs}`;
-        i + 1 !== gearArr.length && (result += `\n`)
+        i + 1 !== gearBonuses.length && (result += `\n`)
       });
     }
 
     return result;
   }
 
-  const htmlAttrs = extraPointsFromGear.length ? {
+  const tooltipAttrs = gearBonuses.length ? {
     as: Tooltip,
     center: true,
     'data-tooltip': extraPoints()
@@ -129,20 +120,23 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
 
   return (
     <Wrapper>
-      <GoldenFrame {...htmlAttrs}>
+      <GoldenFrame {...tooltipAttrs}>
         <Label>{attr}</Label>
         <FrameContent>
-          <StatResults>
-            <strong className={active ? 'active' : ''}>{total}</strong>
+          <Results>
+            {total! > base! &&
+              <strong>{total}</strong>
+            }
             <div>{base}</div>
-          </StatResults>
+          </Results>
         </FrameContent>
       </GoldenFrame>
 
       <ButtonsWrapper>
-        <Button blue arrowLeft onClick={(e) => handleClick(e, 'ADD')}>t</Button>
-        <Button blue noArrows onClick={(e) => handleClick(e, 'SUB')}>-</Button>
-        <Button red arrowRight>0</Button>
+        <Button blue {...(applied! > 0 && { arrowLeft: true })} onClick={(e) => handleClick(e, 'ADD')}>t</Button>
+        {applied! > 0 &&
+          <Button red arrowRight onClick={(e) => handleClick(e, 'SUB')}>&ndash;</Button>
+        }
       </ButtonsWrapper>
     </Wrapper>
   )

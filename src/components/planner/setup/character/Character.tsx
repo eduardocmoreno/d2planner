@@ -4,7 +4,7 @@ import Attrs from "./Attrs";
 
 const MainWrapper = styled.div`
   display: flex;
-  //height: 10.5em;
+  height: 10.5em;
 `;
 
 const SubWrapper = styled.div`

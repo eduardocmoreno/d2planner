@@ -26,6 +26,7 @@ const Tooltip = styled.div<ITooltip>(({ focus, center }) => css`
     font-size: 1.4rem;
     text-align: center;
     transform: translateY(calc(-100% - 1rem));
+    line-height: 1.5;
     white-space: pre;
   }
   ::after {
