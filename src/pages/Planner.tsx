@@ -1,4 +1,4 @@
-import { useState, createContext, useReducer, useEffect, useRef } from "react";
+import { useState, createContext, useReducer, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Stages from "components/planner/Stages";
@@ -23,7 +23,7 @@ export const PlannerContext = createContext({} as IPlannerContext);
 
 
 const gearsInit: IGear[] = [
-  {
+  /* {
     type: 'ARMOR',
     props: {
       strength: 10
@@ -40,7 +40,7 @@ const gearsInit: IGear[] = [
     props: {
       allAttrs: 5
     }
-  }
+  } */
 ]
 
 export default function Planner() {
@@ -54,7 +54,6 @@ export default function Planner() {
 
   const [level, setLevel] = useState(1);
   const [attrs, dispatchAttrs] = useReducer(attrsReducer, attrsInit);
-  const attrsRef = useRef(attrsInit);
   const [attrPoints, setAttrPoints] = useState(0);
   const [attrPointsAppied, setAttrPointsApplied] = useState(0);
 
@@ -77,9 +76,9 @@ export default function Planner() {
     level, setLevel,
     attrs, dispatchAttrs,
     attrPoints, setAttrPoints,
+    attrPointsAppied, setAttrPointsApplied,
 
-    quests,
-    dispatchQuests,
+    quests, dispatchQuests,
 
     skills, dispatchSkills,
     skillTabs, setSkillTabs,
@@ -99,35 +98,31 @@ export default function Planner() {
 
         setCharacterData(data);
 
-        const newAttrs = {
-          strength: {
-            ...attrsInit.strength,
-            base: attributes.strength,
-            total: attributes.strength
-          },
-          dexterity: {
-            ...attrsInit.dexterity,
-            base: attributes.dexterity,
-            total: attributes.dexterity
-          },
-          vitality: {
-            ...attrsInit.vitality,
-            base: attributes.vitality,
-            total: attributes.vitality
-          },
-          energy: {
-            ...attrsInit.energy,
-            base: attributes.energy,
-            total: attributes.energy
-          }
-        }
-
-        attrsRef.current = newAttrs;
-
         dispatchAttrs({
-          type: 'RESET',
+          type: 'INIT',
           payload: {
-            initialState: newAttrs
+            initialState: {
+              strength: {
+                ...attrsInit.strength,
+                base: attributes.strength,
+                total: attributes.strength
+              },
+              dexterity: {
+                ...attrsInit.dexterity,
+                base: attributes.dexterity,
+                total: attributes.dexterity
+              },
+              vitality: {
+                ...attrsInit.vitality,
+                base: attributes.vitality,
+                total: attributes.vitality
+              },
+              energy: {
+                ...attrsInit.energy,
+                base: attributes.energy,
+                total: attributes.energy
+              }
+            }
           }
         });
 
@@ -146,6 +141,7 @@ export default function Planner() {
     })();
   }, [charClass]);
 
+  //watch: attributes points
   useEffect(() => {
     let appliedPoints = Object.values(attrs).flatMap(a => a.applied).reduce((a, b) => a + b);
     setAttrPointsApplied(appliedPoints);
@@ -155,24 +151,22 @@ export default function Planner() {
   useEffect(() => {
     let levelFactor = level - 1;
 
-    let levelAttrPts = levelFactor * 5;
+    /* let levelAttrPts = levelFactor * 5;
     let questsAttrPts = questsRewardsReducer(quests, 'ATTRS');
     let attrPtsCalc = levelAttrPts + questsAttrPts - attrPointsAppied;
 
     if (attrPtsCalc < 0) {
       dispatchAttrs({
-        type: 'RESET',
-        payload: {
-          initialState: attrsRef.current
-        }
+        type: 'RESET'
       })
     } else {
       setAttrPoints(attrPtsCalc);
-    }
+    } */
 
+    let questSkillPts = questsRewardsReducer(quests, 'SKILLS');
 
-    setSkillPoints(levelFactor);
-  }, [level, quests, attrPointsAppied])
+    setSkillPoints(questSkillPts + levelFactor);
+  }, [level, quests])
 
   return (
     <>

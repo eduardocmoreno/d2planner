@@ -1,84 +1,139 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
+import styled, { css } from "styled-components";
+
+const Wrapper = styled.div`
+  margin-top: 2em;
+`;
+
+const List = styled.div`
+  padding: 0 0.7em 0.7em;
+  background: rgba(0 0 0 / 0.3);
+`;
+
+const Item = styled.div(({ head }: { head?: boolean }) => css`
+  display: grid;
+  grid-template-columns: 1.5fr 0.7fr 1fr 0.5fr;
+  &:not(:first-child) {
+    margin-top: 1em;
+  }
+  ${head && css`
+    margin-bottom: 0.5em;
+    padding: 0.7em 0 0.5em;
+    border-bottom: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-family-main);
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+  `}
+`);
+
+const Description = styled.div`
+  color: var(--color-gold);
+`;
+
+const Name = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3em;
+  font-size: 1.4rem;
+`;
+
+const Details = styled.small`
+  display: block;
+  color: var(--color-blue);
+  font-size: 1.2rem;
+  font-style: italic;
+`;
+
+const Difficulty = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ToggleController = styled.div`
+  margin-top: 1.5em;
+  color: $gold;
+  text-align: center;
+  user-select: none;
+  input {
+    margin-right: 0.5em;
+  }
+`;
 
 export default function Quests() {
-  //context: planner
   const { quests, dispatchQuests } = useContext(PlannerContext);
-
-  //state: toggle quests selection
   const [toggleAllQuests, setToggleAllQuests] = useState(false);
 
-  //watch: toggle all quests selection
   useEffect(() => {
     setToggleAllQuests(quests.flatMap(q => q.difficulty).every(q => q.active === true) ? true : false);
   }, [quests]);
 
   return (
-    <>
-      <div className="stage-quests">
-        <div className="quests-list">
-          <div className="list-item list-head">
-            <div className="item-description" />
-            {['normal', 'nightmare', 'hell'].map(diff => {
-              return (
-                <div
-                  className="item-difficulty"
-                  key={diff}
-                  onClick={() => dispatchQuests({
-                    type: 'TOGGLEBYDIFFICULTY',
-                    payload: {
-                      difficulty: diff
-                    }
-                  })}
-                >{diff}</div>
-              )
-            })}
-          </div>
-          {quests.map(({ name, act, adds, reward, difficulty }) => {
+    <Wrapper>
+      <List>
+        <Item head>
+          <Description />
+          {['normal', 'nightmare', 'hell'].map(diff => {
             return (
-              <div className="list-item" key={name}>
-                <div
-                  className="item-description"
-                  onClick={() => dispatchQuests({
-                    type: 'TOGGLEBYQUEST',
-                    payload: {
-                      quest: name
-                    }
-                  })}>
-                  <div className="desc-name">{`ACT ${act}: ${name}`}</div>
-                  <small className="desc-details">
-                    {`+${adds} ${reward} points`}
-                  </small>
-                </div>
-                {difficulty.map(({ level, active }) => {
-                  return (
-                    <label className="item-difficulty" key={level}>
-                      <input type="checkbox" checked={active} onChange={() => dispatchQuests({
-                        type: 'TOGGLE',
-                        payload: {
-                          difficulty: level,
-                          quest: name
-                        }
-                      })} />
-                    </label>
-                  )
+              <Difficulty
+                key={diff}
+                onClick={() => dispatchQuests({
+                  type: 'TOGGLEBYDIFFICULTY',
+                  payload: {
+                    difficulty: diff
+                  }
                 })}
-              </div>
+              >{diff}</Difficulty>
             )
           })}
-        </div>
+        </Item>
+        {quests.map(({ name, act, adds, reward, difficulty }) => {
+          return (
+            <Item key={name}>
+              <Description onClick={() => dispatchQuests({
+                type: 'TOGGLEBYQUEST',
+                payload: {
+                  quest: name
+                }
+              })}>
+                <Name>{`ACT ${act}: ${name}`}</Name>
+                <Details className="desc-details">
+                  {`+${adds} ${reward === 'ATTRS' ? 'Attribute' : 'Skill'} points`}
+                </Details>
+              </Description>
+              {difficulty.map(({ level, active }) => {
+                return (
+                  <Difficulty as="label" key={level}>
+                    <input type="checkbox" checked={active} onChange={() => dispatchQuests({
+                      type: 'TOGGLE',
+                      payload: {
+                        difficulty: level,
+                        quest: name
+                      }
+                    })} />
+                  </Difficulty>
+                )
+              })}
+            </Item>
+          )
+        })}
+      </List>
 
-        <div className="quests-toggle-controller">
-          <label>
-            <input
-              type="checkbox"
-              checked={toggleAllQuests}
-              onChange={() => dispatchQuests({ type: 'TOGGLEALL' })}
-            />
-            Select all quests?
-          </label>
-        </div>
-      </div>
-    </>
+      <ToggleController>
+        <label>
+          <input
+            type="checkbox"
+            checked={toggleAllQuests}
+            onChange={() => dispatchQuests({ type: 'TOGGLEALL' })}
+          />
+          Select all quests?
+        </label>
+      </ToggleController>
+    </Wrapper>
   )
 }

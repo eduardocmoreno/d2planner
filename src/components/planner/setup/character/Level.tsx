@@ -46,10 +46,7 @@ const Result = styled.div`
 `;
 
 export default function Level() {
-  //context: planner
   const { level, setLevel } = useContext(PlannerContext);
-
-  //state: character level input value
   const [inputValue, setInputValue] = useState('');
 
   //fn: handle form submit

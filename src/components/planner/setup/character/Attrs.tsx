@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { PlannerContext } from "pages/Planner";
 import Attr from "./Attr";
+import { questsRewardsReducer } from "reducers/quests";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -44,7 +45,25 @@ const StatsWrapper = styled.div`
 
 export default function Attrs() {
 
-  const { attrPoints } = useContext(PlannerContext);
+  const { level, quests, dispatchAttrs, attrPoints, setAttrPoints, attrPointsAppied } = useContext(PlannerContext);
+
+  //watch: attributes and skills points
+  useEffect(() => {
+    let levelFactor = level - 1;
+
+    let levelAttrPts = levelFactor * 5;
+    let questsAttrPts = questsRewardsReducer(quests, 'ATTRS');
+    let attrPtsCalc = levelAttrPts + questsAttrPts - attrPointsAppied;
+
+    if (attrPtsCalc < 0) {
+      dispatchAttrs({
+        type: 'RESET'
+      })
+    } else {
+      setAttrPoints(attrPtsCalc);
+    }
+
+  }, [level, quests, attrPointsAppied, dispatchAttrs, setAttrPoints])
 
   return (
     <Wrapper>

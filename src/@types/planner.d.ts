@@ -1,5 +1,7 @@
 /// <reference types="react" />
 
+type setStateAsNumber = React.Dispatch<React.SetStateAction<number>>;
+
 //planner context
 interface IPlannerContext {
   characterData: ICharacterData;
@@ -8,13 +10,16 @@ interface IPlannerContext {
   setPlanner: React.Dispatch<React.SetStateAction<IPlanner[]>>;
 
   level: number;
-  setLevel: React.Dispatch<React.SetStateAction<number>>;
+  setLevel: setStateAsNumber;
 
   attrs: IAttrsState;
   dispatchAttrs: React.Dispatch<IAttrsReducer>;
 
   attrPoints: number;
-  setAttrPoints: React.Dispatch<React.SetStateAction<number>>;
+  setAttrPoints: setStateAsNumber;
+
+  attrPointsAppied: number;
+  setAttrPointsApplied: setStateAsNumber;
 
   quests: IQuest[];
   dispatchQuests: React.Dispatch<IQuestsReducer>;
@@ -26,7 +31,7 @@ interface IPlannerContext {
   setSkillTabs: React.Dispatch<React.SetStateAction<ISkillTab[]>>;
 
   skillPoints: number;
-  setSkillPoints: React.Dispatch<React.SetStateAction<number>>;
+  setSkillPoints: setStateAsNumber;
 
   gears: IGear[];
   setGears: React.Dispatch<React.SetStateAction<IGear[]>>;

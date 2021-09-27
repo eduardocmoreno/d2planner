@@ -6,10 +6,10 @@ interface IAttrs {
 }
 
 interface IAttrProps {
-  total?: number;
+  base?: number;
   bonnus?: number;
   applied?: number;
-  base?: number;
+  total?: number;
 }
 
 interface IAttrsState {
@@ -27,7 +27,7 @@ interface IAttrPoints {
 }
 
 interface IAttrsReducer {
-  type: 'ADD' | 'SUB' | 'BONNUS' | 'RESET';
+  type: 'ADD' | 'SUB' | 'BONNUS' | 'INIT' | 'RESET';
   payload?: {
     attr?: keyof IAttrs;
     prop?: keyof IAttrProps;

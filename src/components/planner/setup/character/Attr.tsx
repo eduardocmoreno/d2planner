@@ -78,7 +78,7 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
 
     if (e.shiftKey) batch = 10;
 
-    if (e.ctrlKey) batch = source;
+    if (e.ctrlKey || e.metaKey) batch = source;
 
     if (source > 0) {
       batch = batch > source ? source : batch;
@@ -133,7 +133,13 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
       </GoldenFrame>
 
       <ButtonsWrapper>
-        <Button blue {...(applied! > 0 && { arrowLeft: true })} onClick={(e) => handleClick(e, 'ADD')}>t</Button>
+        <Button
+          blue
+          title="Hold shift to add +10, or ctrl/cmd to add all remaining points"
+          onClick={(e) => handleClick(e, 'ADD')}
+          {...(applied! > 0 && { arrowLeft: true })}
+        >t</Button>
+
         {applied! > 0 &&
           <Button red arrowRight onClick={(e) => handleClick(e, 'SUB')}>&ndash;</Button>
         }
