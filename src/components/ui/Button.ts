@@ -10,7 +10,7 @@ interface IButtonProps {
   noArrows?: boolean;
 }
 
-const Button = styled.button<IButtonProps>(({ big, blue, red, arrowLeft, arrowRight, noArrows }) => css`
+const Button = styled.button<IButtonProps>(({ disabled, big, blue, red, arrowLeft, arrowRight, noArrows }) => css`
   padding: 0.3em 0.7em;
   margin: 0;
   box-shadow: inset 0 0 10px rgba(0 0 0 / 0.5);
@@ -61,18 +61,24 @@ const Button = styled.button<IButtonProps>(({ big, blue, red, arrowLeft, arrowRi
     `}
   `}
   
-  ${red && css`
+  ${red && !disabled && css`
     background: var(--color-red-600);
     &:hover {
       background: var(--color-red);
     }
   `}
     
-  ${blue && css`
+  ${blue && !disabled && css`
     background: var(--color-blue-800);
     &:hover {
       background: var(--color-blue-700);
     }
+  `}
+
+  ${disabled && css`
+    background: #222;
+    color: #444;
+    cursor: default;
   `}
 `);
 

@@ -1,6 +1,6 @@
 import { MouseEvent, useContext, useEffect } from "react";
-import { PlannerContext } from "pages/Planner";
 import styled from "styled-components";
+import { PlannerContext } from "pages/Planner";
 import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
@@ -12,17 +12,19 @@ const Wrapper = styled.div`
 `;
 
 const ButtonsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(1px, 1fr));
+  display: flex;
+  //grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
   margin-top: var(--spacing-md);
   border: 2px solid;
   border-color: var(--golden-border);
   ${Button}{
+    flex: 1;
     padding-right: 0;
     padding-left: 0;
     border: 0;
     text-transform: none;
     :not(:first-child){
+      flex: .5;
       border-left: 2px solid var(--color-gold-800);
     }
   }
@@ -41,10 +43,11 @@ const Results = styled.div`
   color: #666;
   font-family: var(--font-family-main);
   font-size: 2.2rem;
+  font-weight: bold;
   line-height: 1;
-  strong {
+  span {
     color: var(--color-gold);
-    font-size: 2.7rem;
+    font-size: 2.8rem;
   }
 `;
 
@@ -58,7 +61,6 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
       type: 'BONNUS',
       payload: {
         attr,
-        prop: 'bonnus',
         batch: gearsAttrReducer(attr, gears)
       }
     });
@@ -92,31 +94,27 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
       type,
       payload: {
         attr,
-        prop: "applied",
         batch: batch
       }
     });
   }
 
-  function extraPoints() {
-    let result = ``;
+  let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nApplied: +${applied}` : ''}\n`;
 
-    if (gearBonuses.length) {
-      result += `Gear Bonuses:\n`;
-      gearBonuses.forEach((g, i) => {
-        result += `${g.type}: +${g.props[attr] || g.props.allAttrs}`;
-        i + 1 !== gearBonuses.length && (result += `\n`)
-      });
-    }
-
-    return result;
+  if (gearBonuses.length) {   
+    gearBonuses.forEach((g, i) => {
+      tooltipDetails += `${g.type}: +${g.props[attr] || g.props.allAttrs}`;
+      i + 1 !== gearBonuses.length && (tooltipDetails += `\n`)
+    });
   }
 
-  const tooltipAttrs = gearBonuses.length ? {
+  const tooltipAttrs = {
     as: Tooltip,
     center: true,
-    'data-tooltip': extraPoints()
-  } : {};
+    'data-tooltip': tooltipDetails
+  };
+
+  let titleHtmlAttr = 'Hold shift to +/- 10 points, Hold ctrl/cmd to +/- all remaining points';
 
   return (
     <Wrapper>
@@ -124,10 +122,7 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
         <Label>{attr}</Label>
         <FrameContent>
           <Results>
-            {total! > base! &&
-              <strong>{total}</strong>
-            }
-            <div>{base}</div>
+            {total! > base! ? <span>{total}</span> : base}
           </Results>
         </FrameContent>
       </GoldenFrame>
@@ -135,13 +130,19 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
       <ButtonsWrapper>
         <Button
           blue
-          title="Hold shift to add +10, or ctrl/cmd to add all remaining points"
+          title={titleHtmlAttr}
           onClick={(e) => handleClick(e, 'ADD')}
           {...(applied! > 0 && { arrowLeft: true })}
+          {...(attrPoints === 0 && { disabled: true })}
         >t</Button>
 
         {applied! > 0 &&
-          <Button red arrowRight onClick={(e) => handleClick(e, 'SUB')}>&ndash;</Button>
+          <Button
+            red
+            arrowRight
+            title={titleHtmlAttr}
+            onClick={(e) => handleClick(e, 'SUB')}
+          >&ndash;</Button>
         }
       </ButtonsWrapper>
     </Wrapper>

@@ -30,7 +30,6 @@ interface IAttrsReducer {
   type: 'ADD' | 'SUB' | 'BONNUS' | 'INIT' | 'RESET';
   payload?: {
     attr?: keyof IAttrs;
-    prop?: keyof IAttrProps;
     batch?: number;
     initialState?: IAttrsState;
   }

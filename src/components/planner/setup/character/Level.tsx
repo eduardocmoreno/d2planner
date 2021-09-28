@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import styled from "styled-components";
+import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
-import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -91,7 +91,7 @@ export default function Level() {
       </Tooltip>
 
       {level > 1 ?
-        <Button red onClick={reset}>reset</Button>
+        <Button red onClick={reset}>respec</Button>
         :
         <Button blue form="char-level-form">OK</Button>
       }

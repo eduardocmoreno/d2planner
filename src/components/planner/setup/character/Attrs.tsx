@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import styled from "styled-components";
-import { PlannerContext } from "pages/Planner";
 import Attr from "./Attr";
+import { PlannerContext } from "pages/Planner";
 import { questsRewardsReducer } from "reducers/quests";
 
 const Wrapper = styled.div`
@@ -13,10 +13,11 @@ const Wrapper = styled.div`
 
 const PointsRemaining = styled.div`
   display: flex;
-  gap: .5em;
+  gap: 1em;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1em;
+  margin-bottom: 1.4em;
+  font-size: 1.4rem;
   line-height: 1;
   white-space: nowrap;
   ::before,
@@ -26,12 +27,10 @@ const PointsRemaining = styled.div`
     border-top: 1px dashed var(--color-gold);
   }
   strong {
+    margin-right: .15em;
     color: var(--color-gold);
     font-family: var(--font-family-main);
     font-size: 2rem;
-  }
-  i {
-    font-size: 1.4rem;
   }
 `;
 
@@ -47,7 +46,7 @@ export default function Attrs() {
 
   const { level, quests, dispatchAttrs, attrPoints, setAttrPoints, attrPointsAppied } = useContext(PlannerContext);
 
-  //watch: attributes and skills points
+  //watch: attributes points
   useEffect(() => {
     let levelFactor = level - 1;
 
@@ -68,7 +67,7 @@ export default function Attrs() {
   return (
     <Wrapper>
       <PointsRemaining>
-        <strong>{attrPoints}</strong><i>attribute points remaining</i>
+        <div><strong>{attrPoints}</strong> attribute points remaining</div>
       </PointsRemaining>
       <StatsWrapper>
         <Attr attr="strength" />

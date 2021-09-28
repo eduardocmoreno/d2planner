@@ -6,6 +6,16 @@ const Wrapper = styled.div`
   margin-top: 2em;
 `;
 
+const listHoverEffect = css`
+  user-select: none;
+  transition: var(--duration-fast);
+  &:hover {
+    cursor: pointer;
+    color: var(--color-gold);
+    text-shadow: 0 0 10px rgba(var(--color-gold-rgb), 0.5);
+  }
+`;
+
 const List = styled.div`
   padding: 0 0.7em 0.7em;
   background: rgba(0 0 0 / 0.3);
@@ -28,11 +38,15 @@ const Item = styled.div(({ head }: { head?: boolean }) => css`
     text-align: center;
     text-transform: uppercase;
     letter-spacing: -0.05em;
+    ${Difficulty} {
+      ${listHoverEffect}
+    }
   `}
 `);
 
 const Description = styled.div`
   color: var(--color-gold);
+  ${listHoverEffect}
 `;
 
 const Name = styled.div`
