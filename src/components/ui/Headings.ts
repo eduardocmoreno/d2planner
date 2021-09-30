@@ -5,13 +5,10 @@ export const PageTitle = styled.h2`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1.5em 0;
+  margin: .5em 0 1em;
   text-align: center;
   text-shadow: 0 3px 7px #000;
   white-space: nowrap;
-  &:first-child {
-    margin-top: 0.5em;
-  }
   ${pseudo('before', 'after')}
   &::before,
   &::after {

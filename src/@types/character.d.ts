@@ -1,5 +1,7 @@
 interface ICharacterData {
-  skills: ISkill[],
+  skills: {
+    trees: ISkillTree[];
+    list: ISkill[];
+  };
   attributes: IAttrs;
-  tabs: ISkillTab[]
 }

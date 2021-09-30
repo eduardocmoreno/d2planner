@@ -2,8 +2,11 @@ import styled from 'styled-components';
 import logo from 'assets/images/d2-logo-header.png';
 
 const StyledHeader = styled.header`
-  margin-bottom: 50px;
+  margin: 2em 0 3em;
   text-align: center;
+  img {
+    display: inline-block;
+  }
 `;
 
 const Title = styled.h1`

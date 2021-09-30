@@ -9,6 +9,7 @@
 :root {
   font-size: 62.5%;
   line-height: 1.15;
+  text-size-adjust: none;
 }
 body {
   background: #000;
@@ -35,8 +36,9 @@ a {
   transition: 0.35s;
 }
 img {
-  display: inline-block;
+  display: block;
   border: 0;
+  image-rendering: pixelated;
 }
 input {
   padding: 0;

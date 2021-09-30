@@ -3,9 +3,9 @@ import { pseudo } from 'styles/mixins';
 import boxBgImg from 'assets/images/deamon-box-bg.png';
 
 const Main = styled.main`
-  padding: 3em;
+  padding: 2.5em;
   margin: 0 auto;
-  max-width: 666px;
+  max-width: 43em;
   box-shadow: 0 0 150px rgba(var(--color-red-rgb), .5);
   ${pseudo('before', 'after')}
   &::before {

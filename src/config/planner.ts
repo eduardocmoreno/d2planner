@@ -8,13 +8,13 @@ const plannerInit: IPlanner[] = [
     id: 1,
     name: 'Setup',
     Component: Setup,
-    isActive: true
+    isActive: false
   },
   {
     id: 2,
     name: 'Skills',
     Component: Skills,
-    isActive: false
+    isActive: true
   },
   {
     id: 3,

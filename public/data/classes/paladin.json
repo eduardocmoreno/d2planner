@@ -26,1066 +26,1255 @@
       }
     }
   },
-  "tabs": [
-    {
-      "id": 1,
-      "name": "combat skills",
-      "map": [1, 0, 2, 0, 3, 0, 4, 0, 5, 6, 7, 0, 8, 0, 9, 0, 10, 0],
-      "active": true
-    },
-    {
-      "id": 2,
-      "name": "offensive auras",
-      "map": [11, 0, 0, 0, 12, 13, 14, 0, 0, 15, 16, 0, 0, 17, 18, 19, 0, 20],
-      "active": false
-    },
-    {
-      "id": 3,
-      "name": "defensive auras",
-      "map": [21, 0, 22, 0, 23, 24, 25, 0, 26, 0, 27, 0, 28, 0, 0, 0, 29, 30],
-      "active": false
-    }
-  ],
-  "skills": [
-    {
-      "id": 1,
-      "name": "sacrifice",
-      "effect": "Increased accuracy and damage at the Cost of life",
-      "points": 0,
-      "reqLvl": 1,
-      "preReq": [],
-      "postReq": [4],
-      "attibutes": [
-        {
-          "name": "Attack Rating",
-          "func": 1,
-          "params": [20, 7],
-          "unit": "%"
-        },
-        {
-          "name": "Damage",
-          "func": 1,
-          "params": [180, 15],
-          "unit": "%"
-        },
-        {
-          "name": "Damage To Self",
-          "func": 1,
-          "params": [8, 0],
-          "unit": "%"
-        }
-      ],
-      "synergies": [
-        {
-          "id": 19,
-          "bonus": "Damage",
-          "adds": 5
-        },
-        {
-          "id": 29,
-          "bonus": "Damage",
-          "adds": 15
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "smite",
-      "effect": "Temporarily stun your enemy by bashing it with your shield",
-      "points": 0,
-      "reqLvl": 1,
-      "preReq": [],
-      "postReq": [5],
-      "attibutes": [
-        {
-          "name": "Damage",
-          "func": 1,
-          "params": [15, 15],
-          "unit": "%"
-        },
-        {
-          "name": "Stun Length",
-          "func": 1,
-          "params": [0.6, 0.2],
-          "unit": "seconds"
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [2, 0]
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "holy-bolt",
-      "effect": "A bolt of divine energy that damages undead enemies or heals allies",
-      "points": 0,
-      "reqLvl": 6,
-      "preReq": [],
-      "postReq": [7],
-      "attibutes": [
-        {
-          "name": "Magic Damage",
-          "func": 1,
-          "params": {
-            "min": [8, 8, 10, 13, 16, 20],
-            "max": [16, 8, 11, 15, 18, 23]
+  "skills": {
+    "trees": [
+      {
+        "id": 1,
+        "name": "combat skills",
+        "map": [1, 0, 2, 0, 3, 0, 4, 0, 5, 6, 7, 0, 8, 0, 9, 0, 10, 0],
+        "isActive": true
+      },
+      {
+        "id": 2,
+        "name": "offensive auras",
+        "map": [11, 0, 0, 0, 12, 13, 14, 0, 0, 15, 16, 0, 0, 17, 18, 19, 0, 20],
+        "isActive": false
+      },
+      {
+        "id": 3,
+        "name": "defensive auras",
+        "map": [21, 0, 22, 0, 23, 24, 25, 0, 26, 0, 27, 0, 28, 0, 0, 0, 29, 30],
+        "isActive": false
+      }
+    ],
+    "list": [
+      {
+        "id": 1,
+        "name": "sacrifice",
+        "effect": "Increased accuracy and damage at the Cost of life",
+        "points": 0,
+        "reqLvl": 1,
+        "preReq": [],
+        "postReq": [4],
+        "attibutes": [
+          {
+            "name": "Attack Rating",
+            "func": 1,
+            "params": [20, 7],
+            "value": 20,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Damage",
+            "func": 1,
+            "params": [180, 15],
+            "value": 180,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Damage To Self",
+            "func": 1,
+            "params": [8, 0],
+            "value": 8,
+            "unit": "percent"
           }
-        },
-        {
-          "name": "Heals",
-          "func": 1,
-          "params": {
-            "min": [1, 2],
-            "max": [6, 4]
+        ],
+        "synergies": [
+          {
+            "id": 19,
+            "bonus": "Damage",
+            "adds": 5
+          },
+          {
+            "id": 29,
+            "bonus": "Damage",
+            "adds": 15
           }
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [2, 0.0625]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 7,
-          "bonus": "Magic Damage",
-          "adds": 50
-        },
-        {
-          "id": 10,
-          "bonus": "Magic Damage",
-          "adds": 50
-        },
-        {
-          "id": 21,
-          "bonus": "Life Healed",
-          "adds": 15
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "name": "zeal",
-      "effect": "Allows you to attack multiple adjacent enemies with a single attack",
-      "points": 0,
-      "reqLvl": 12,
-      "preReq": [1],
-      "postReq": [6],
-      "attibutes": [
-        {
-          "name": "Attack Rating",
-          "func": 1,
-          "params": [10, 10],
-          "unit": "%"
-        },
-        {
-          "name": "Damage",
-          "func": 1,
-          "params": [0, 0],
-          "unit": "%"
-        },
-        {
-          "name": "Hits Per Attack",
-          "func": 1,
-          "params": [2, 1],
-          "limit": 5
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [2, 0]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 1,
-          "bonus": "Damage",
-          "adds": 12
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "name": "charge",
-      "effect": "Charge into battle and attack an enemy",
-      "points": 0,
-      "reqLvl": 12,
-      "preReq": [2],
-      "postReq": [9],
-      "attibutes": [
-        {
-          "name": "Damage",
-          "func": 1,
-          "params": [100, 25],
-          "unit": "%"
-        },
-        {
-          "name": "Attack Rating",
-          "func": 1,
-          "params": [50, 15],
-          "unit": "%"
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [9, 0]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 11,
-          "bonus": "Damage",
-          "adds": 20
-        },
-        {
-          "id": 27,
-          "bonus": "Damage",
-          "adds": 20
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "name": "vengeance",
-      "effect": "Fire, lightning and cold damage are added to each successful attack",
-      "points": 0,
-      "reqLvl": 18,
-      "preReq": [4],
-      "postReq": [8],
-      "attibutes": [
-        {
-          "name": "Cold length",
-          "func": 1,
-          "params": [1.2, 0.6]
-        },
-        {
-          "name": "Fire damage",
-          "func": 1,
-          "params": [10, 6],
-          "unit": "%"
-        },
-        {
-          "name": "Cold damage",
-          "func": 1,
-          "params": [10, 6],
-          "unit": "%"
-        },
-        {
-          "name": "Lightning damage",
-          "func": 1,
-          "params": [10, 6],
-          "unit": "%"
-        },
-        {
-          "name": "Attack Rating",
-          "func": 1,
-          "params": [20, 10],
-          "unit": "%"
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [4, 0.25]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 22,
-          "bonus": "Fire Damage",
-          "adds": 10
-        },
-        {
-          "id": 24,
-          "bonus": "Cold Damage",
-          "adds": 10
-        },
-        {
-          "id": 26,
-          "bonus": "Lightning Damage",
-          "adds": 10
-        },
-        {
-          "id": 30,
-          "bonus": "Elemental Damage",
-          "adds": 2
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "name": "blessed-hammer",
-      "effect": "Summons an ethereal hammer that spirals outwards damaging enemies it hits 150 Percent Damage to Undead",
-      "points": 0,
-      "reqLvl": 18,
-      "preReq": [3],
-      "postReq": [9, 10],
-      "attibutes": [
-        {
-          "name": "Magic Damage",
-          "func": 1,
-          "params": {
-            "min": [12, 8, 10, 12, 13, 14],
-            "max": [16, 8, 10, 12, 13, 14]
+        ]
+      },
+      {
+        "id": 2,
+        "name": "smite",
+        "effect": "Temporarily stun your enemy by bashing it with your shield",
+        "points": 0,
+        "reqLvl": 1,
+        "preReq": [],
+        "postReq": [5],
+        "attibutes": [
+          {
+            "name": "Damage",
+            "func": 1,
+            "params": [15, 15],
+            "value": 15,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Stun Length",
+            "func": 1,
+            "params": [0.6, 0.2],
+            "value": 0.6,
+            "unit": "seconds"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [2, 0],
+            "value": 2
           }
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [5, 0.25]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 14,
-          "bonus": "Magic Damage",
-          "adds": 14
-        },
-        {
-          "id": 27,
-          "bonus": "Magic Damage",
-          "adds": 14
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "name": "conversion",
-      "effect": "Converts monsters to fight against other foul demons and beasts",
-      "points": 0,
-      "reqLvl": 24,
-      "preReq": [6],
-      "postReq": [10],
-      "attibutes": [
-        {
-          "name": "Chance to convert",
-          "func": 2,
-          "params": [0, 50]
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [4, 0]
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "name": "holy-shield",
-      "effect": "Enhances your shield with divine power",
-      "points": 0,
-      "reqLvl": 24,
-      "preReq": [5, 7],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Smite Damage",
-          "func": 1,
-          "params": {
-            "min": [3, 2, 3, 4],
-            "max": [6, 2, 3, 4]
+        ]
+      },
+      {
+        "id": 3,
+        "name": "holy-bolt",
+        "effect": "A bolt of divine energy that damages undead enemies or heals allies",
+        "points": 0,
+        "reqLvl": 6,
+        "preReq": [],
+        "postReq": [7],
+        "attibutes": [
+          {
+            "name": "Magic Damage",
+            "func": 1,
+            "params": {
+              "min": [8, 8, 10, 13, 16, 20],
+              "max": [16, 8, 11, 15, 18, 23]
+            },
+            "value": {
+              "min": 8,
+              "max": 16
+            }
+          },
+          {
+            "name": "Heals",
+            "func": 1,
+            "params": {
+              "min": [1, 2],
+              "max": [6, 4]
+            },
+            "value": {
+              "min": 1,
+              "max": 6
+            }
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [2, 0.0625],
+            "value": 2
           }
-        },
-        {
-          "name": "Duration",
-          "func": 1,
-          "params": [30, 25],
-          "unit": "seconds"
-        },
-        {
-          "name": "Defence Bonus",
-          "func": 1,
-          "params": [25, 15],
-          "unit": "%"
-        },
-        {
-          "name": "Successful Blocking",
-          "func": 2,
-          "params": [10, 40],
-          "unit": "%"
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [35, 0]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 23,
-          "bonus": "Defence",
-          "adds": 15
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "name": "fist-of-the-heavens",
-      "effect": "Lightning strikes your target as holy bolts seek out nearby enemies",
-      "points": 0,
-      "reqLvl": 30,
-      "preReq": [7, 8],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Holy Bolt Damage",
-          "func": 1,
-          "params": {
-            "min": [40, 6, 10, 16, 32, 48],
-            "max": [50, 6, 10, 16, 32, 48]
+        ],
+        "synergies": [
+          {
+            "id": 7,
+            "bonus": "Magic Damage",
+            "adds": 50
+          },
+          {
+            "id": 10,
+            "bonus": "Magic Damage",
+            "adds": 50
+          },
+          {
+            "id": 21,
+            "bonus": "Life Healed",
+            "adds": 15
           }
-        },
-        {
-          "name": "Lightning Damage",
-          "func": 1,
-          "params": {
-            "min": [150, 15, 30, 45, 55, 65],
-            "max": [200, 15, 30, 45, 55, 65]
+        ]
+      },
+      {
+        "id": 4,
+        "name": "zeal",
+        "effect": "Allows you to attack multiple adjacent enemies with a single attack",
+        "points": 0,
+        "reqLvl": 12,
+        "preReq": [1],
+        "postReq": [6],
+        "attibutes": [
+          {
+            "name": "Attack Rating",
+            "func": 1,
+            "params": [10, 10],
+            "value": 10,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Damage",
+            "func": 1,
+            "params": [0, 0],
+            "value": 0,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Hits Per Attack",
+            "func": 1,
+            "params": [2, 1],
+            "value": 2,
+            "limit": 5,
+            "unit": "hits"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [2, 0],
+            "value": 2
           }
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [25, 0]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 3,
-          "bonus": "Holy Bolt Damage",
-          "modifier": 15
-        },
-        {
-          "id": 17,
-          "bonus": "Lightning Damage",
-          "modifier": 7
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "name": "might",
-      "effect": "When active, aura increases the damage done by you and your party",
-      "points": 0,
-      "reqLvl": 1,
-      "preReq": [],
-      "postReq": [12, 14],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Damage",
-          "func": 1,
-          "params": [40, 10],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "name": "holy-fire",
-      "effect": "When active, aura damages nearby enemies with heavenly flames",
-      "points": 0,
-      "reqLvl": 6,
-      "preReq": [11],
-      "postReq": [16],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [6, 1],
-          "unit": "yards"
-        },
-        {
-          "name": "Fire Damage To Your Attack",
-          "func": 1,
-          "params": {
-            "min": [6, 3, 6, 9, 15, 21],
-            "max": [18, 3, 6, 9, 15, 21]
+        ],
+        "synergies": [
+          {
+            "id": 1,
+            "bonus": "Damage",
+            "adds": 12
           }
-        },
-        {
-          "name": "Fire Damage",
-          "func": 1,
-          "params": {
-            "min": [1, 0.5, 1, 1.5, 2.5, 3.5],
-            "max": [3, 0.5, 1, 1.5, 2.5, 3.5]
+        ]
+      },
+      {
+        "id": 5,
+        "name": "charge",
+        "effect": "Charge into battle and attack an enemy",
+        "points": 0,
+        "reqLvl": 12,
+        "preReq": [2],
+        "postReq": [9],
+        "attibutes": [
+          {
+            "name": "Attack Rating",
+            "func": 1,
+            "params": [50, 15],
+            "value": 50,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Damage",
+            "func": 1,
+            "params": [100, 25],
+            "value": 100,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [9, 0],
+            "value": 9
           }
-        }
-      ],
-      "synergies": [
-        {
-          "id": 22,
-          "bonus": "Fire Damage",
-          "adds": 18
-        },
-        {
-          "id": 30,
-          "bonus": "Fire Damage",
-          "adds": 6
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "name": "thorns",
-      "effect": "When active, aura reflects damage done to you back at your attacker",
-      "points": 0,
-      "reqLvl": 6,
-      "preReq": [],
-      "postReq": [18],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Damage returned",
-          "func": 1,
-          "params": [250, 40],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "name": "blessed-aim",
-      "effect": "When active, aura increases the attack rating for you and your party",
-      "points": 0,
-      "reqLvl": 12,
-      "preReq": [11],
-      "postReq": [15],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Attack Rating",
-          "func": 1,
-          "params": [75, 15],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "name": "concentration",
-      "effect": "When active, aura increases the damage and decreases the chance that the attack will be interrupted for you and your party",
-      "points": 0,
-      "reqLvl": 18,
-      "preReq": [14],
-      "postReq": [19],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Chance Uninterruptable",
-          "func": 1,
-          "params": [20, 0],
-          "unit": "%"
-        },
-        {
-          "name": "Damage",
-          "func": 1,
-          "params": [60, 15],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "name": "holy-freeze",
-      "effect": "When active, aura freezes nearby monsters",
-      "points": 0,
-      "reqLvl": 18,
-      "preReq": [12],
-      "postReq": [17, 18],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [6, 1],
-          "unit": "yards"
-        },
-        {
-          "name": "Cold Damage To Your Attack",
-          "func": 1,
-          "params": {
-            "min": [10, 5, 10, 15, 20, 25],
-            "max": [15, 5, 10, 15, 20, 25]
+        ],
+        "synergies": [
+          {
+            "id": 11,
+            "bonus": "Damage",
+            "adds": 20
+          },
+          {
+            "id": 27,
+            "bonus": "Damage",
+            "adds": 20
           }
-        },
-        {
-          "name": "Cold Damage",
-          "func": 1,
-          "params": {
-            "min": [2, 1, 2, 3, 4, 5],
-            "max": [3, 1, 2, 3, 4, 5]
+        ]
+      },
+      {
+        "id": 6,
+        "name": "vengeance",
+        "effect": "Fire, lightning and cold damage are added to each successful attack",
+        "points": 0,
+        "reqLvl": 18,
+        "preReq": [4],
+        "postReq": [8],
+        "attibutes": [
+          {
+            "name": "Attack Rating",
+            "func": 1,
+            "params": [20, 10],
+            "value": 20,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Fire damage",
+            "func": 1,
+            "params": [10, 6],
+            "value": 10,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Lightning damage",
+            "func": 1,
+            "params": [10, 6],
+            "value": 10,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Cold damage",
+            "func": 1,
+            "params": [10, 6],
+            "value": 10,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Cold length",
+            "func": 1,
+            "params": [1.2, 0.6],
+            "value": 1.2,
+            "unit": "seconds"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [4, 0.25],
+            "value": 4
           }
-        },
-        {
-          "name": "Enemies Slowed",
-          "func": 2,
-          "params": [25, 60],
-          "unit": "%"
-        }
-      ],
-      "synergies": [
-        {
-          "id": 24,
-          "bonus": "Cold Damage",
-          "adds": 15
-        },
-        {
-          "id": 30,
-          "bonus": "Cold Damage",
-          "adds": 7
-        }
-      ]
-    },
-    {
-      "id": 17,
-      "name": "holy-shock",
-      "effect": "When active, aura causes pulses of electricity to damage nearby enemies adds lightning damage to your attack",
-      "points": 0,
-      "reqLvl": 24,
-      "preReq": [16],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [6, 1],
-          "unit": "yards"
-        },
-        {
-          "name": "Lightning Damage To Your Attack",
-          "func": 1,
-          "params": {
-            "min": [1, 0],
-            "max": [60, 36, 48, 60, 72, 90]
+        ],
+        "synergies": [
+          {
+            "id": 22,
+            "bonus": "Fire Damage",
+            "adds": 10
+          },
+          {
+            "id": 24,
+            "bonus": "Cold Damage",
+            "adds": 10
+          },
+          {
+            "id": 26,
+            "bonus": "Lightning Damage",
+            "adds": 10
+          },
+          {
+            "id": 30,
+            "bonus": "Elemental Damage",
+            "adds": 2
           }
-        },
-        {
-          "name": "Lightning Damage",
-          "func": 1,
-          "params": {
-            "min": [1, 0],
-            "max": [10, 6, 8, 10, 12, 15]
+        ]
+      },
+      {
+        "id": 7,
+        "name": "blessed-hammer",
+        "effect": "Summons an ethereal hammer that spirals outwards damaging enemies it hits 150 Percent Damage to Undead",
+        "points": 0,
+        "reqLvl": 18,
+        "preReq": [3],
+        "postReq": [9, 10],
+        "attibutes": [
+          {
+            "name": "Magic Damage",
+            "func": 1,
+            "params": {
+              "min": [12, 8, 10, 12, 13, 14],
+              "max": [16, 8, 10, 12, 13, 14]
+            },
+            "value": {
+              "min": 12,
+              "max": 16
+            }
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [5, 0.25],
+            "value": 5
           }
-        }
-      ],
-      "synergies": [
-        {
-          "id": 26,
-          "bonus": "Lightning Damage",
-          "adds": 12
-        },
-        {
-          "id": 30,
-          "bonus": "Lightning Damage",
-          "adds": 4
-        }
-      ]
-    },
-    {
-      "id": 18,
-      "name": "sanctuary",
-      "effect": "When active, aura damages the undead and knocks them back",
-      "points": 0,
-      "reqLvl": 24,
-      "preReq": [13, 16],
-      "postReq": [20],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [5, 1],
-          "unit": "yards"
-        },
-        {
-          "name": "Damage to Undead",
-          "func": 1,
-          "params": [150, 30],
-          "unit": "%"
-        },
-        {
-          "name": "Magic Damage",
-          "func": 1,
-          "params": {
-            "min": [8, 4, 4, 5, 5, 6],
-            "max": [16, 4, 5, 6, 6, 7]
+        ],
+        "synergies": [
+          {
+            "id": 14,
+            "bonus": "Magic Damage",
+            "adds": 14
+          },
+          {
+            "id": 27,
+            "bonus": "Magic Damage",
+            "adds": 14
           }
-        }
-      ],
-      "synergies": [
-        {
-          "id": 25,
-          "bonus": "Magic Damage",
-          "adds": 7
-        }
-      ]
-    },
-    {
-      "id": 19,
-      "name": "fanaticism",
-      "effect": "When active, aura increases damage, attack speed, and attack rating for you and your party",
-      "points": 0,
-      "reqLvl": 30,
-      "preReq": [15],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [11, 1],
-          "unit": "yards"
-        },
-        {
-          "name": "Party Damage",
-          "func": 1,
-          "params": [25, 8.5],
-          "unit": "%"
-        },
-        {
-          "name": "Your Damage",
-          "func": 1,
-          "params": [50, 17],
-          "unit": "%"
-        },
-        {
-          "name": "Attack Speed",
-          "func": 2,
-          "params": [10, 40],
-          "unit": "%"
-        },
-        {
-          "name": "Attack Rating",
-          "func": 1,
-          "params": [40, 5],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 20,
-      "name": "conviction",
-      "effect": "When active, aura reduces the defenses and resistances of nearby enemies",
-      "points": 0,
-      "reqLvl": 30,
-      "preReq": [18],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [20, 0],
-          "unit": "yards"
-        },
-        {
-          "name": "Enemies Defense",
-          "func": 2,
-          "params": [40, 100],
-          "unit": "%"
-        },
-        {
-          "name": "Enemies Resistances",
-          "func": 1,
-          "params": [30, 5],
-          "unit": "%",
-          "limit": 150
-        }
-      ]
-    },
-    {
-      "id": 21,
-      "name": "prayer",
-      "effect": "When active, aura slowly regenerates the life of you and your party",
-      "points": 0,
-      "reqLvl": 1,
-      "preReq": [],
-      "postReq": [25],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Heals",
-          "func": 1,
-          "params": [2, 1, 1, 2, 2, 3]
-        },
-        {
-          "name": "Mana Cost",
-          "func": 1,
-          "params": [1, 0.1875]
-        }
-      ]
-    },
-    {
-      "id": 22,
-      "name": "resist-fire",
-      "effect": "When active, aura decreases fire damage done to you and your party",
-      "points": 0,
-      "reqLvl": 1,
-      "preReq": [],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Resist Fire",
-          "func": 2,
-          "params": [35, 150],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 23,
-      "name": "defiance",
-      "effect": "When active, aura increases the defense rating of you and your party",
-      "points": 0,
-      "reqLvl": 6,
-      "preReq": [],
-      "postReq": [27],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Defense Bonus",
-          "func": 1,
-          "params": [70, 10],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 24,
-      "name": "resist-cold",
-      "effect": "When active, aura decreases cold damage done to you and your party",
-      "points": 0,
-      "reqLvl": 6,
-      "preReq": [],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Resist Cold",
-          "func": 2,
-          "params": [35, 150],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 25,
-      "name": "cleansing",
-      "effect": "When active, aura reduces the length of time you and your party will remain poisoned or cursed",
-      "points": 0,
-      "reqLvl": 12,
-      "preReq": [21],
-      "postReq": [27, 28],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Duration Reduced",
-          "func": 2,
-          "params": [30, 90],
-          "unit": "%"
-        },
-        {
-          "name": "Heals",
-          "func": 1,
-          "params": [0, 0]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 21,
-          "bonus": "Life Healed Every 2 Seconds",
-          "adds": 0
-        }
-      ]
-    },
-    {
-      "id": 26,
-      "name": "resist-lightning",
-      "effect": "When active, aura decreases lightning damage done to you and your party",
-      "points": 0,
-      "reqLvl": 12,
-      "preReq": [],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Resist Lightning",
-          "func": 2,
-          "params": [35, 150],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 27,
-      "name": "vigor",
-      "effect": "When active, aura increases stamina recovery rate, maximum stamina and movement speed for you and your party",
-      "points": 0,
-      "reqLvl": 18,
-      "preReq": [23, 25],
-      "postReq": [29],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 13,
-          "params": [16, 3],
-          "unit": "yards"
-        },
-        {
-          "name": "Velocity",
-          "func": 2,
-          "params": [7, 50],
-          "unit": "%"
-        },
-        {
-          "name": "Stamina Bonus",
-          "func": 1,
-          "params": [50, 25],
-          "unit": "%"
-        },
-        {
-          "name": "Stamina Recovery Rate",
-          "func": 1,
-          "params": [50, 25],
-          "unit": "%"
-        }
-      ]
-    },
-    {
-      "id": 28,
-      "name": "meditation",
-      "effect": "When active, aura increases mana recovery for you and your party",
-      "points": 0,
-      "reqLvl": 24,
-      "preReq": [25],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Mana Recovery Rate",
-          "func": 1,
-          "params": [300, 25],
-          "unit": "%"
-        },
-        {
-          "name": "Heals",
-          "func": 1,
-          "params": [0, 0]
-        }
-      ],
-      "synergies": [
-        {
-          "id": 21,
-          "bonus": "Life Healed Every 2 Seconds",
-          "adds": 0
-        }
-      ]
-    },
-    {
-      "id": 29,
-      "name": "redemption",
-      "effect": "When active, aura attempts to redeem the souls of slain enemies to give you life and mana",
-      "points": 0,
-      "reqLvl": 30,
-      "preReq": [27],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 0],
-          "unit": "yards"
-        },
-        {
-          "name": "Chance To Redeem Roul",
-          "func": 2,
-          "params": [10, 100],
-          "unit": "%"
-        },
-        {
-          "name": "Life/Mana Recovered",
-          "func": 1,
-          "params": [25, 5],
-          "unit": "points"
-        }
-      ]
-    },
-    {
-      "id": 30,
-      "name": "salvation",
-      "effect": "When active, aura decreases fire, cold and lightning damage done to you and your party",
-      "points": 0,
-      "reqLvl": 30,
-      "preReq": [],
-      "postReq": [],
-      "attibutes": [
-        {
-          "name": "Radius",
-          "func": 3,
-          "params": [16, 2],
-          "unit": "yards"
-        },
-        {
-          "name": "Resist Fire, Cold and Lightning",
-          "func": 2,
-          "params": [50, 120],
-          "unit": "%"
-        }
-      ]
-    }
-  ]
+        ]
+      },
+      {
+        "id": 8,
+        "name": "conversion",
+        "effect": "Converts monsters to fight against other foul demons and beasts",
+        "points": 0,
+        "reqLvl": 24,
+        "preReq": [6],
+        "postReq": [10],
+        "attibutes": [
+          {
+            "name": "Chance to convert",
+            "func": 2,
+            "params": [0, 50],
+            "value": 0,
+            "unit": "percent"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [4, 0],
+            "value": 4
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "name": "holy-shield",
+        "effect": "Enhances your shield with divine power",
+        "points": 0,
+        "reqLvl": 24,
+        "preReq": [5, 7],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Smite Damage",
+            "func": 1,
+            "params": {
+              "min": [3, 2, 3, 4],
+              "max": [6, 2, 3, 4]
+            },
+            "value": {
+              "min": 3,
+              "max": 6
+            },
+            "prefix": "+"
+          },
+          {
+            "name": "Duration",
+            "func": 1,
+            "params": [30, 25],
+            "value": 30,
+            "unit": "seconds"
+          },
+          {
+            "name": "Defence Bonus",
+            "func": 1,
+            "params": [25, 15],
+            "value": 25,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Successful Blocking",
+            "func": 2,
+            "params": [10, 40],
+            "value": 0,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [35, 0],
+            "value": 35
+          }
+        ],
+        "synergies": [
+          {
+            "id": 23,
+            "bonus": "Defence",
+            "adds": 15
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "name": "fist-of-the-heavens",
+        "effect": "Lightning strikes your target as holy bolts seek out nearby enemies",
+        "points": 0,
+        "reqLvl": 30,
+        "preReq": [7, 8],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Holy Bolt Damage",
+            "func": 1,
+            "params": {
+              "min": [40, 6, 10, 16, 32, 48],
+              "max": [50, 6, 10, 16, 32, 48]
+            },
+            "value": {
+              "min": 0,
+              "max": 0
+            }
+          },
+          {
+            "name": "Lightning Damage",
+            "func": 1,
+            "params": {
+              "min": [150, 15, 30, 45, 55, 65],
+              "max": [200, 15, 30, 45, 55, 65]
+            },
+            "value": {
+              "min": 0,
+              "max": 0
+            }
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [25, 0],
+            "value": 0
+          }
+        ],
+        "synergies": [
+          {
+            "id": 3,
+            "bonus": "Holy Bolt Damage",
+            "adds": 15
+          },
+          {
+            "id": 17,
+            "bonus": "Lightning Damage",
+            "adds": 7
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "name": "might",
+        "effect": "When active, aura increases the damage done by you and your party",
+        "points": 0,
+        "reqLvl": 1,
+        "preReq": [],
+        "postReq": [12, 14],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Damage",
+            "func": 1,
+            "params": [40, 10],
+            "value": 40,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "name": "holy-fire",
+        "effect": "When active, aura damages nearby enemies with heavenly flames",
+        "points": 0,
+        "reqLvl": 6,
+        "preReq": [11],
+        "postReq": [16],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [6, 1],
+            "value": 4,
+            "unit": "yards"
+          },
+          {
+            "name": "Fire Damage",
+            "info": "To Your Attack",
+            "func": 1,
+            "params": {
+              "min": [6, 3, 6, 9, 15, 21],
+              "max": [18, 3, 6, 9, 15, 21]
+            },
+            "value": {
+              "min": 6,
+              "max": 18
+            }
+          },
+          {
+            "name": "Fire Damage",
+            "info": "To Your Aura",
+            "func": 1,
+            "params": {
+              "min": [1, 0.5, 1, 1.5, 2.5, 3.5],
+              "max": [3, 0.5, 1, 1.5, 2.5, 3.5]
+            },
+            "value": {
+              "min": 1,
+              "max": 3
+            }
+          }
+        ],
+        "synergies": [
+          {
+            "id": 22,
+            "bonus": "Fire Damage",
+            "adds": 18
+          },
+          {
+            "id": 30,
+            "bonus": "Fire Damage",
+            "adds": 6
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "name": "thorns",
+        "effect": "When active, aura reflects damage done to you back at your attacker",
+        "points": 0,
+        "reqLvl": 6,
+        "preReq": [],
+        "postReq": [18],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Damage returned",
+            "func": 1,
+            "params": [250, 40],
+            "value": 250,
+            "unit": "percent"
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "name": "blessed-aim",
+        "effect": "When active, aura increases the attack rating for you and your party",
+        "points": 0,
+        "reqLvl": 12,
+        "preReq": [11],
+        "postReq": [15],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Attack Rating",
+            "info": "When active",
+            "func": 1,
+            "params": [75, 15],
+            "value": 75,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Attack Rating",
+            "info": "Passive bonus per hard point\ninvested while not active",
+            "func": 1,
+            "params": [5, 5],
+            "value": 5,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "name": "concentration",
+        "effect": "When active, aura increases the damage and decreases the chance that the attack will be interrupted for you and your party",
+        "points": 0,
+        "reqLvl": 18,
+        "preReq": [14],
+        "postReq": [19],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Chance Uninterruptable",
+            "func": 1,
+            "params": [20, 0],
+            "value": 20,
+            "unit": "percent"
+          },
+          {
+            "name": "Damage",
+            "func": 1,
+            "params": [60, 15],
+            "value": 60,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "name": "holy-freeze",
+        "effect": "When active, aura freezes nearby monsters",
+        "points": 0,
+        "reqLvl": 18,
+        "preReq": [12],
+        "postReq": [17, 18],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [6, 1],
+            "value": 4,
+            "unit": "yards"
+          },
+          {
+            "name": "Cold Damage",
+            "info": "To Your Attack",
+            "func": 1,
+            "params": {
+              "min": [10, 5, 10, 15, 20, 25],
+              "max": [15, 5, 10, 15, 20, 25]
+            },
+            "value": {
+              "min": 10,
+              "max": 15
+            }
+          },
+          {
+            "name": "Cold Damage",
+            "info": "To Your Aura",
+            "func": 1,
+            "params": {
+              "min": [2, 1, 2, 3, 4, 5],
+              "max": [3, 1, 2, 3, 4, 5]
+            },
+            "value": {
+              "min": 2,
+              "max": 3
+            }
+          },
+          {
+            "name": "Enemies Slowed",
+            "func": 2,
+            "params": [25, 60],
+            "value": 30,
+            "unit": "percent"
+          }
+        ],
+        "synergies": [
+          {
+            "id": 24,
+            "bonus": "Cold Damage",
+            "adds": 15
+          },
+          {
+            "id": 30,
+            "bonus": "Cold Damage",
+            "adds": 7
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "name": "holy-shock",
+        "effect": "When active, aura causes pulses of electricity to damage nearby enemies adds lightning damage to your attack",
+        "points": 0,
+        "reqLvl": 24,
+        "preReq": [16],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [6, 1],
+            "value": 4,
+            "unit": "yards"
+          },
+          {
+            "name": "Lightning Damage",
+            "info": "To Your Attack",
+            "func": 1,
+            "params": {
+              "min": [1, 0],
+              "max": [60, 36, 48, 60, 72, 90]
+            },
+            "value": {
+              "min": 1,
+              "max": 60
+            }
+          },
+          {
+            "name": "Lightning Damage",
+            "info": "To Your Aura",
+            "func": 1,
+            "params": {
+              "min": [1, 0],
+              "max": [10, 6, 8, 10, 12, 15]
+            },
+            "value": {
+              "min": 1,
+              "max": 10
+            }
+          }
+        ],
+        "synergies": [
+          {
+            "id": 26,
+            "bonus": "Lightning Damage",
+            "adds": 12
+          },
+          {
+            "id": 30,
+            "bonus": "Lightning Damage",
+            "adds": 4
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "name": "sanctuary",
+        "effect": "When active, aura damages the undead and knocks them back",
+        "points": 0,
+        "reqLvl": 24,
+        "preReq": [13, 16],
+        "postReq": [20],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [5, 1],
+            "value": 3.3,
+            "unit": "yards"
+          },
+          {
+            "name": "Damage to Undead",
+            "func": 1,
+            "params": [150, 30],
+            "value": 150,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Magic Damage",
+            "func": 1,
+            "params": {
+              "min": [8, 4, 4, 5, 5, 6],
+              "max": [16, 4, 5, 6, 6, 7]
+            },
+            "value": {
+              "min": 8,
+              "max": 16
+            }
+          }
+        ],
+        "synergies": [
+          {
+            "id": 25,
+            "bonus": "Magic Damage",
+            "adds": 7
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "name": "fanaticism",
+        "effect": "When active, aura increases damage, attack speed, and attack rating for you and your party",
+        "points": 0,
+        "reqLvl": 30,
+        "preReq": [15],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [11, 1],
+            "value": 7.3,
+            "unit": "yards"
+          },
+          {
+            "name": "Party Damage",
+            "func": 1,
+            "params": [25, 8.5],
+            "value": 25,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Your Damage",
+            "func": 1,
+            "params": [50, 17],
+            "value": 50,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Attack Speed",
+            "func": 2,
+            "params": [10, 40],
+            "value": 14,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Attack Rating",
+            "func": 1,
+            "params": [40, 5],
+            "value": 40,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "name": "conviction",
+        "effect": "When active, aura reduces the defenses and resistances of nearby enemies",
+        "points": 0,
+        "reqLvl": 30,
+        "preReq": [18],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [20, 0],
+            "value": 13.3,
+            "unit": "yards"
+          },
+          {
+            "name": "Enemies Defense",
+            "func": 2,
+            "params": [40, 100],
+            "value": 49,
+            "unit": "percent",
+            "prefix": "-"
+          },
+          {
+            "name": "Enemies Resistances",
+            "func": 1,
+            "params": [30, 5],
+            "value": 30,
+            "unit": "percent",
+            "prefix": "-",
+            "limit": 150
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "name": "prayer",
+        "effect": "When active, aura slowly regenerates the life of you and your party",
+        "points": 0,
+        "reqLvl": 1,
+        "preReq": [],
+        "postReq": [25],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Heals",
+            "func": 1,
+            "params": [2, 1, 1, 2, 2, 3],
+            "value": 2,
+            "prefix": "+"
+          },
+          {
+            "name": "Mana Cost",
+            "func": 1,
+            "params": [1, 0.1875],
+            "value": 1
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "name": "resist-fire",
+        "effect": "When active, aura decreases fire damage done to you and your party",
+        "points": 0,
+        "reqLvl": 1,
+        "preReq": [],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Resist Fire",
+            "func": 2,
+            "params": [35, 150],
+            "value": 52,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "name": "defiance",
+        "effect": "When active, aura increases the defense rating of you and your party",
+        "points": 0,
+        "reqLvl": 6,
+        "preReq": [],
+        "postReq": [27],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Defense Bonus",
+            "func": 1,
+            "params": [70, 10],
+            "value": 70,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "name": "resist-cold",
+        "effect": "When active, aura decreases cold damage done to you and your party",
+        "points": 0,
+        "reqLvl": 6,
+        "preReq": [],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Resist Cold",
+            "func": 2,
+            "params": [35, 150],
+            "value": 52,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "name": "cleansing",
+        "effect": "When active, aura reduces the length of time you and your party will remain poisoned or cursed",
+        "points": 0,
+        "reqLvl": 12,
+        "preReq": [21],
+        "postReq": [27, 28],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Duration Reduced By",
+            "func": 2,
+            "params": [30, 90],
+            "value": 39,
+            "unit": "percent"
+          },
+          {
+            "name": "Heals",
+            "func": 1,
+            "params": [0, 0],
+            "value": 2,
+            "prefix": "+"
+          }
+        ],
+        "synergies": [
+          {
+            "id": 21,
+            "bonus": "Life Healed",
+            "info": "Every 2 Seconds",
+            "adds": 0
+          }
+        ]
+      },
+      {
+        "id": 26,
+        "name": "resist-lightning",
+        "effect": "When active, aura decreases lightning damage done to you and your party",
+        "points": 0,
+        "reqLvl": 12,
+        "preReq": [],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Resist Lightning",
+            "func": 2,
+            "params": [35, 150],
+            "value": 52,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 27,
+        "name": "vigor",
+        "effect": "When active, aura increases stamina recovery rate, maximum stamina and movement speed for you and your party",
+        "points": 0,
+        "reqLvl": 18,
+        "preReq": [23, 25],
+        "postReq": [29],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 13,
+            "params": [16, 3],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Velocity",
+            "func": 2,
+            "params": [7, 50],
+            "value": 13,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Stamina Bonus",
+            "func": 1,
+            "params": [50, 25],
+            "value": 50,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Stamina Recovery Rate",
+            "func": 1,
+            "params": [50, 25],
+            "value": 50,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      },
+      {
+        "id": 28,
+        "name": "meditation",
+        "effect": "When active, aura increases mana recovery for you and your party",
+        "points": 0,
+        "reqLvl": 24,
+        "preReq": [25],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Mana Recovery Rate",
+            "func": 1,
+            "params": [300, 25],
+            "value": 300,
+            "unit": "percent",
+            "prefix": "+"
+          },
+          {
+            "name": "Heals",
+            "func": 1,
+            "params": [0, 0],
+            "value": 2,
+            "prefix": "+"
+          }
+        ],
+        "synergies": [
+          {
+            "id": 21,
+            "bonus": "Life Healed",
+            "info": "Every 2 Seconds",
+            "adds": 0
+          }
+        ]
+      },
+      {
+        "id": 29,
+        "name": "redemption",
+        "effect": "When active, aura attempts to redeem the souls of slain enemies to give you life and mana",
+        "points": 0,
+        "reqLvl": 30,
+        "preReq": [27],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 0],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Chance To Redeem Soul",
+            "func": 2,
+            "params": [10, 100],
+            "value": 23,
+            "unit": "percent"
+          },
+          {
+            "name": "Life/Mana Recovered",
+            "func": 1,
+            "params": [25, 5],
+            "value": 25,
+            "unit": "points"
+          }
+        ]
+      },
+      {
+        "id": 30,
+        "name": "salvation",
+        "effect": "When active, aura decreases fire, cold and lightning damage done to you and your party",
+        "points": 0,
+        "reqLvl": 30,
+        "preReq": [],
+        "postReq": [],
+        "attibutes": [
+          {
+            "name": "Radius",
+            "func": 3,
+            "params": [16, 2],
+            "value": 10.6,
+            "unit": "yards"
+          },
+          {
+            "name": "Elemental Resists",
+            "info": "Fire, Cold and Lightning",
+            "func": 2,
+            "params": [50, 120],
+            "value": 60,
+            "unit": "percent",
+            "prefix": "+"
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -27,9 +27,6 @@ interface IPlannerContext {
   skills: ISkill[];
   dispatchSkills: React.Dispatch<ISkillsReducer>;
 
-  skillTabs: ISkillTab[];
-  setSkillTabs: React.Dispatch<React.SetStateAction<ISkillTab[]>>;
-
   skillPoints: number;
   setSkillPoints: setStateAsNumber;
 

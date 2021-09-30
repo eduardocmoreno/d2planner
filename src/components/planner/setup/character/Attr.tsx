@@ -58,7 +58,7 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
 
   useEffect(() => {
     dispatchAttrs({
-      type: 'BONNUS',
+      type: 'BONUS',
       payload: {
         attr,
         batch: gearsAttrReducer(attr, gears)
@@ -66,7 +66,7 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
     });
   }, [attr, gears, dispatchAttrs]);
 
-  function handleClick(e: MouseEvent<HTMLButtonElement>, type: IAttrsReducer['type']) {
+  function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
     let batch = 1;
     let source = 0;
     let factor = 1;

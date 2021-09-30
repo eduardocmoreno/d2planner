@@ -4,7 +4,7 @@ export default function attrsReducer(prev: IAttrsState, action: IAttrsReducer) {
     case 'ADD':
     case 'SUB': {
       const { attr, batch } = action.payload!;
-      const { base, applied, bonnus } = prev[attr!];
+      const { base, applied, bonus } = prev[attr!];
 
       const factor = action.type === 'SUB' ? -1 : 1;
 
@@ -13,14 +13,14 @@ export default function attrsReducer(prev: IAttrsState, action: IAttrsReducer) {
         [attr!]: {
           ...prev[attr!],
           applied: applied! + batch! * factor,
-          total: base! + applied! + bonnus! + batch! * factor
+          total: base! + applied! + bonus! + batch! * factor
         }
       };
 
       return newState;
     }
 
-    case 'BONNUS': {
+    case 'BONUS': {
       const { attr, batch } = action.payload!;
       const { base, applied } = prev[attr!];
 
@@ -28,7 +28,7 @@ export default function attrsReducer(prev: IAttrsState, action: IAttrsReducer) {
         ...prev,
         [attr!]: {
           ...prev[attr!],
-          bonnus: batch,
+          bonus: batch,
           total: base! + applied! + batch!
         }
       };
@@ -41,22 +41,22 @@ export default function attrsReducer(prev: IAttrsState, action: IAttrsReducer) {
         strength: {
           ...prev.strength,
           applied: 0,
-          total: prev.strength.base! + prev.strength.bonnus!
+          total: prev.strength.base! + prev.strength.bonus!
         },
         dexterity: {
           ...prev.dexterity,
           applied: 0,
-          total: prev.dexterity.base! + prev.dexterity.bonnus!
+          total: prev.dexterity.base! + prev.dexterity.bonus!
         },
         vitality: {
           ...prev.vitality,
           applied: 0,
-          total: prev.vitality.base! + prev.vitality.bonnus!
+          total: prev.vitality.base! + prev.vitality.bonus!
         },
         energy: {
           ...prev.energy,
           applied: 0,
-          total: prev.energy.base! + prev.energy.bonnus!
+          total: prev.energy.base! + prev.energy.bonus!
         }
       }
 

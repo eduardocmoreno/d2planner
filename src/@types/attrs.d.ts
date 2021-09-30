@@ -7,7 +7,7 @@ interface IAttrs {
 
 interface IAttrProps {
   base?: number;
-  bonnus?: number;
+  bonus?: number;
   applied?: number;
   total?: number;
 }
@@ -27,7 +27,7 @@ interface IAttrPoints {
 }
 
 interface IAttrsReducer {
-  type: 'ADD' | 'SUB' | 'BONNUS' | 'INIT' | 'RESET';
+  type: 'ADD' | 'SUB' | 'BONUS' | 'INIT' | 'RESET';
   payload?: {
     attr?: keyof IAttrs;
     batch?: number;

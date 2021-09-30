@@ -60,7 +60,6 @@ export default function Planner() {
   const [quests, dispatchQuests] = useReducer(questsReducer, questsInit);
 
   const [skills, dispatchSkills] = useReducer(skillsReducer, []);
-  const [skillTabs, setSkillTabs] = useState([] as ISkillTab[]);
   const [skillPoints, setSkillPoints] = useState(0);
 
   const [gears, setGears] = useState(gearsInit);
@@ -81,7 +80,6 @@ export default function Planner() {
     quests, dispatchQuests,
 
     skills, dispatchSkills,
-    skillTabs, setSkillTabs,
     skillPoints, setSkillPoints,
 
     gears, setGears
@@ -92,7 +90,8 @@ export default function Planner() {
     setIsLoading(true);
     (async function () {
       try {
-        const response = await fetch(`https://d2calc-24ee1-default-rtdb.firebaseio.com/class/${charClass}.json`);
+        //const response = await fetch(`https://d2calc-24ee1-default-rtdb.firebaseio.com/class/${charClass}.json`);
+        const response = await fetch(`/data/classes/${charClass}.json`);
         const data = await response.json();
         const { skills, attributes }: ICharacterData = data;
 
@@ -129,7 +128,7 @@ export default function Planner() {
         dispatchSkills({
           type: 'INIT',
           payload: {
-            initialState: skills
+            initialState: skills.list
           }
         });
 
@@ -147,26 +146,10 @@ export default function Planner() {
     setAttrPointsApplied(appliedPoints);
   }, [attrs, setAttrPointsApplied]);
 
-  //watch: attributes and skills points
+  //watch: skills points
   useEffect(() => {
-    let levelFactor = level - 1;
-
-    /* let levelAttrPts = levelFactor * 5;
-    let questsAttrPts = questsRewardsReducer(quests, 'ATTRS');
-    let attrPtsCalc = levelAttrPts + questsAttrPts - attrPointsAppied;
-
-    if (attrPtsCalc < 0) {
-      dispatchAttrs({
-        type: 'RESET'
-      })
-    } else {
-      setAttrPoints(attrPtsCalc);
-    } */
-
-    let questSkillPts = questsRewardsReducer(quests, 'SKILLS');
-
-    setSkillPoints(questSkillPts + levelFactor);
-  }, [level, quests])
+    setSkillPoints(questsRewardsReducer(quests, 'SKILLS') + level - 1);
+  }, [level, quests]);
 
   return (
     <>

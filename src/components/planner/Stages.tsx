@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { PlannerContext } from "pages/Planner";
 
 const StagesWrapper = styled.div`
-  padding: 2rem 2rem 4rem;
+  padding: 2rem;
   background: rgba(0 0 0 / 0.3);
   border: solid var(--color-red-700);
   border-width: 2px 0;

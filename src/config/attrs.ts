@@ -1,7 +1,7 @@
-const initProps = {
+const initProps: IAttrProps = {
   base: 0,
   applied: 0,
-  bonnus: 0,
+  bonus: 0,
   total: 0
 }
 

@@ -10,25 +10,37 @@ interface ISkill {
 
   attibutes: {
     name: string;
+    info: string;
     func: number;
-    params: number[];
-    unit?: string;
+    params: number[] | {
+      min: number[];
+      max: number[];
+    };
+    unit?: Unit;
+    prefix:? string;
+    value: number | {
+      min: number;
+      max: number;
+    };
   }[];
 
   synergies?: {
     id: number;
     bonus: string;
+    info: string;
     adds: number;
   }[];
 };
 
-//skill tabs
-interface ISkillTab {
+//skill trees
+interface ISkillTree {
   id: number;
   name: string;
   map: number[];
-  active: boolean;
+  isActive: boolean;
 }
+
+type Unit = 'yards' | 'seconds' | 'percent' | 'points' | 'hits';
 
 //skill reducer action
 interface ISkillsReducer {
