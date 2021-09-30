@@ -45,9 +45,9 @@ type Unit = 'yards' | 'seconds' | 'percent' | 'points' | 'hits';
 //skill reducer action
 interface ISkillsReducer {
   type: 'INIT' | 'INCREMENT' | 'DECREMENT' | 'RESET';
-  payload: {
+  payload?: {
     id?: number;
-    qty?: number;
+    batch?: number;
     initialState?: ISkill[];
   }
 }

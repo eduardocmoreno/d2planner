@@ -5,6 +5,172 @@ import { pseudo } from "styles/mixins";
 import Tooltip from "components/ui/Tooltip";
 import Tree from "./Tree";
 
+//TODO: special behavior
+//Smite gets Holy Shield damage
+//ZEAL gets sacrifice damage value
+//Blessed Aim The Passive Bonus is 5% Attack Rating bonus per hard point invested while the aura is not active.
+//move the styled comp to a separated file?
+
+//skill
+// |-level
+//   |-points --> comes from hard points applied
+//   |-bonus --> comes from a reducer function*
+//   |-total --> points and bonus reduced
+
+//*SKILL POINTS BONUS (these points might be reduced in a separated function)
+// -all --> to all skills
+// -class --> to all class skills
+// -tree --> to all tree skills
+// -total --> reduced
+
+//examples
+//Sacrifice
+// |-level
+//   |-points: 15
+//   |-bonus: 7*
+//   |-total: 18
+
+//*bonus points reduced
+// -all: 2 --> no check needed
+// -class: 2 --> no check needed
+// -tree: 3 --> check if the skill includes in the selected tree
+// -total: 7
+
+export default function Skills() {
+  const { characterData, level, skills, dispatchSkills, skillPoints } = useContext(PlannerContext);
+
+  const [skillsTreesTabs, setSkillsTreesTabs] = useState([] as ISkillTree[]);
+  const [skillIdOnHover, setSkillIdOnHover] = useState(0);
+  const [skillSelected, setSkillSelected] = useState({} as ISkill);
+
+  function handleTabs(id: number) {
+    setSkillsTreesTabs(prevState => prevState.map(t => {
+      return {
+        ...t,
+        isActive: t.id === id ? true : false
+      };
+    }));
+  }
+
+  function getUnit(unit: Unit): string {
+    switch (unit) {
+      case 'seconds':
+        return 's';
+
+      case 'yards':
+        return ' yards'
+
+      case 'percent':
+        return '%';
+
+      case 'points':
+        return 'pts';
+
+      case 'hits':
+        return ' hits';
+
+      default:
+        return unit;
+    }
+  }
+
+  function specialBehavior(skill: ISkill) {
+    //25. Cleansing - Prayer as synergy
+    //28. Meditation - Prayer as synergy
+    if ([25, 28].includes(skill.id)) {
+      return `+${skills.find(s => s.id === 21)?.attibutes.find(a => a.name === 'Heals')?.value}`;
+    }
+  }
+
+  useEffect(() => {
+    setSkillsTreesTabs(characterData.skills?.trees);
+  }, [characterData]);
+
+  useEffect(() => {
+    let findSkill = skills.find(s => s.id === skillIdOnHover)!;
+    setSkillSelected(findSkill);
+  }, [skills, skillIdOnHover]);
+
+  useEffect(() => {
+    dispatchSkills({ type: 'RESET' })
+  }, [level, dispatchSkills]);
+
+  return (
+    <StageWrapper>
+      <TreesSection>
+        <TreesTabs>
+          {skillsTreesTabs.map(({ id, isActive, name }) =>
+            <Tab active={isActive} key={id} onClick={() => handleTabs(id)}>{name.replace(' ', '\n')}</Tab>
+          )}
+        </TreesTabs>
+        <Trees>
+          {skillsTreesTabs.map(tree => <Tree tree={tree} {...{ setSkillIdOnHover }} key={tree.id} />)}
+        </Trees>
+      </TreesSection>
+
+      <DetailsSection>
+        <DetailsHeader>
+          <div><strong>{skillPoints}</strong> <small>skill points remaining</small></div>
+        </DetailsHeader>
+        <Details>
+          {skillSelected?.name ?
+            <>
+              <SkillTitle>{skillSelected.name}</SkillTitle>
+
+              <SkillDescription>{skillSelected.effect}.</SkillDescription>
+
+              <SkillProps>
+                <PropDetails>
+                  <PropName>Current level:</PropName>
+                  <PropValue isActive={skillSelected.points > 0}>{skillSelected.points > 0 ? skillSelected.points : `Not used yet`}</PropValue>
+                </PropDetails>
+                {skillSelected.attibutes.map(({ name, unit, value, info, prefix }, i) => {
+                  return (
+                    <PropDetails key={i}>
+                      <PropName>
+                        {name}
+                        {info &&
+                          <Tooltip as={InfoIcon} center data-tooltip={info}>&#8505;</Tooltip>
+                        }
+                      </PropName>
+                      <PropValue isActive={skillSelected.points > 0}>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{getUnit(unit!)}</PropValue>
+                    </PropDetails>
+                  )
+                })}
+              </SkillProps>
+
+              {skillSelected.synergies &&
+                <>
+                  <SkillDescription><span>{skillSelected.name}</span> receives a bonus per each synergy level listed below:</SkillDescription>
+
+                  <SkillProps>
+                    {skillSelected.synergies.map(({ id, bonus, info, adds }) =>
+                      <PropDetails key={id}>
+                        <PropBonus>{skills.find(s => s.id === id)?.name}</PropBonus>
+                        <PropName>
+                          {bonus}
+                          {info &&
+                            <Tooltip as={InfoIcon} center data-tooltip={info}>&#8505;</Tooltip>
+                          }
+                        </PropName>
+                        <PropValue isActive={skillSelected.points > 0}>
+                          {specialBehavior(skillSelected) ?? `+${adds}%`}
+                        </PropValue>
+                      </PropDetails>
+                    )}
+                  </SkillProps>
+                </>
+              }
+            </>
+            :
+            <SkillDescription>Please, move the mouse pointer over a skill and you`ll be able to see it`s details.</SkillDescription>
+          }
+        </Details>
+      </DetailsSection>
+    </StageWrapper>
+  )
+}
+
 const StageWrapper = styled.div`
   display: flex;
   gap: var(--spacing-sm);
@@ -93,7 +259,7 @@ const DetailsHeader = styled.div`
   margin-bottom: var(--spacing-sm);
   height: calc(2.7em - var(--spacing-sm));
   box-shadow: inset 0 0 2em rgba(0 0 0 / .5);
-  background: var(--color-blue-800);
+  background: var(--color-green-800);
   color: #fff;
   strong {
     font-family: var(--font-family-main);
@@ -110,7 +276,7 @@ const Details = styled.div`
   background: rgba(0 0 0 / .6);
   border-width: 2px 0;
   border-style: solid;
-  border-color: var(--color-blue-600);
+  border-color: var(--color-green-600);
 `;
 
 const SkillTitle = styled.h3`
@@ -159,10 +325,10 @@ const PropName = styled.div`
   letter-spacing: -.03em;
 `;
 
-const PropValue = styled.div`
-  color: var(--color-blue);
+const PropValue = styled.div(({ isActive }: { isActive: boolean }) => css`
+  color: ${isActive ? `var(--color-green)` : `#666`};
   order: 3;
-`;
+`);
 
 const PropBonus = styled.div`
   flex: 100%;
@@ -187,137 +353,3 @@ const InfoIcon = styled.i`
   text-indent: -0.05em;
   font-size: .9em;
 `;
-
-export default function Skills() {
-  console.log('...');
-  //context
-  const { characterData, skills, skillPoints } = useContext(PlannerContext);
-
-  //state
-  const [skillsTreesTabs, setSkillsTreesTabs] = useState([] as ISkillTree[]);
-  const [skillPointsRemaining, setSkillPointsRemaining] = useState(0);
-
-  useEffect(() => {
-    setSkillsTreesTabs(characterData.skills?.trees);
-  }, [characterData]);
-
-  useEffect(() => {
-    setSkillPointsRemaining(skillPoints);
-  }, [skillPoints]);
-
-  function handleTabs(id: number) {
-    setSkillsTreesTabs(prevState => prevState.map(t => {
-      return {
-        ...t,
-        isActive: t.id === id ? true : false
-      };
-    }));
-  }
-
-  let selectedSkill: ISkill = skills.find(s => s.id === 30)!;
-  let skillName = selectedSkill?.name.replaceAll('-', ' ');
-
-  function getUnit(unit: Unit): string {
-    switch (unit) {
-      case 'seconds':
-        return 's';
-
-      case 'yards':
-        return ' yards'
-
-      case 'percent':
-        return '%';
-
-      case 'points':
-        return 'pts';
-
-      case 'hits':
-        return ' hits';
-
-      default:
-        return unit;
-    }
-  }
-
-  function specialBehavior(skill: ISkill) {
-    //25. Cleansing - Prayer as synergy
-    //28. Meditation - Prayer as synergy
-    if([25, 28].includes(skill.id)) {
-      return `+${skills.find(s => s.id === 21)?.attibutes.find(a => a.name === 'Heals')?.value}`;
-    }
-
-    //TODO: special behavior
-    //Smite gets Holy Shield damage
-    //ZEAL gets sacrifice damage value
-    //Blessed Aim The Passive Bonus is 5% Attack Rating bonus per hard point invested while the aura is not active.
-  }
-
-  return (
-    <StageWrapper>
-      <TreesSection>
-        <TreesTabs>
-          {skillsTreesTabs.map(({ id, isActive, name }) =>
-            <Tab active={isActive} key={id} onClick={() => handleTabs(id)}>{name.replace(' ', '\n')}</Tab>
-          )}
-        </TreesTabs>
-        <Trees>
-          {skillsTreesTabs.map(tree => <Tree tree={tree} key={tree.id}/>)}
-        </Trees>
-      </TreesSection>
-
-      <DetailsSection>
-        <DetailsHeader>
-          <div><strong>{skillPoints}</strong> <small>skill points remaining</small></div>
-        </DetailsHeader>
-        <Details>
-          <SkillTitle>{skillName}</SkillTitle>
-
-          <SkillDescription>{selectedSkill?.effect}.</SkillDescription>
-
-          <SkillProps>
-            <PropDetails>
-              <PropName>Current skill level:</PropName>
-              <PropValue>{selectedSkill?.points}</PropValue>
-            </PropDetails>
-            {selectedSkill?.attibutes.map(({ name, unit, value, info, prefix }, i) => {
-              return (
-                <PropDetails key={i}>
-                  <PropName>
-                    {name}
-                    {info &&
-                      <Tooltip as={InfoIcon} center data-tooltip={info}>&#8505;</Tooltip>
-                    }
-                  </PropName>
-                  <PropValue>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{getUnit(unit!)}</PropValue>
-                </PropDetails>
-              )
-            })}
-          </SkillProps>
-
-          {selectedSkill?.synergies &&
-            <>
-              <SkillDescription><span>{skillName}</span> receives a bonus per each synergy level listed below:</SkillDescription>
-
-              <SkillProps>
-                {selectedSkill.synergies.map(({ id, bonus, info, adds }) =>
-                  <PropDetails key={id}>
-                    <PropBonus>{skills.find(s => s.id === id)?.name}</PropBonus>
-                    <PropName>
-                      {bonus}
-                      {info &&
-                        <Tooltip as={InfoIcon} center data-tooltip={info}>&#8505;</Tooltip>
-                      }
-                    </PropName>
-                    <PropValue>
-                      {specialBehavior(selectedSkill) ?? `+${adds}%`}
-                    </PropValue>
-                  </PropDetails>
-                )}
-              </SkillProps>
-            </>
-          }
-        </Details>
-      </DetailsSection>
-    </StageWrapper>
-  )
-}

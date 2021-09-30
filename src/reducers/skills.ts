@@ -4,16 +4,16 @@ export default function skillsReducer(skills: ISkill[], action: ISkillsReducer) 
   switch (action.type) {
     case 'INCREMENT':
       return skills.map(skill => {
-        if (skill.id === action.payload.id) {
-          return { ...skill, points: skill.points + action.payload.qty! }
+        if (skill.id === action.payload?.id) {
+          return { ...skill, points: skill.points + action.payload.batch! }
         }
         return skill;
       });
 
     case 'DECREMENT':
       return skills.map(skill => {
-        if (skill.id === action.payload.id) {
-          return { ...skill, points: skill.points - action.payload.qty! }
+        if (skill.id === action.payload?.id) {
+          return { ...skill, points: skill.points - action.payload.batch! }
         }
         return skill;
       });
@@ -22,7 +22,7 @@ export default function skillsReducer(skills: ISkill[], action: ISkillsReducer) 
       return initialState;
 
     case 'INIT':
-      initialState = action.payload.initialState!;
+      initialState = action.payload?.initialState!;
       return initialState;
 
     default:

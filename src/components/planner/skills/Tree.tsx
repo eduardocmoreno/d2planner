@@ -1,4 +1,4 @@
-import { MouseEvent, useContext } from "react";
+import { SetStateAction, useContext } from "react";
 import { PlannerContext } from "pages/Planner";
 import styled, { css } from "styled-components";
 
@@ -29,7 +29,7 @@ const CellContent = styled.div(({ isIterable, isActive }: { isIterable: boolean,
         cursor: pointer;
       }
       &:active {
-        transform: scale(.98);
+        transform: scale(.95);
       }
     }
   `}
@@ -52,6 +52,7 @@ const CellCount = styled.div`
   box-shadow: inset 0 0 5px rgba(0 0 0 / 0.5);
   transform: translateX(-50%);
   font-size: .8em;
+  font-family: var(--font-family-main);
 `;
 
 const CellFigure = styled.figure`
@@ -63,7 +64,10 @@ const CellFigure = styled.figure`
 `;
 
 
-export default function Tree({ tree }: { tree: ISkillTree }) {
+export default function Tree({ tree, setSkillIdOnHover }: {
+  tree: ISkillTree,
+  setSkillIdOnHover: React.Dispatch<SetStateAction<number>>
+}) {
   const { level, skills, dispatchSkills, skillPoints, setSkillPoints } = useContext(PlannerContext);
 
   function getSkillProps(skills: ISkill[], id: number): ISkill {
@@ -101,73 +105,72 @@ export default function Tree({ tree }: { tree: ISkillTree }) {
   /* 
   // HANDLE SKILLS LVL COUNT
   */
-  function handleSkillPoints(e: MouseEvent<HTMLElement>, id: number) {
-    let skill = getSkillProps(skills, id);
-    let params: ISkillsReducer = {
-      type: 'RESET',
-      payload: {
-        id: id,
-        qty: e.shiftKey ? 10 : 1
-      }
-    }
+  function handleSkillPoints(e: React.MouseEvent<HTMLElement>, id: number) {
+    let { points } = getSkillProps(skills, id);
+    let batch = 1;
+
+    if (e.shiftKey) batch = 5;
+    if (e.ctrlKey || e.metaKey) batch = 20;
 
     //on left click
     if (e.button === 0) {
-      if (!isSkillIterable(id) || skill.points === 20 || skillPoints === 0) return;
+      if (!isSkillIterable(id) || points === 20 || skillPoints === 0) return;
 
-      if (skill.points + params.payload.qty! > 20) {
-        params.payload.qty = 20 - skill.points;
-      }
+      if (points + batch > 20) batch = 20 - points;
 
-      if (skillPoints - params.payload.qty! < 0) {
-        params.payload.qty = skillPoints;
-      }
+      if (skillPoints - batch < 0) batch = skillPoints;
 
-      setSkillPoints(prev => prev - params.payload.qty!);
+      setSkillPoints(prev => prev - batch);
 
-      params.type = 'INCREMENT';
+      dispatchSkills({
+        type: 'INCREMENT',
+        payload: { id, batch }
+      });
     }
 
     //on right click
     if (e.button === 2) {
       e.preventDefault();
 
-      if ((skill.points === 1 && isPostSkillReqActived(id)) || skill.points === 0) return;
+      if ((points === 1 && isPostSkillReqActived(id)) || points === 0) return;
 
-      if (skill.points - params.payload.qty! < 0) {
-        params.payload.qty = isPostSkillReqActived(id) ? skill.points - 1 : skill.points;
-      }
+      if (points - batch < 0) batch = isPostSkillReqActived(id) ? points - 1 : points;
 
-      setSkillPoints(prev => prev + params.payload.qty!);
+      setSkillPoints(prev => prev + batch);
 
-      params.type = 'DECREMENT';
+      dispatchSkills({
+        type: 'DECREMENT',
+        payload: { id, batch }
+      });
     }
-
-    dispatchSkills(params);
   }
 
   return (
     <TreeWrapper isActive={tree.isActive}>
       {tree.map.map((id, index) => {
-        let skill = getSkillProps(skills, id);
 
-        return (
-          <TreeCell key={skill ? skill.name : index}>
-            {skill &&
-              <CellContent isIterable={isSkillIterable(skill.id)} isActive={skill.points > 0}>
+        if (id > 0) {
+          const { name, points } = getSkillProps(skills, id);
+          return (
+            <TreeCell key={name}>
+              <CellContent isIterable={isSkillIterable(id)} isActive={points > 0}>
                 <CellFigure
-                  onClick={(e) => handleSkillPoints(e, skill.id)}
-                  onContextMenu={(e) => handleSkillPoints(e, skill.id)}>
+                  onMouseOver={() => setSkillIdOnHover(id)}
+                  onClick={(e) => handleSkillPoints(e, id)}
+                  onContextMenu={(e) => handleSkillPoints(e, id)}>
                   <img
-                    src={require('assets/images/skills/' + skill.name + '.jpg').default}
-                    alt="sacrifice"
+                    src={require(`assets/images/skills/${name}.jpg`).default}
+                    alt={name}
                   />
                 </CellFigure>
-                <CellCount>{skill.points > 0 && skill.points}</CellCount>
+                <CellCount>{points > 0 && points}</CellCount>
               </CellContent>
-            }
-          </TreeCell>
-        )
+            </TreeCell>
+          )
+        }
+
+        return <TreeCell key={index} />
+
       })}
     </TreeWrapper>
   )
