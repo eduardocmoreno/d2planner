@@ -4,6 +4,8 @@ type setStateAsNumber = React.Dispatch<React.SetStateAction<number>>;
 
 //planner context
 interface IPlannerContext {
+  charClass: string;
+
   characterData: ICharacterData;
 
   planner: IPlanner[];
@@ -17,9 +19,6 @@ interface IPlannerContext {
 
   attrPoints: number;
   setAttrPoints: setStateAsNumber;
-
-  attrPointsAppied: number;
-  setAttrPointsApplied: setStateAsNumber;
 
   quests: IQuest[];
   dispatchQuests: React.Dispatch<IQuestsReducer>;

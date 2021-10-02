@@ -1,22 +1,26 @@
 let initialState: ISkill[];
 
-export default function skillsReducer(skills: ISkill[], action: ISkillsReducer) {
+export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
   switch (action.type) {
     case 'INCREMENT':
-      return skills.map(skill => {
-        if (skill.id === action.payload?.id) {
-          return { ...skill, points: skill.points + action.payload.batch! }
-        }
-        return skill;
-      });
+    case 'DECREMENT': {
+      const { id, batch } = action.payload!;
+      const factor = action.type === 'DECREMENT' ? -1 : 1;
 
-    case 'DECREMENT':
-      return skills.map(skill => {
-        if (skill.id === action.payload?.id) {
-          return { ...skill, points: skill.points - action.payload.batch! }
+      return prev.map(p => {
+        if (p.id === id) {
+          return {
+            ...p,
+            level: {
+              ...p.level,
+              points: p.level.points + batch! * factor,
+              total: p.level.bonus + p.level.points + batch! * factor
+            }
+          }
         }
-        return skill;
+        return p;
       });
+    }
 
     case 'RESET':
       return initialState;
@@ -26,6 +30,6 @@ export default function skillsReducer(skills: ISkill[], action: ISkillsReducer) 
       return initialState;
 
     default:
-      return skills;
+      return prev;
   }
 }

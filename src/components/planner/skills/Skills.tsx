@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { PlannerContext } from "pages/Planner";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { pseudo } from "styles/mixins";
+import { questsRewardsReducer } from "reducers/quests";
+import { PlannerContext } from "pages/Planner";
 import Tooltip from "components/ui/Tooltip";
 import Tree from "./Tree";
 
@@ -10,6 +11,8 @@ import Tree from "./Tree";
 //ZEAL gets sacrifice damage value
 //Blessed Aim The Passive Bonus is 5% Attack Rating bonus per hard point invested while the aura is not active.
 //move the styled comp to a separated file?
+
+//ENCHANT, VENOM ADDS DAMAGE TO WEAPONS!!!
 
 //skill
 // |-level
@@ -37,11 +40,13 @@ import Tree from "./Tree";
 // -total: 7
 
 export default function Skills() {
-  const { characterData, level, skills, dispatchSkills, skillPoints } = useContext(PlannerContext);
+  const { characterData, level, skills, dispatchSkills, skillPoints, setSkillPoints, quests } = useContext(PlannerContext);
 
   const [skillsTreesTabs, setSkillsTreesTabs] = useState([] as ISkillTree[]);
   const [skillIdOnHover, setSkillIdOnHover] = useState(0);
   const [skillSelected, setSkillSelected] = useState({} as ISkill);
+
+  const skillPointsApplied = useRef(0);
 
   function handleTabs(id: number) {
     setSkillsTreesTabs(prevState => prevState.map(t => {
@@ -87,20 +92,34 @@ export default function Skills() {
   }, [characterData]);
 
   useEffect(() => {
+    skillPointsApplied.current = skills.flatMap(s => s.level.points).reduce((a, b) => a + b, 0) || 0;
+  }, [skills]);
+
+  useEffect(() => {
     let findSkill = skills.find(s => s.id === skillIdOnHover)!;
     setSkillSelected(findSkill);
   }, [skills, skillIdOnHover]);
 
   useEffect(() => {
-    dispatchSkills({ type: 'RESET' })
-  }, [level, dispatchSkills]);
+    let levelFactor = level - 1;
+    let questsSkillPts = questsRewardsReducer(quests, 'SKILLS');
+    let skillPtsCalc = levelFactor + questsSkillPts - skillPointsApplied.current;
+
+    if (skillPtsCalc < 0) {
+      dispatchSkills({
+        type: 'RESET'
+      })
+    } else {
+      setSkillPoints(skillPtsCalc);
+    }
+  }, [level, quests, skills, setSkillPoints, dispatchSkills]);
 
   return (
     <StageWrapper>
       <TreesSection>
         <TreesTabs>
           {skillsTreesTabs.map(({ id, isActive, name }) =>
-            <Tab active={isActive} key={id} onClick={() => handleTabs(id)}>{name.replace(' ', '\n')}</Tab>
+            <Tab active={isActive} key={id} onClick={() => handleTabs(id)}>{name.replace('-', '\n')}</Tab>
           )}
         </TreesTabs>
         <Trees>
@@ -120,10 +139,18 @@ export default function Skills() {
               <SkillDescription>{skillSelected.effect}.</SkillDescription>
 
               <SkillProps>
-                <PropDetails>
-                  <PropName>Current level:</PropName>
-                  <PropValue isActive={skillSelected.points > 0}>{skillSelected.points > 0 ? skillSelected.points : `Not used yet`}</PropValue>
-                </PropDetails>
+
+                {skillSelected.points > 0 ?
+                  <PropDetails>
+                    <PropName>Current skill level:</PropName>
+                    <PropValue isActive={skillSelected.points > 0}>{skillSelected.points}</PropValue>
+                  </PropDetails>
+                  :
+                  <PropDetails>
+                    <PropName>Require character level:</PropName>
+                    <PropValue isActive={false} warn={level < skillSelected.reqLvl}>{skillSelected.reqLvl}</PropValue>
+                  </PropDetails>
+                }
                 {skillSelected.attibutes.map(({ name, unit, value, info, prefix }, i) => {
                   return (
                     <PropDetails key={i}>
@@ -176,10 +203,10 @@ const StageWrapper = styled.div`
   gap: var(--spacing-sm);
   min-height: 10em;
   & > :nth-child(1){
-    flex: 65%;
+    //width: 370px;
   }
   & > :nth-child(2){
-    flex: 35%;
+    flex: 1;
   }
 `;
 
@@ -239,7 +266,7 @@ const Tab = styled.div(({ active }: { active: boolean }) => css`
 
 const Trees = styled.div`
   flex: 1;
-  padding: 2em 0 2em 2em;
+  padding: 30px 15px;
   border-width: 2px 0;
   border-style: solid;
   border-top-color: var(--color-gold-900);
@@ -325,8 +352,15 @@ const PropName = styled.div`
   letter-spacing: -.03em;
 `;
 
-const PropValue = styled.div(({ isActive }: { isActive: boolean }) => css`
-  color: ${isActive ? `var(--color-green)` : `#666`};
+const PropValue = styled.div(({ isActive, warn }: { isActive: boolean, warn?: boolean }) => css`
+  --prop-color: #666;
+  ${isActive && css`
+    --prop-color: var(--color-green);
+  `}
+  ${warn && css`
+    --prop-color: var(--color-red);
+  `}
+  color: var(--prop-color);
   order: 3;
 `);
 

@@ -30,19 +30,19 @@
     "trees": [
       {
         "id": 1,
-        "name": "combat skills",
+        "name": "combat-skills",
         "map": [1, 0, 2, 0, 3, 0, 4, 0, 5, 6, 7, 0, 8, 0, 9, 0, 10, 0],
         "isActive": true
       },
       {
         "id": 2,
-        "name": "offensive auras",
+        "name": "offensive-auras",
         "map": [11, 0, 0, 0, 12, 13, 14, 0, 0, 15, 16, 0, 0, 17, 18, 19, 0, 20],
         "isActive": false
       },
       {
         "id": 3,
-        "name": "defensive auras",
+        "name": "defensive-auras",
         "map": [21, 0, 22, 0, 23, 24, 25, 0, 26, 0, 27, 0, 28, 0, 0, 0, 29, 30],
         "isActive": false
       }
@@ -52,7 +52,12 @@
         "id": 1,
         "name": "sacrifice",
         "effect": "Increased accuracy and damage at the Cost of life",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 3,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 1,
         "preReq": [],
         "postReq": [4],
@@ -98,7 +103,12 @@
         "id": 2,
         "name": "smite",
         "effect": "Temporarily stun your enemy by bashing it with your shield",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 1,
         "preReq": [],
         "postReq": [5],
@@ -130,7 +140,12 @@
         "id": 3,
         "name": "holy-bolt",
         "effect": "A bolt of divine energy that damages undead enemies or heals allies",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 6,
         "preReq": [],
         "postReq": [7],
@@ -188,7 +203,12 @@
         "id": 4,
         "name": "zeal",
         "effect": "Allows you to attack multiple adjacent enemies with a single attack",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 12,
         "preReq": [1],
         "postReq": [6],
@@ -236,7 +256,12 @@
         "id": 5,
         "name": "charge",
         "effect": "Charge into battle and attack an enemy",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 12,
         "preReq": [2],
         "postReq": [9],
@@ -281,7 +306,12 @@
         "id": 6,
         "name": "vengeance",
         "effect": "Fire, lightning and cold damage are added to each successful attack",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 18,
         "preReq": [4],
         "postReq": [8],
@@ -359,7 +389,12 @@
         "id": 7,
         "name": "blessed-hammer",
         "effect": "Summons an ethereal hammer that spirals outwards damaging enemies it hits 150 Percent Damage to Undead",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 18,
         "preReq": [3],
         "postReq": [9, 10],
@@ -400,7 +435,12 @@
         "id": 8,
         "name": "conversion",
         "effect": "Converts monsters to fight against other foul demons and beasts",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 24,
         "preReq": [6],
         "postReq": [10],
@@ -424,7 +464,12 @@
         "id": 9,
         "name": "holy-shield",
         "effect": "Enhances your shield with divine power",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 24,
         "preReq": [5, 7],
         "postReq": [],
@@ -484,7 +529,12 @@
         "id": 10,
         "name": "fist-of-the-heavens",
         "effect": "Lightning strikes your target as holy bolts seek out nearby enemies",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 1,
         "reqLvl": 30,
         "preReq": [7, 8],
         "postReq": [],
@@ -537,7 +587,12 @@
         "id": 11,
         "name": "might",
         "effect": "When active, aura increases the damage done by you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 1,
         "preReq": [],
         "postReq": [12, 14],
@@ -563,7 +618,12 @@
         "id": 12,
         "name": "holy-fire",
         "effect": "When active, aura damages nearby enemies with heavenly flames",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 6,
         "preReq": [11],
         "postReq": [16],
@@ -619,7 +679,12 @@
         "id": 13,
         "name": "thorns",
         "effect": "When active, aura reflects damage done to you back at your attacker",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 6,
         "preReq": [],
         "postReq": [18],
@@ -644,7 +709,12 @@
         "id": 14,
         "name": "blessed-aim",
         "effect": "When active, aura increases the attack rating for you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 12,
         "preReq": [11],
         "postReq": [15],
@@ -680,7 +750,12 @@
         "id": 15,
         "name": "concentration",
         "effect": "When active, aura increases the damage and decreases the chance that the attack will be interrupted for you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 18,
         "preReq": [14],
         "postReq": [19],
@@ -713,7 +788,12 @@
         "id": 16,
         "name": "holy-freeze",
         "effect": "When active, aura freezes nearby monsters",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 18,
         "preReq": [12],
         "postReq": [17, 18],
@@ -776,7 +856,12 @@
         "id": 17,
         "name": "holy-shock",
         "effect": "When active, aura causes pulses of electricity to damage nearby enemies adds lightning damage to your attack",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 24,
         "preReq": [16],
         "postReq": [],
@@ -832,7 +917,12 @@
         "id": 18,
         "name": "sanctuary",
         "effect": "When active, aura damages the undead and knocks them back",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 24,
         "preReq": [13, 16],
         "postReq": [20],
@@ -877,7 +967,12 @@
         "id": 19,
         "name": "fanaticism",
         "effect": "When active, aura increases damage, attack speed, and attack rating for you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 30,
         "preReq": [15],
         "postReq": [],
@@ -927,7 +1022,12 @@
         "id": 20,
         "name": "conviction",
         "effect": "When active, aura reduces the defenses and resistances of nearby enemies",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 2,
         "reqLvl": 30,
         "preReq": [18],
         "postReq": [],
@@ -962,7 +1062,12 @@
         "id": 21,
         "name": "prayer",
         "effect": "When active, aura slowly regenerates the life of you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 1,
         "preReq": [],
         "postReq": [25],
@@ -993,7 +1098,12 @@
         "id": 22,
         "name": "resist-fire",
         "effect": "When active, aura decreases fire damage done to you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 1,
         "preReq": [],
         "postReq": [],
@@ -1019,7 +1129,12 @@
         "id": 23,
         "name": "defiance",
         "effect": "When active, aura increases the defense rating of you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 6,
         "preReq": [],
         "postReq": [27],
@@ -1045,7 +1160,12 @@
         "id": 24,
         "name": "resist-cold",
         "effect": "When active, aura decreases cold damage done to you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 6,
         "preReq": [],
         "postReq": [],
@@ -1071,7 +1191,12 @@
         "id": 25,
         "name": "cleansing",
         "effect": "When active, aura reduces the length of time you and your party will remain poisoned or cursed",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 12,
         "preReq": [21],
         "postReq": [27, 28],
@@ -1111,7 +1236,12 @@
         "id": 26,
         "name": "resist-lightning",
         "effect": "When active, aura decreases lightning damage done to you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 12,
         "preReq": [],
         "postReq": [],
@@ -1137,7 +1267,12 @@
         "id": 27,
         "name": "vigor",
         "effect": "When active, aura increases stamina recovery rate, maximum stamina and movement speed for you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 18,
         "preReq": [23, 25],
         "postReq": [29],
@@ -1179,7 +1314,12 @@
         "id": 28,
         "name": "meditation",
         "effect": "When active, aura increases mana recovery for you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 24,
         "preReq": [25],
         "postReq": [],
@@ -1220,7 +1360,12 @@
         "id": 29,
         "name": "redemption",
         "effect": "When active, aura attempts to redeem the souls of slain enemies to give you life and mana",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 30,
         "preReq": [27],
         "postReq": [],
@@ -1252,7 +1397,12 @@
         "id": 30,
         "name": "salvation",
         "effect": "When active, aura decreases fire, cold and lightning damage done to you and your party",
-        "points": 0,
+        "level": {
+          "points": 0,
+          "bonus": 0,
+          "total": 0
+        },
+        "tree": 3,
         "reqLvl": 30,
         "preReq": [],
         "postReq": [],

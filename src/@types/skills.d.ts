@@ -1,9 +1,20 @@
-//skill
+interface ISkillLevel {
+  points?: number;
+  bonus?: number;
+  total?: number;
+}
+
 interface ISkill {
   id: number;
   name: string;
   effect: string;
   points: number;
+  level: {
+    points: number;
+    bonus: number;
+    total: number;
+  };
+  tree: 1 | 2 | 3;
   reqLvl: number;
   preReq: number[];
   postReq: number[];

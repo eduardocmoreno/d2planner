@@ -66,6 +66,10 @@ GEAR ========================================================
      - TOTAL MIN DMG (CHARMS, JEWELS, GEAR LIKE TRAVS, ETC...)
      - TOTAL MAX DMG (CHARMS, JEWELS, GEAR LIKE TRAVS, ETC...)
      - TOTAL IAS (WEAPON + OFF-WEAPONS IAS [JEWELS, SHAEL`D ITEMS])
+     
+     - ATTR POINTS (STR, DEX, VIT, ENE)
+     - SKILL POINTS
+     
      - ANYTHING ELSE???
   eg.: DAMAGE: +396
   eg.: OFF-WEAPON ED%: 132%

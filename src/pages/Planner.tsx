@@ -9,7 +9,7 @@ import plannerInit from "config/planner";
 import questsInit from "config/quests";
 import attrsInit from "config/attrs";
 
-import questsReducer, { questsRewardsReducer } from "reducers/quests";
+import questsReducer from "reducers/quests";
 import attrsReducer from "reducers/attrs";
 import skillsReducer from "reducers/skills";
 
@@ -51,11 +51,9 @@ export default function Planner() {
   const [planner, setPlanner] = useState(plannerInit);
   const [characterData, setCharacterData] = useState({} as ICharacterData);
 
-
   const [level, setLevel] = useState(1);
   const [attrs, dispatchAttrs] = useReducer(attrsReducer, attrsInit);
   const [attrPoints, setAttrPoints] = useState(0);
-  const [attrPointsAppied, setAttrPointsApplied] = useState(0);
 
   const [quests, dispatchQuests] = useReducer(questsReducer, questsInit);
 
@@ -68,14 +66,13 @@ export default function Planner() {
 
   //props
   const plannerContextProps: IPlannerContext = {
-    characterData,
+    charClass, characterData,
 
     planner, setPlanner,
 
     level, setLevel,
     attrs, dispatchAttrs,
     attrPoints, setAttrPoints,
-    attrPointsAppied, setAttrPointsApplied,
 
     quests, dispatchQuests,
 
@@ -139,17 +136,6 @@ export default function Planner() {
       }
     })();
   }, [charClass]);
-
-  //watch: attributes points
-  useEffect(() => {
-    let appliedPoints = Object.values(attrs).flatMap(a => a.applied).reduce((a, b) => a + b);
-    setAttrPointsApplied(appliedPoints);
-  }, [attrs, setAttrPointsApplied]);
-
-  //watch: skills points
-  useEffect(() => {
-    setSkillPoints(questsRewardsReducer(quests, 'SKILLS') + level - 1);
-  }, [level, quests]);
 
   return (
     <>

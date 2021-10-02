@@ -6,51 +6,6 @@ import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
 import { gearsAttrReducer } from "reducers/gears";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  //grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
-  margin-top: var(--spacing-md);
-  border: 2px solid;
-  border-color: var(--golden-border);
-  ${Button}{
-    flex: 1;
-    padding-right: 0;
-    padding-left: 0;
-    border: 0;
-    text-transform: none;
-    :not(:first-child){
-      flex: .5;
-      border-left: 2px solid var(--color-gold-800);
-    }
-  }
-`;
-
-const Label = styled(FrameLabel)`
-  font-size: 1.2rem;
-`;
-
-const Results = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-family: var(--font-family-main);
-  font-size: 2.2rem;
-  font-weight: bold;
-  line-height: 1;
-  span {
-    color: var(--color-gold);
-    font-size: 2.8rem;
-  }
-`;
-
 export default function Attr({ attr }: { attr: keyof IAttrsState }) {
   const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gears } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
@@ -148,3 +103,48 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
     </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  //grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
+  margin-top: var(--spacing-md);
+  border: 2px solid;
+  border-color: var(--golden-border);
+  ${Button}{
+    flex: 1;
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+    text-transform: none;
+    :not(:first-child){
+      flex: .5;
+      border-left: 2px solid var(--color-gold-800);
+    }
+  }
+`;
+
+const Label = styled(FrameLabel)`
+  font-size: 1.2rem;
+`;
+
+const Results = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-family: var(--font-family-main);
+  font-size: 2.2rem;
+  font-weight: bold;
+  line-height: 1;
+  span {
+    color: var(--color-gold);
+    font-size: 2.8rem;
+  }
+`;
