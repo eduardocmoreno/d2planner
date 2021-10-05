@@ -49,7 +49,6 @@ SKILL TREE ============================================
 
 
 
-
 GEAR ========================================================
 
 ==> GEAR
@@ -60,21 +59,163 @@ GEAR ========================================================
     ADD BONUS FORM (i - POP-UP WITH MORE INFO?)
     BONUS TYPE (SEL - OBJ) ---> AMOUNT (INPUT - NUMBER)
     ** BONUS TYPES:
-     - WEAPON ED%
-     - TOTAL OFF-WEAPON ED% (JEWELS, ARMOR, GLOVES, ETC...)
-     - DMG +X (GRIEF, RUNEMASTER, ETC...)
-     - TOTAL MIN DMG (CHARMS, JEWELS, GEAR LIKE TRAVS, ETC...)
-     - TOTAL MAX DMG (CHARMS, JEWELS, GEAR LIKE TRAVS, ETC...)
-     - TOTAL IAS (WEAPON + OFF-WEAPONS IAS [JEWELS, SHAEL`D ITEMS])
-     
-     - ATTR POINTS (STR, DEX, VIT, ENE)
-     - SKILL POINTS
-     
-     - ANYTHING ELSE???
-  eg.: DAMAGE: +396
-  eg.: OFF-WEAPON ED%: 132%
-  eg.: TOTAL IAS%: 75%
+    - ALL PROPS
+      - SKILLS
+        - TO ALL SKILLS
+        - TO ALL CLASS SKILLS
+        - TO ALL TREE SKILLS (SELECT - ARRAY[TREE SKILLS])
+        - TO EACH CLASS SKILL (SELECT - ARRAY[ALL CLASS SKILLS])
+        ?? TO FIRE SKILLS (MAST ADD "ETYPE" PROP FOR MAL ELEMENTAL SKILLS)
+        ?? TO NON-CLASS SKILLS
+      
+      - ATTRIBUTES
+        - TO ALL ATTRS
+        - TO STRENGTH
+        - TO STRENGTH BOCL
+        - TO DEXTERITY
+        - TO DEXTERITY BOCL
+        - TO VITALITY
+        - TO VITALITY BOCL
+        - TO ENERGY
+        - TO ENERGY BOCL
+        ?? TO LIFE
+        ?? TO LIFE BOCL
+        ?? INCR MAX LIFE
+        ?? TO MANA
+        ?? TO MANA BOCL
+        ?? INCR MAX MANA
+      
+      - DEFENSE
+        - DEFENSE +XXX
+        - DEFENSE BOCL
+        - ENHANCED DEFENSE XXX%
+        - DAMAGE REDUCTION %
+        - BLOCK CHANCE
+        - FHR
+        - FBR
+        ?? DAMAGE REDUCTION
+        ?? MAGIC DAMAGE REDUCTION
+        ?? FIRE ABSORB
+        ?? FIRE ABSORB %
+        ?? FIRE ABSORB BOCL
+        ?? COLD ABSORB
+        ?? COLD ABSORB %
+        ?? LIGHTNING ABSORB
+        ?? LIGHTNING ABSORB %
+        ?? MAGIC ABSORB
+        ?? MAGIC ABSORB %
+      
+      - RESISTS
+        - ALL RES
+        - FIRE RES
+        - COLD RES
+        - LIGHTNING RES
+        - POISON RES
+        - MAX FIRE RES
+        - MAX COLD RES
+        - MAX LIGHTNING RES
+        - MAX POISON RES 
+      
+      - DAMAGE
+        - DAMAGE +XXX
+        - ENHANCED DAMAGE XXX%
+        - MAX DAMAGE
+        - MIN DAMAGE
+        - FIRE DAMAGE
+        - FIRE DAMAGE %
+        - COLD DAMAGE
+        - COLD DAMAGE %
+        - LIGHTNING DAMAGE
+        - LIGHTNING DAMAGE %
+        - POISON DAMAGE
+        - POISON DAMAGE %
+        - MAGIC DAMAGE
+        ?? TO FIRE SKILL DMG %
+        ?? TO COLD SKILL DMG %
+        ?? TO LIGHTNING SKILL DMG %
+        ?? TO POISON SKILL DMG %
+        ?? DMG VS DEMONS
+        ?? DMG VS DEMONS BOCL
+        ?? DMG VS UNDEAD
+      
+      - OFFENSES
+        - AR
+        - AR BOCL
+        - AR %
+        - AR % BOCL
+        - IAS
+        - OW
+        - CB
+        - DS
+        - DS BOCL
+        - FCR
+        - FRW
+        - LIFE STOLEN PER HIT
+        - MANA STOLEN PER HIT
+        ?? AR VS DEMONS
+        ?? AR VS DEMONS BOCL
+        ?? AR VS UNDEAD
+        ?? AR VS UNDEAD BOCL
+        ?? ENEMY FIRE RES
+        ?? ENEMY COLD RES
+        ?? ENEMY LIGHTNING RES
+        ?? ENEMY POISON RES
+        ?? IGORE ENEMY DEFENSE %
+      
+      - MISC
+        - MF
+        - MF BOCL
+        - REQUIREMENTS
 
+    - LIST OF NON-CLASS SKILLS
+      - TO WEREBEAR (3)
+      - TO LYCANTHROPY (3-6)
+      - TO BATTLE COMMAND (2-6)
+      - TO BATTLE ORDERS (1-6)
+      - TO BATTLE CRY (1-4)
+      - TO WHIRLWIND (1)
+      - TO VALKYRIE (2-6)
+      - TO CRITICAL STRIKE (1-6)
+      - TO VENGEANCE (1)
+      - TO ZEAL (1)
+      - TO BERSERK (1)
+      - TO TELEPORT (1)
+      - TO WARMTH (1)
+      - TO HYDRA (10)
+      - TO GUIDED ARROW (3-5)
+      - TO FERAL RAGE (3-6)
+      - TO WEREWOLF (3-6)
+      - TO INFERNO (12-18)
+      - TO ARTIC BLAST (7-14)
+      - TO ENCHANT
+
+    - CAST SKILLS CHANCES
+      - TO LIFE TAP
+      - TO VENOM
+    
+    - CAST SKILLS CHARGES
+      - ENCHANT
+      - HEART OF WOLVERINE
+      - OAK SAGE
+    
+    - AURAS
+      - FANATICISM
+      - HOLY FREEZE
+      - HOLY FIRE
+      - HOLY SHOCK
+      - MIGHT
+      - CONCENTRATION
+
+    - STATS PER CHAR LVL (consult at itemStatCost)
+      --> 1H DEFAULT FORMULA: LEVEL / 4 * 3 (0.75 ON LVL 1)
+      --> 1H WITH COSTMULT: LEVEL / 4 * 3 * COSTMULT (costmult = keyof item)
+      --> 2H + COSTMULT EX.: LEVEL / 4 * COSTMULT * 2
+          ex. The Grandfather (costmult: 5)
+              LEVEL (50) / 4 * 5 * 2 = 125
+      
+    eg.: DAMAGE: +396
+    eg.: OFF-WEAPON ED%: 132%
+    eg.: TOTAL IAS%: 75%
 
 
 
@@ -138,4 +279,13 @@ RESULTS =========================================
   eg.: BAAL: 76%
   eg.: DIABLO: 85%
   eg.: FALEN: 95%
+
+==> ATTACK RATING
+  -> FORMULA
+    - MATH.FLOOR(((TOTAL HARD POINTS IN DEXTERITY * 5) + BASE CLASS AR) * %BONUS AR / 100)
+    - EX.:
+      HP IN DEX: 10,
+      BASE CLASS AR: 85 (PALY)
+      BONUS AR: 50%
+      ((10 * 5) + 85) * (50/100 + 1) = 202 [202.5]
     

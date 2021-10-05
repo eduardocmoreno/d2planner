@@ -9,6 +9,7 @@ export const PageTitle = styled.h2`
   text-align: center;
   text-shadow: 0 3px 7px #000;
   white-space: nowrap;
+  text-transform: uppercase;
   ${pseudo('before', 'after')}
   &::before,
   &::after {
@@ -31,6 +32,7 @@ export const SectionTitle = styled.h3`
   color: var(--color-gold);
   text-align: center;
   font-size: 2.2rem;
+  text-transform: uppercase;
   & + p {
     margin-top: -1.2em;
   }

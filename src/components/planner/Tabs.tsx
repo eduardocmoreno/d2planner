@@ -11,9 +11,7 @@ const Tabs = styled.div`
 const Tab = styled.div`
   --inner-glow: inset 0 -.5em 1em rgba(0 0 0 / 0.5);
   --inner-glow-hover: inset 0 -.8em 2em rgba(0 0 0 / 0.8);
-
   display: flex;
-  
   flex: auto;
   align-items: center;
   justify-content: center;
@@ -21,6 +19,7 @@ const Tab = styled.div`
   color: var(--color-gold);
   text-align: center;
   font-family: var(--font-family-main);
+  text-transform: uppercase;
   cursor: default;
   &:not(.active) {
     margin-top: var(--spacing-sm);

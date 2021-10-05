@@ -228,6 +228,7 @@ const Tab = styled.div(({ active }: { active: boolean }) => css`
   justify-content: center;
   font-family: var(--font-family-main);
   text-align: center;
+  text-transform: uppercase;
   white-space: pre;
   z-index: 1;
   ${!active && css`
@@ -309,6 +310,7 @@ const Details = styled.div`
 const SkillTitle = styled.h3`
   font-size: 1.6rem;
   text-align: center;
+  text-transform: uppercase;
   & + p {
     margin-top: .5em;
   }

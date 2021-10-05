@@ -17,6 +17,7 @@ import skillsReducer from "reducers/skills";
 export const PlannerContext = createContext({} as IPlannerContext);
 
 
+// TODO: IMPLEMENT REACT-TRACKED TO THE APP
 // TODO: CONSIDER USING THE CONTEXT AS A CUSTOM HOOK
 // export const usePlanner = () => useContext(PlannerContext);
 // const { ...props } = usePlanner();

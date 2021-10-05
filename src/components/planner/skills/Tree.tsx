@@ -30,7 +30,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
     let postReqActived = [];
 
     for (const i of getSkillProps(skills, id).postReq) {
-      postReqActived.push(skills.find(s => s.id === i)!.points > 0 ? true : false);
+      postReqActived.push(skills.find(s => s.id === i)!.level.points > 0 ? true : false);
     }
 
     return postReqActived.includes(true);
@@ -38,7 +38,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
 
   function isSkillIterable(id: number) {
     let skill = getSkillProps(skills, id);
-    return level >= skill.reqLvl && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.points > 0 && !isPostSkillReqActived(id)));
+    return level >= skill.reqLvl && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.level.points > 0 && !isPostSkillReqActived(id)));
   }
 
   /* 
@@ -55,7 +55,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
     if (e.button === 0) {
       if (!isSkillIterable(id) || points === 20 || skillPoints === 0) return;
 
-      if (points! + batch > 20) batch = 20 - points!;
+      if (points + batch > 20) batch = 20 - points;
 
       if (skillPoints - batch < 0) batch = skillPoints;
 
@@ -73,7 +73,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
 
       if ((points === 1 && isPostSkillReqActived(id)) || points === 0) return;
 
-      if (points! - batch < 0) batch = isPostSkillReqActived(id) ? points! - 1 : points!;
+      if (points - batch < 0) batch = isPostSkillReqActived(id) ? points - 1 : points;
 
       setSkillPoints(prev => prev + batch);
 
