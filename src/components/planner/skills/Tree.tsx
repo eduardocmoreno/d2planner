@@ -7,7 +7,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
   tree: ISkillTree,
   setSkillIdOnHover: React.Dispatch<SetStateAction<number>>
 }) {
-  const { charClass, level, skills, dispatchSkills, skillPoints, setSkillPoints } = useContext(PlannerContext);
+  const { charClass, charLevel, skills, dispatchSkills, skillPoints, setSkillPoints } = useContext(PlannerContext);
 
   function getSkillProps(skills: ISkill[], id: number): ISkill {
     return skills.find(s => s.id === id)!;
@@ -38,7 +38,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
 
   function isSkillIterable(id: number) {
     let skill = getSkillProps(skills, id);
-    return level >= skill.reqLvl && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.level.points > 0 && !isPostSkillReqActived(id)));
+    return charLevel >= skill.reqLvl && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.level.points > 0 && !isPostSkillReqActived(id)));
   }
 
   /* 

@@ -6,13 +6,13 @@ type setStateAsNumber = React.Dispatch<React.SetStateAction<number>>;
 interface IPlannerContext {
   charClass: string;
 
-  characterData: ICharacterData;
+  charData: ICharData;
 
   planner: IPlanner[];
   setPlanner: React.Dispatch<React.SetStateAction<IPlanner[]>>;
 
-  level: number;
-  setLevel: setStateAsNumber;
+  charLevel: number;
+  setCharLevel: setStateAsNumber;
 
   attrs: IAttrsState;
   dispatchAttrs: React.Dispatch<IAttrsReducer>;

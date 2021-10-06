@@ -4,14 +4,14 @@
 //head
 //- 1.select type: "shako"
 //  Pull all usable helms by class with requirements props, sockets and infer prop (defense for armors and damage for weapons)
-//- 2.select prop: defenses
+//- 2.select prop
 //  Pull all category props (defenses, damage, resists, etc...)
-//- 3.select sub-prop: defense +XXX
-//  Pull all sub-props (defenses: defense, defense bocl, defense %, dmg reduction, etc...)
-//- 4.input: 45
+//- 3.select sub-prop
+//  Pull all sub-props (ex.: tree skills ==> [comb skills, off auras, def auras])
+//- 4.input: 1
 //  Type the value into the input text
 //- 5.submit
-//  Dispatch gears reducer fn
+//  Handle Gear props fn ==> dispatch gears reducer fn
 //result
 //+45 Defense
 //and go on...
@@ -21,64 +21,93 @@
 const gearProps = [
   {
     id: 'allSkills',
-    prints: '+{value} To All Skills'
+    descr: '{a} To All Skills'
   },
   {
     id: 'classSkills',
-    prints: '+{value} To All {charClass} Skills'
+    descr: '{a} To All {b} Skills'
   },
   {
     id: 'treeSkills',
-    prints: '+{value} To All {tree} ({charClass} only)'
+    descr: '{a} To All {b} ({c} only)',
+    options: true
   },
   {
     id: 'skill',
-    prints: 'To A Single Class Skill'
+    descr: 'To A Single Class Skill'
   },
   {
     id: 'allAttrs',
-    prints: 'To All Attributes'
+    descr: '{a} To All Attributes'
   },
   {
     id: 'toStrength',
-    prints: 'To Strength'
+    descr: '{a} To Strength'
   },
   {
     id: 'toDexterity',
-    prints: 'To Dexterity'
+    descr: '{a} To Dexterity'
   },
   {
     id: 'toVitality',
-    prints: 'To Vitality'
+    descr: '{a} To Vitality'
   },
   {
     id: 'toEnergy',
-    prints: 'To Energy'
+    descr: '{a} To Energy'
   },
 ]
+
+//selected tree skills
+//options? === true?
+//create a form select for the next step
+//select options loop = getGearPropOptions(id: 'treeSkills'): array[all class tree skills list]
+//
 
 function getGearProp(id: string) {
   return gearProps.find(g => g.id === id);
 }
 
-function handleGearProps(id: string) {
-  switch(id){
+function getGearPropOptions(id: string) {
+  switch(id) {
     case 'treeSkills': {
-      return 'ISkillTree[]'
-    }
-    case 'skill': {
-      return 'ISkill[]'
-    }
-    default: {
-      let value = 1;
-      let result = getGearProp(id)?.prints?.replace('{value}', `${value}`);
-      return result;
+      return 'charData.skills.trees.map(t => t.name)';
     }
   }
   return;
 }
 
-console.log(handleGearProps('allSkills'));
+function handleGearProps<T>(id: string, args: T) {
+  switch (id) {
+    case 'classSkills': {
+      let a = 1;
+      let b = 'Paladin'
+      let result = getGearProp(id)?.descr?.replace(`{a}`, `<span>+${a}</span>`);
+      return getGearProp(id)?.descr?.replace(`{a}`, `<span>+${a}</span>`).replace(`{b}`, `<span>${b}</span>`);
+    }
+    case 'treeSkills': {
+      let a = 3;
+      let b = 'Offensive Auras';
+      let c = 'Paladin';
+      return getGearProp(id)?.descr!
+        .replace(`{a}`, `<span>+${a}</span>`)
+        .replace(`{b}`, `<span>${b}</span>`)
+        .replace(`{c}`, `${c}`);
+    }
+    case 'skill': {
+      return 'ISkill[]'
+    }
+    default: {
+      return {
+        id,
+        print: getGearProp(id)?.descr?.replace(`{a}`, `<span>+${args}</span>`)
+      };
+    }
+  }
+  return;
+}
+
+console.log(handleGearProps('allSkills', 1));
 
 //GEARS
 /* 
@@ -115,7 +144,9 @@ const gearsInit: IGear[] = [
     type: null,
     props: [
       {
-        render: `{value}`
+        id: 'allSkills',
+        value: 1,
+        prints: handleGearProps('allSkills', 1)
       }
     ]
   },
@@ -128,7 +159,8 @@ const gearsInit: IGear[] = [
 ]
 
 export default function Gear() {
+
   return (
-    handleGearProps('allSkills')
+    <>asdasd</>
   )
 }

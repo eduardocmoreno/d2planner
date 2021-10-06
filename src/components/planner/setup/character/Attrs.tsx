@@ -6,15 +6,15 @@ import { questsRewardsReducer } from "reducers/quests";
 
 export default function Attrs() {
 
-  const { level, quests, attrs, dispatchAttrs, attrPoints, setAttrPoints } = useContext(PlannerContext);
+  const { charLevel, quests, attrs, dispatchAttrs, attrPoints, setAttrPoints } = useContext(PlannerContext);
   const attrPointsAppied = useRef(0);
 
   useEffect(() => {
-    attrPointsAppied.current = Object.values(attrs).flatMap(a => a.applied).reduce((a, b) => a + b, 0);
+    attrPointsAppied.current = Object.values(attrs).map(a => a.applied).reduce((a, b) => a + b, 0);
   }, [attrs]);
 
   useEffect(() => {
-    let levelFactor = level - 1;
+    let levelFactor = charLevel - 1;
 
     let levelAttrPts = levelFactor * 5;
     let questsAttrPts = questsRewardsReducer(quests, 'ATTRS');
@@ -28,7 +28,7 @@ export default function Attrs() {
       setAttrPoints(attrPtsCalc);
     }
 
-  }, [level, quests, attrs, dispatchAttrs, setAttrPoints])
+  }, [charLevel, quests, attrs, dispatchAttrs, setAttrPoints])
 
   return (
     <Wrapper>

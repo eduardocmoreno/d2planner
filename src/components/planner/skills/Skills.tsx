@@ -40,7 +40,7 @@ import Tree from "./Tree";
 // -total: 7
 
 export default function Skills() {
-  const { characterData, level, skills, dispatchSkills, skillPoints, setSkillPoints, quests } = useContext(PlannerContext);
+  const { charData, charLevel, skills, dispatchSkills, skillPoints, setSkillPoints, quests } = useContext(PlannerContext);
 
   const [skillsTreesTabs, setSkillsTreesTabs] = useState([] as ISkillTree[]);
   const [skillIdOnHover, setSkillIdOnHover] = useState(0);
@@ -88,11 +88,11 @@ export default function Skills() {
   }
 
   useEffect(() => {
-    setSkillsTreesTabs(characterData.skills?.trees);
-  }, [characterData]);
+    setSkillsTreesTabs(charData.skills?.trees);
+  }, [charData]);
 
   useEffect(() => {
-    skillPointsApplied.current = skills.flatMap(s => s.level.points).reduce((a, b) => a + b, 0) || 0;
+    skillPointsApplied.current = skills.map(s => s.level.points).reduce((a, b) => a + b, 0) || 0;
   }, [skills]);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function Skills() {
   }, [skills, skillIdOnHover]);
 
   useEffect(() => {
-    let levelFactor = level - 1;
+    let levelFactor = charLevel - 1;
     let questsSkillPts = questsRewardsReducer(quests, 'SKILLS');
     let skillPtsCalc = levelFactor + questsSkillPts - skillPointsApplied.current;
 
@@ -112,7 +112,7 @@ export default function Skills() {
     } else {
       setSkillPoints(skillPtsCalc);
     }
-  }, [level, quests, skills, setSkillPoints, dispatchSkills]);
+  }, [charLevel, quests, skills, setSkillPoints, dispatchSkills]);
 
   return (
     <StageWrapper>
@@ -148,7 +148,7 @@ export default function Skills() {
                   :
                   <PropDetails>
                     <PropName>Require character level:</PropName>
-                    <PropValue isActive={false} warn={level < skillSelected.reqLvl}>{skillSelected.reqLvl}</PropValue>
+                    <PropValue isActive={false} warn={charLevel < skillSelected.reqLvl}>{skillSelected.reqLvl}</PropValue>
                   </PropDetails>
                 }
                 {skillSelected.attibutes.map(({ name, unit, value, info, prefix }, i) => {

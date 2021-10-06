@@ -46,7 +46,7 @@ const Result = styled.div`
 `;
 
 export default function Level() {
-  const { level, setLevel } = useContext(PlannerContext);
+  const { charLevel, setCharLevel } = useContext(PlannerContext);
   const [inputValue, setInputValue] = useState('');
 
   //fn: handle form submit
@@ -56,14 +56,14 @@ export default function Level() {
     setInputValue('');
 
     if (/^([1-9][0-9]?){1,2}$/g.test(inputValue)) {
-      setLevel(parseInt(inputValue));
+      setCharLevel(parseInt(inputValue));
       setInputValue(inputValue);
     }
   }
 
   //fn: reset character
   function reset() {
-    setLevel(1);
+    setCharLevel(1);
     setInputValue('');
   }
 
@@ -72,8 +72,8 @@ export default function Level() {
       <Tooltip as={GoldenFrame} data-tooltip="1 to 99" center focus>
         <FrameLabel>Level</FrameLabel>
         <FrameContent>
-          {level > 1 ?
-            <Result>{level}</Result>
+          {charLevel > 1 ?
+            <Result>{charLevel}</Result>
             :
             <form id="char-level-form" onSubmit={handleSubmit}>
               <Input
@@ -90,7 +90,7 @@ export default function Level() {
         </FrameContent>
       </Tooltip>
 
-      {level > 1 ?
+      {charLevel > 1 ?
         <Button red onClick={reset}>respec</Button>
         :
         <Button blue form="char-level-form">OK</Button>

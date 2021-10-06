@@ -1,4 +1,4 @@
-interface ICharacterData {
+interface ICharData {
   skills: {
     trees: ISkillTree[];
     list: ISkill[];

@@ -50,9 +50,9 @@ export default function Planner() {
 
   //state
   const [planner, setPlanner] = useState(plannerInit);
-  const [characterData, setCharacterData] = useState({} as ICharacterData);
+  const [charData, setCharData] = useState({} as ICharData);
 
-  const [level, setLevel] = useState(1);
+  const [charLevel, setCharLevel] = useState(1);
   const [attrs, dispatchAttrs] = useReducer(attrsReducer, attrsInit);
   const [attrPoints, setAttrPoints] = useState(0);
 
@@ -67,11 +67,11 @@ export default function Planner() {
 
   //props
   const plannerContextProps: IPlannerContext = {
-    charClass, characterData,
+    charClass, charData,
 
     planner, setPlanner,
 
-    level, setLevel,
+    charLevel, setCharLevel,
     attrs, dispatchAttrs,
     attrPoints, setAttrPoints,
 
@@ -91,9 +91,9 @@ export default function Planner() {
         //const response = await fetch(`https://d2calc-24ee1-default-rtdb.firebaseio.com/class/${charClass}.json`);
         const response = await fetch(`/data/classes/${charClass}.json`);
         const data = await response.json();
-        const { skills, attributes }: ICharacterData = data;
+        const { skills, attributes }: ICharData = data;
 
-        setCharacterData(data);
+        setCharData(data);
 
         dispatchAttrs({
           type: 'INIT',
@@ -140,7 +140,7 @@ export default function Planner() {
 
   return (
     <>
-      <PageTitle>{level > 1 && `Level ${level} `}{charClass}</PageTitle>
+      <PageTitle>{charLevel > 1 && `Level ${charLevel} `}{charClass}</PageTitle>
       {isLoading ?
         <div>LOADING DATA...</div>
         :
