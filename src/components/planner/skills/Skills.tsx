@@ -202,9 +202,6 @@ const StageWrapper = styled.div`
   display: flex;
   gap: var(--spacing-sm);
   min-height: 10em;
-  & > :nth-child(1){
-    //width: 370px;
-  }
   & > :nth-child(2){
     flex: 1;
   }

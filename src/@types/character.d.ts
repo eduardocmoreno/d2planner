@@ -4,4 +4,5 @@ interface ICharData {
     list: ISkill[];
   };
   attributes: IAttrs;
+  classItems: Partial<IGearItem['type']>;
 }

@@ -1426,5 +1426,8 @@
         ]
       }
     ]
-  }
+  },
+  "classItems": [
+    "helm", "tors", "shie", "glov", "boot", "belt", "ashd", "circ", "axe", "wand", "club", "scep", "mace", "hamm", "swor", "knif", "tkni", "taxe", "jave", "spea", "pole", "staf", "bow", "xbow", "tpot"
+  ]
 }
