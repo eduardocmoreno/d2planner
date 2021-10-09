@@ -1,4 +1,4 @@
-export const gearsAttrReducer = (prop: keyof IGearProps, gears: IGear[]): number => {
+export const gearsAttrReducer = (prop: any, gears: any[]): number => {
   return gears
     .filter(g => g.props[prop] || g.props.allAttrs)
     .flatMap(g => g.props[prop] || g.props.allAttrs)

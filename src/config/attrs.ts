@@ -5,7 +5,7 @@ const initProps: IAttrProps = {
   total: 0
 }
 
-const attrsInit: IAttrsState = {
+const attrsInit: IAttrs = {
   strength: {
     ...initProps
   },

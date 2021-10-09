@@ -1,30 +1,19 @@
 {
-  "attributes": {
+  "stats": {
     "strength":	25,
     "dexterity":	20,
     "vitality":	25,
     "energy":	15,
-    "life": {
-      "init": 55,
-      "effect": {
-        "lvl": 2,
-        "vitality": 3
-      }
-    },
-    "stamina": {
-      "init": 89,
-      "effect": {
-        "lvl": 1,
-        "vitality": 1
-      }
-    },
-    "mana": {
-      "init": 15,
-      "effect": {
-        "lvl": 1.5,
-        "energy": 1.5
-      }
-    }
+    "life": 55,
+    "lifePerLevel": 2,
+    "lifePerVitality": 3,
+    "stamina": 89,
+    "staminaPerLevel": 1,
+    "staminaPerVitality": 1,
+    "mana": 15,
+    "manaPerLevel": 1.5,
+    "manaPerEnergy": 1.5,
+    "block": 30
   },
   "skills": {
     "trees": [
@@ -58,7 +47,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 1,
+        "levelReq": 1,
         "preReq": [],
         "postReq": [4],
         "attibutes": [
@@ -109,7 +98,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 1,
+        "levelReq": 1,
         "preReq": [],
         "postReq": [5],
         "attibutes": [
@@ -146,7 +135,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 6,
+        "levelReq": 6,
         "preReq": [],
         "postReq": [7],
         "attibutes": [
@@ -209,7 +198,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 12,
+        "levelReq": 12,
         "preReq": [1],
         "postReq": [6],
         "attibutes": [
@@ -262,7 +251,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 12,
+        "levelReq": 12,
         "preReq": [2],
         "postReq": [9],
         "attibutes": [
@@ -312,7 +301,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 18,
+        "levelReq": 18,
         "preReq": [4],
         "postReq": [8],
         "attibutes": [
@@ -395,7 +384,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 18,
+        "levelReq": 18,
         "preReq": [3],
         "postReq": [9, 10],
         "attibutes": [
@@ -441,7 +430,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 24,
+        "levelReq": 24,
         "preReq": [6],
         "postReq": [10],
         "attibutes": [
@@ -470,7 +459,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 24,
+        "levelReq": 24,
         "preReq": [5, 7],
         "postReq": [],
         "attibutes": [
@@ -535,7 +524,7 @@
           "total": 0
         },
         "tree": 1,
-        "reqLvl": 30,
+        "levelReq": 30,
         "preReq": [7, 8],
         "postReq": [],
         "attibutes": [
@@ -593,7 +582,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 1,
+        "levelReq": 1,
         "preReq": [],
         "postReq": [12, 14],
         "attibutes": [
@@ -624,7 +613,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 6,
+        "levelReq": 6,
         "preReq": [11],
         "postReq": [16],
         "attibutes": [
@@ -685,7 +674,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 6,
+        "levelReq": 6,
         "preReq": [],
         "postReq": [18],
         "attibutes": [
@@ -715,7 +704,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 12,
+        "levelReq": 12,
         "preReq": [11],
         "postReq": [15],
         "attibutes": [
@@ -756,7 +745,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 18,
+        "levelReq": 18,
         "preReq": [14],
         "postReq": [19],
         "attibutes": [
@@ -794,7 +783,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 18,
+        "levelReq": 18,
         "preReq": [12],
         "postReq": [17, 18],
         "attibutes": [
@@ -862,7 +851,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 24,
+        "levelReq": 24,
         "preReq": [16],
         "postReq": [],
         "attibutes": [
@@ -923,7 +912,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 24,
+        "levelReq": 24,
         "preReq": [13, 16],
         "postReq": [20],
         "attibutes": [
@@ -973,7 +962,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 30,
+        "levelReq": 30,
         "preReq": [15],
         "postReq": [],
         "attibutes": [
@@ -1028,7 +1017,7 @@
           "total": 0
         },
         "tree": 2,
-        "reqLvl": 30,
+        "levelReq": 30,
         "preReq": [18],
         "postReq": [],
         "attibutes": [
@@ -1068,7 +1057,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 1,
+        "levelReq": 1,
         "preReq": [],
         "postReq": [25],
         "attibutes": [
@@ -1104,7 +1093,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 1,
+        "levelReq": 1,
         "preReq": [],
         "postReq": [],
         "attibutes": [
@@ -1135,7 +1124,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 6,
+        "levelReq": 6,
         "preReq": [],
         "postReq": [27],
         "attibutes": [
@@ -1166,7 +1155,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 6,
+        "levelReq": 6,
         "preReq": [],
         "postReq": [],
         "attibutes": [
@@ -1197,7 +1186,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 12,
+        "levelReq": 12,
         "preReq": [21],
         "postReq": [27, 28],
         "attibutes": [
@@ -1242,7 +1231,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 12,
+        "levelReq": 12,
         "preReq": [],
         "postReq": [],
         "attibutes": [
@@ -1273,7 +1262,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 18,
+        "levelReq": 18,
         "preReq": [23, 25],
         "postReq": [29],
         "attibutes": [
@@ -1320,7 +1309,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 24,
+        "levelReq": 24,
         "preReq": [25],
         "postReq": [],
         "attibutes": [
@@ -1366,7 +1355,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 30,
+        "levelReq": 30,
         "preReq": [27],
         "postReq": [],
         "attibutes": [
@@ -1403,7 +1392,7 @@
           "total": 0
         },
         "tree": 3,
-        "reqLvl": 30,
+        "levelReq": 30,
         "preReq": [],
         "postReq": [],
         "attibutes": [

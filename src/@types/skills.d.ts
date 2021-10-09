@@ -15,7 +15,7 @@ interface ISkill {
     total: number;
   };
   tree: 1 | 2 | 3;
-  reqLvl: number;
+  levelReq: number;
   preReq: number[];
   postReq: number[];
 
@@ -27,8 +27,8 @@ interface ISkill {
       min: number[];
       max: number[];
     };
-    unit?: Unit;
-    prefix:? string;
+    unit: Unit;
+    prefix: string;
     value: number | {
       min: number;
       max: number;

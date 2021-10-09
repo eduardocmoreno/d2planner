@@ -8,6 +8,7 @@ import { PageTitle } from "components/ui/Headings";
 import plannerInit from "config/planner";
 import questsInit from "config/quests";
 import attrsInit from "config/attrs";
+import gearsInit from "config/gears";
 
 import questsReducer from "reducers/quests";
 import attrsReducer from "reducers/attrs";
@@ -21,28 +22,6 @@ export const PlannerContext = createContext({} as IPlannerContext);
 // TODO: CONSIDER USING THE CONTEXT AS A CUSTOM HOOK
 // export const usePlanner = () => useContext(PlannerContext);
 // const { ...props } = usePlanner();
-
-
-const gearsInit: IGear[] = [
-  /* {
-    type: 'ARMOR',
-    props: {
-      strength: 10
-    }
-  },
-  {
-    type: 'WEAPON',
-    props: {
-      dexterity: 20
-    }
-  },
-  {
-    type: 'AMULET',
-    props: {
-      allAttrs: 5
-    }
-  } */
-]
 
 export default function Planner() {
   //route params
@@ -91,7 +70,7 @@ export default function Planner() {
         //const response = await fetch(`https://d2calc-24ee1-default-rtdb.firebaseio.com/class/${charClass}.json`);
         const response = await fetch(`/data/classes/${charClass}.json`);
         const data = await response.json();
-        const { skills, attributes }: ICharData = data;
+        const { skills, stats }: ICharData = data;
 
         setCharData(data);
 
@@ -101,23 +80,23 @@ export default function Planner() {
             initialState: {
               strength: {
                 ...attrsInit.strength,
-                base: attributes.strength,
-                total: attributes.strength
+                base: stats.strength,
+                total: stats.strength
               },
               dexterity: {
                 ...attrsInit.dexterity,
-                base: attributes.dexterity,
-                total: attributes.dexterity
+                base: stats.dexterity,
+                total: stats.dexterity
               },
               vitality: {
                 ...attrsInit.vitality,
-                base: attributes.vitality,
-                total: attributes.vitality
+                base: stats.vitality,
+                total: stats.vitality
               },
               energy: {
                 ...attrsInit.energy,
-                base: attributes.energy,
-                total: attributes.energy
+                base: stats.energy,
+                total: stats.energy
               }
             }
           }

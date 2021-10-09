@@ -4,14 +4,14 @@ import { PlannerContext } from "pages/Planner";
 import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
-import { gearsAttrReducer } from "reducers/gears";
+//import { gearsAttrReducer } from "reducers/gears";
 
-export default function Attr({ attr }: { attr: keyof IAttrsState }) {
+export default function Attr({ attr }: { attr: keyof IAttrs }) {
   const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gears } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
-  const gearBonuses = gears.filter(g => g.props[attr] || g.props.allAttrs);
+  //const gearBonuses = gears.filter(g => g.props[attr] || g.props.allAttrs);
 
-  useEffect(() => {
+  /* useEffect(() => {
     dispatchAttrs({
       type: 'BONUS',
       payload: {
@@ -19,7 +19,7 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
         batch: gearsAttrReducer(attr, gears)
       }
     });
-  }, [attr, gears, dispatchAttrs]);
+  }, [attr, gears, dispatchAttrs]); */
 
   function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
     let batch = 1;
@@ -56,12 +56,12 @@ export default function Attr({ attr }: { attr: keyof IAttrsState }) {
 
   let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nApplied: +${applied}` : ''}\n`;
 
-  if (gearBonuses.length) {   
+  /* if (gearBonuses.length) {   
     gearBonuses.forEach((g, i) => {
       tooltipDetails += `${g.type}: +${g.props[attr] || g.props.allAttrs}`;
       i + 1 !== gearBonuses.length && (tooltipDetails += `\n`)
     });
-  }
+  } */
 
   const tooltipAttrs = {
     as: Tooltip,

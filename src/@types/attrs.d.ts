@@ -1,10 +1,3 @@
-interface IAttrs {
-  'strength'?: number;
-  'dexterity'?: number;
-  'vitality'?: number;
-  'energy'?: number;
-}
-
 interface IAttrProps {
   base?: number;
   bonus?: number;
@@ -12,7 +5,7 @@ interface IAttrProps {
   total?: number;
 }
 
-interface IAttrsState {
+interface IAttrs {
   strength: IAttrProps;
   dexterity: IAttrProps;
   vitality: IAttrProps;
@@ -31,6 +24,6 @@ interface IAttrsReducer {
   payload?: {
     attr?: keyof IAttrs;
     batch?: number;
-    initialState?: IAttrsState;
+    initialState?: IAttrs;
   }
 }

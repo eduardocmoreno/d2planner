@@ -14,7 +14,7 @@ interface IPlannerContext {
   charLevel: number;
   setCharLevel: setStateAsNumber;
 
-  attrs: IAttrsState;
+  attrs: IAttrs;
   dispatchAttrs: React.Dispatch<IAttrsReducer>;
 
   attrPoints: number;

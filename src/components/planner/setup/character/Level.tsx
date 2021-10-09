@@ -23,10 +23,11 @@ const Wrapper = styled.div`
 const Input = styled.input`
   --inner-glow: inset 0 0 15px rgba(0 0 0 / .5);
   flex: 1;
+  width: 100%;
+  box-shadow: var(--inner-glow);
+  background: rgba(0 0 0 / .3);
   font-size: 4rem;
   text-align: center;
-  background: rgba(0 0 0 / .3);
-  box-shadow: var(--inner-glow);
   :focus{
     box-shadow: var(--inner-glow), 0 0 .15em rgba(var(--color-blue-rgb), .5);
   }

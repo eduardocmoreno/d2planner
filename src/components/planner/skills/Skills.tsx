@@ -148,7 +148,7 @@ export default function Skills() {
                   :
                   <PropDetails>
                     <PropName>Require character level:</PropName>
-                    <PropValue isActive={false} warn={charLevel < skillSelected.reqLvl}>{skillSelected.reqLvl}</PropValue>
+                    <PropValue isActive={false} warn={charLevel < skillSelected.levelReq}>{skillSelected.levelReq}</PropValue>
                   </PropDetails>
                 }
                 {skillSelected.attibutes.map(({ name, unit, value, info, prefix }, i) => {
@@ -190,7 +190,7 @@ export default function Skills() {
               }
             </>
             :
-            <SkillDescription>Please, move the mouse pointer over a skill and you`ll be able to see it`s details.</SkillDescription>
+            <SkillDescription>Move the mouse over the skills!</SkillDescription>
           }
         </Details>
       </DetailsSection>

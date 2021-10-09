@@ -38,7 +38,7 @@ export default function Tree({ tree, setSkillIdOnHover }: {
 
   function isSkillIterable(id: number) {
     let skill = getSkillProps(skills, id);
-    return charLevel >= skill.reqLvl && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.level.points > 0 && !isPostSkillReqActived(id)));
+    return charLevel >= skill.levelReq && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.level.points > 0 && !isPostSkillReqActived(id)));
   }
 
   /* 
