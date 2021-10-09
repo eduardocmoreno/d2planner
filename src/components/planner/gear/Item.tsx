@@ -65,6 +65,7 @@ export default function Item({
       })
     }
 
+    //TODO:
     //handle attrs
     //handle gear item props
     //handle skills

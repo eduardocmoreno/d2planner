@@ -13,6 +13,20 @@ const gearsInit: IGear[] = [
     mods: {
       vitality: 5
     }
+  },
+  {
+    name: 'right-ring',
+    props: {},
+    mods: {
+      dexterity: 15
+    }
+  },
+  {
+    name: 'amulet',
+    props: {},
+    mods: {
+      allAttrs: 5
+    }
   }
 ]
 

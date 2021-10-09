@@ -4,22 +4,26 @@ import { PlannerContext } from "pages/Planner";
 import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
-//import { gearsAttrReducer } from "reducers/gears";
+import { capitalize } from "helpers";
 
 export default function Attr({ attr }: { attr: keyof IAttrs }) {
   const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gears } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
-  //const gearBonuses = gears.filter(g => g.props[attr] || g.props.allAttrs);
 
-  /* useEffect(() => {
+  const gearBonuses = gears.filter(g => g.mods[attr] || g.mods.allAttrs);
+
+  console.log(gearBonuses.flatMap(g => g.mods[attr] || g.mods.allAttrs));
+
+  useEffect(() => {
     dispatchAttrs({
       type: 'BONUS',
       payload: {
         attr,
-        batch: gearsAttrReducer(attr, gears)
+        batch: gearBonuses.map(g => g.mods[attr] || g.mods.allAttrs).reduce((a, b) => a! + b!, 0) || 0
       }
     });
-  }, [attr, gears, dispatchAttrs]); */
+  }, [attr, gears, dispatchAttrs]);
+
 
   function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
     let batch = 1;
@@ -54,14 +58,14 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
     });
   }
 
-  let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nApplied: +${applied}` : ''}\n`;
+  let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nSpent: +${applied}` : ''}\n`;
 
-  /* if (gearBonuses.length) {   
+  if (gearBonuses.length) {
     gearBonuses.forEach((g, i) => {
-      tooltipDetails += `${g.type}: +${g.props[attr] || g.props.allAttrs}`;
+      tooltipDetails += `${capitalize(g.name)}: +${g.mods[attr] || g.mods.allAttrs}`;
       i + 1 !== gearBonuses.length && (tooltipDetails += `\n`)
     });
-  } */
+  }
 
   const tooltipAttrs = {
     as: Tooltip,
@@ -111,7 +115,6 @@ const Wrapper = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: flex;
-  //grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
   margin-top: var(--spacing-md);
   border: 2px solid;
   border-color: var(--golden-border);
