@@ -10,10 +10,12 @@ interface IGearMods {
   dexterity: number;
   vitality: number;
   energy: number;
-  
+
   defense: number;
   defenseBonus: number; //enhanced defense
   defenseBocl: number; //based on char level
+
+  requirements: number;
 }
 
 type TClassWeapon = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
@@ -22,7 +24,7 @@ type TPaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd
 interface IGearProps {
   name: string;
   id: string;
-  type: 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'pelt' | 'phlm' | 'ashd' | 'head' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot' | 'h2h' | 'h2h2' | 'orb' | 'abow' | 'aspe' | 'ajav';
+  type: 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'pelt' | 'phlm' | 'ashd' | 'head' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot' | 'h2h' | 'h2h2' | 'orb' | 'abow' | 'aspe' | 'ajav' | 'ring' | 'amul' | 'chrm' | 'torc';
     defMin: number;
     defMax: number;
     strReq: number;

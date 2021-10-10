@@ -5,11 +5,9 @@
     "type": "helm",
     "defMin": 3,
     "defMax": 5,
-    "strReq": 0,
     "durability": 12,
     "nodurability": 0,
     "level": 1,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -22,7 +20,6 @@
     "durability": 18,
     "nodurability": 0,
     "level": 5,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -35,7 +32,6 @@
     "durability": 24,
     "nodurability": 0,
     "level": 11,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -48,7 +44,6 @@
     "durability": 30,
     "nodurability": 0,
     "level": 15,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -61,7 +56,6 @@
     "durability": 40,
     "nodurability": 0,
     "level": 23,
-    "levelReq": 0,
     "sockets": 3
   },
   {
@@ -74,7 +68,6 @@
     "durability": 50,
     "nodurability": 0,
     "level": 29,
-    "levelReq": 0,
     "sockets": 3
   },
   {
@@ -87,7 +80,6 @@
     "durability": 20,
     "nodurability": 0,
     "level": 19,
-    "levelReq": 0,
     "sockets": 3
   },
   {
@@ -100,7 +92,6 @@
     "durability": 20,
     "nodurability": 0,
     "level": 1,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -113,7 +104,6 @@
     "durability": 24,
     "nodurability": 0,
     "level": 3,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -126,7 +116,6 @@
     "durability": 28,
     "nodurability": 0,
     "level": 5,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -139,7 +128,6 @@
     "durability": 32,
     "nodurability": 0,
     "level": 8,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -152,7 +140,6 @@
     "durability": 26,
     "nodurability": 0,
     "level": 11,
-    "levelReq": 0,
     "sockets": 3
   },
   {
@@ -165,7 +152,6 @@
     "durability": 36,
     "nodurability": 0,
     "level": 13,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -178,7 +164,6 @@
     "durability": 45,
     "nodurability": 0,
     "level": 15,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -191,7 +176,6 @@
     "durability": 50,
     "nodurability": 0,
     "level": 18,
-    "levelReq": 0,
     "sockets": 3
   },
   {
@@ -204,7 +188,6 @@
     "durability": 30,
     "nodurability": 0,
     "level": 20,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -217,7 +200,6 @@
     "durability": 60,
     "nodurability": 0,
     "level": 24,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -230,7 +212,6 @@
     "durability": 48,
     "nodurability": 0,
     "level": 28,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -243,7 +224,6 @@
     "durability": 55,
     "nodurability": 0,
     "level": 32,
-    "levelReq": 0,
     "sockets": 4
   },
   {
@@ -256,7 +236,6 @@
     "durability": 70,
     "nodurability": 0,
     "level": 37,
-    "levelReq": 0,
     "sockets": 4
   },
   {
@@ -269,7 +248,6 @@
     "durability": 60,
     "nodurability": 0,
     "level": 40,
-    "levelReq": 0,
     "sockets": 4
   },
   {
@@ -282,7 +260,6 @@
     "durability": 60,
     "nodurability": 0,
     "level": 35,
-    "levelReq": 0,
     "sockets": 3
   },
   {
@@ -295,7 +272,6 @@
     "durability": 12,
     "nodurability": 0,
     "level": 1,
-    "levelReq": 0,
     "dmgMin": 1,
     "dmgMax": 3,
     "sockets": 1,
@@ -312,7 +288,6 @@
     "durability": 16,
     "nodurability": 0,
     "level": 5,
-    "levelReq": 0,
     "dmgMin": 2,
     "dmgMax": 3,
     "sockets": 2,
@@ -329,7 +304,6 @@
     "durability": 24,
     "nodurability": 0,
     "level": 11,
-    "levelReq": 0,
     "dmgMin": 2,
     "dmgMax": 4,
     "sockets": 3,
@@ -346,7 +320,6 @@
     "durability": 30,
     "nodurability": 0,
     "level": 15,
-    "levelReq": 0,
     "dmgMin": 2,
     "dmgMax": 5,
     "sockets": 3,
@@ -363,7 +336,6 @@
     "durability": 60,
     "nodurability": 0,
     "level": 22,
-    "levelReq": 0,
     "dmgMin": 1,
     "dmgMax": 5,
     "sockets": 3,
@@ -380,7 +352,6 @@
     "durability": 40,
     "nodurability": 0,
     "level": 30,
-    "levelReq": 0,
     "dmgMin": 2,
     "dmgMax": 6,
     "sockets": 3,
@@ -392,11 +363,9 @@
     "type": "glov",
     "defMin": 2,
     "defMax": 3,
-    "strReq": 0,
     "durability": 12,
     "nodurability": 0,
     "level": 3,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -405,11 +374,9 @@
     "type": "glov",
     "defMin": 5,
     "defMax": 6,
-    "strReq": 0,
     "durability": 14,
     "nodurability": 0,
     "level": 7,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -422,7 +389,6 @@
     "durability": 16,
     "nodurability": 0,
     "level": 12,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -435,7 +401,6 @@
     "durability": 18,
     "nodurability": 0,
     "level": 20,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -448,7 +413,6 @@
     "durability": 24,
     "nodurability": 0,
     "level": 27,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -457,11 +421,9 @@
     "type": "boot",
     "defMin": 2,
     "defMax": 3,
-    "strReq": 0,
     "durability": 12,
     "nodurability": 0,
     "level": 3,
-    "levelReq": 0,
     "sockets": 0,
     "strbonus": 120
   },
@@ -475,7 +437,6 @@
     "durability": 14,
     "nodurability": 0,
     "level": 7,
-    "levelReq": 0,
     "sockets": 0,
     "strbonus": 120
   },
@@ -489,7 +450,6 @@
     "durability": 16,
     "nodurability": 0,
     "level": 12,
-    "levelReq": 0,
     "sockets": 0,
     "strbonus": 120
   },
@@ -503,7 +463,6 @@
     "durability": 18,
     "nodurability": 0,
     "level": 20,
-    "levelReq": 0,
     "sockets": 0,
     "strbonus": 120
   },
@@ -517,7 +476,6 @@
     "durability": 24,
     "nodurability": 0,
     "level": 27,
-    "levelReq": 0,
     "sockets": 0,
     "strbonus": 120
   },
@@ -527,11 +485,9 @@
     "type": "belt",
     "defMin": 2,
     "defMax": 2,
-    "strReq": 0,
     "durability": 12,
     "nodurability": 0,
     "level": 3,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -540,11 +496,9 @@
     "type": "belt",
     "defMin": 3,
     "defMax": 3,
-    "strReq": 0,
     "durability": 14,
     "nodurability": 0,
     "level": 7,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -557,7 +511,6 @@
     "durability": 16,
     "nodurability": 0,
     "level": 12,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -570,7 +523,6 @@
     "durability": 18,
     "nodurability": 0,
     "level": 20,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -583,7 +535,6 @@
     "durability": 24,
     "nodurability": 0,
     "level": 27,
-    "levelReq": 0,
     "sockets": 0
   },
   {
@@ -596,7 +547,6 @@
     "durability": 40,
     "nodurability": 0,
     "level": 22,
-    "levelReq": 0,
     "sockets": 2
   },
   {
@@ -610,7 +560,6 @@
     "durability": 40,
     "nodurability": 0,
     "level": 19,
-    "levelReq": 0,
     "dmgMin": 3,
     "dmgMax": 6,
     "sockets": 2,
@@ -627,7 +576,6 @@
     "durability": 40,
     "nodurability": 0,
     "level": 11,
-    "levelReq": 0,
     "dmgMin": 5,
     "dmgMax": 9,
     "sockets": 2,
@@ -1559,7 +1507,6 @@
     "type": "circ",
     "defMin": 20,
     "defMax": 30,
-    "strReq": 0,
     "durability": 35,
     "nodurability": 0,
     "level": 24,
@@ -1573,7 +1520,6 @@
     "type": "circ",
     "defMin": 30,
     "defMax": 40,
-    "strReq": 0,
     "durability": 30,
     "nodurability": 0,
     "level": 52,
@@ -1587,7 +1533,6 @@
     "type": "circ",
     "defMin": 40,
     "defMax": 50,
-    "strReq": 0,
     "durability": 25,
     "nodurability": 0,
     "level": 70,
@@ -1601,7 +1546,6 @@
     "type": "circ",
     "defMin": 50,
     "defMax": 60,
-    "strReq": 0,
     "durability": 20,
     "nodurability": 0,
     "level": 85,

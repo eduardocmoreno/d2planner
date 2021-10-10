@@ -12,18 +12,15 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   const gearBonuses = gears.filter(g => g.mods[attr] || g.mods.allAttrs);
 
-  console.log(gearBonuses.flatMap(g => g.mods[attr] || g.mods.allAttrs));
-
   useEffect(() => {
     dispatchAttrs({
       type: 'BONUS',
       payload: {
         attr,
-        batch: gearBonuses.map(g => g.mods[attr] || g.mods.allAttrs).reduce((a, b) => a! + b!, 0) || 0
+        batch: gears.filter(g => g.mods[attr] || g.mods.allAttrs).map(g => g.mods[attr] || g.mods.allAttrs).reduce((a, b) => a! + b!, 0) || 0
       }
     });
   }, [attr, gears, dispatchAttrs]);
-
 
   function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
     let batch = 1;

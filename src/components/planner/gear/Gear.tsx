@@ -5,9 +5,10 @@ import Item from "./Item";
 
 
 export default function Gear() {
-  const { charData, gears } = useContext(PlannerContext);
+  const { charData } = useContext(PlannerContext);
   const armors = useRef([] as IGearProps[]);
   const weapons = useRef([] as IGearProps[]);
+  const [hasTwoHanded, setHasTwoHanded] = useState(false);
 
   useEffect(() => {
     //setIsLoading(true);
@@ -27,21 +28,20 @@ export default function Gear() {
   return (
     <Gears>
       <Item name="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
-      {/* <Item items={armors.current.filter(a => a.type! === 'helm')} title="head" icon="icon-head" /> */}
 
-      {/* <Item items={armors.current.filter(a => a.type! === 'tors')} title="torso" icon="icon-armor" />
+      <Item name="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
       
-      <Item items={weapons.current} title="weapons" icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
+      <Item name="left-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
       {!hasTwoHanded &&
-        <Item items={armors.current.filter(a => ['shie','ashd'].includes(a.type!))} title="shield" icon="icon-shield" />
+        <Item name="right-hand" bases={armors.current.filter(a => ['shie','ashd'].includes(a.type!))} icon="icon-shield" />
       }
 
-      <Item items={armors.current.filter(a => a.type! === 'glov')} title="hands" icon="icon-gloves" />
+      <Item name="hands" bases={armors.current.filter(a => a.type! === 'glov')} icon="icon-gloves" />
 
-      <Item items={armors.current.filter(a => a.type! === 'belt')} title="belt" icon="icon-belt" />
+      <Item name="belt" bases={armors.current.filter(a => a.type! === 'belt')} icon="icon-belt" />
 
-      <Item items={armors.current.filter(a => a.type! === 'boot')} title="boots" icon="icon-boots" />*/}
+      <Item name="boots" bases={armors.current.filter(a => a.type! === 'boot')} icon="icon-boots" />
 
       <Item name="amulet" icon="icon-amulet" />
 

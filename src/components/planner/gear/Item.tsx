@@ -1,7 +1,8 @@
-import { SetStateAction, useContext, useState } from "react";
+import { SetStateAction, useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import styled, { css } from "styled-components";
 import Tooltip from "components/ui/Tooltip";
+import Button from "components/ui/Button";
 
 /* 
 WEAPON CLASS MODIFIER TABLE
@@ -40,177 +41,79 @@ export default function Item({
 
   const { charLevel, charData, gears, setGears, attrs } = useContext(PlannerContext);
   const [selectedBase, setSelectedBase] = useState({} as Partial<IGearProps>);
+  const [itemProps, setItemProps] = useState(gears.find(g => g.name === name)?.props);
+  const [itemMods, setItemMods] = useState(gears.find(g => g.name === name)?.mods);
 
   let gear: Partial<IGear> = gears.find(g => g.name === name)!;
+
+  useEffect(() => {
+    setGears(prev => {
+      return prev.map(p => {
+        if (p.name === name) {
+          return {
+            ...p,
+            props: {
+              ...itemProps
+            },
+            mods: {
+              ...itemMods
+            }
+          }
+        }
+        return p;
+      })
+    })
+  }, [name, itemProps, itemMods, setGears]);
+
+  useEffect(() => {
+    setItemProps(prev => {
+      let newProps = prev;
+
+      //defenses
+      if (selectedBase.defMax && (itemMods?.defense || itemMods?.defenseBonus || itemMods?.defenseBocl)) {
+        newProps!.defMax = Math.floor(selectedBase.defMax * ((itemMods?.defenseBonus || 0) / 100 + 1) + (itemMods?.defense || 0) + ((itemMods?.defenseBocl || 0) * charLevel))
+      }
+
+      //requirements
+      if (selectedBase.strReq && itemMods?.requirements) {
+        newProps!.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * (itemMods.requirements || 0) / 100))
+      }
+
+      if (selectedBase.dexReq && itemMods?.requirements) {
+        newProps!.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * (itemMods.requirements || 0) / 100))
+      }
+
+      return {
+        ...prev,
+        ...newProps
+      };
+    })
+  }, [charLevel, selectedBase, itemMods, setItemProps]);
 
   function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     let id = event.target.value;
     let base = bases?.find(i => i.id === id);
     setHasTwoHanded && setHasTwoHanded(base?.TwoHanded ? true : false);
     setSelectedBase(id ? bases!.find(i => i.id === id)! : {});
-    if (gear.mods?.defense) {
-      setGears(prev => {
-        return prev.map(p => {
-          if (p.name === name) {
-            return {
-              ...p,
-              props: {
-                ...p.props,
-                defMax: (base?.defMax || 0) + (gear.mods?.defense || 0)
-              }
-            }
-          }
-          return p;
-        })
-      })
-    }
 
     //TODO:
-    //handle attrs
-    //handle gear item props
+    //handle gear item props (requirements, damage, speed/IAS)
     //handle skills
+    //how mods are printed
   }
 
-  //list of gears
-  //head, torso, belt, gloves, boots, left hand, right hand, amulet, left ring, right ring, charms (all - props separated for charms?)
-  //example:
-  //head
-  //- 1.select type: "shako"
-  //  Pull all usable helms by class with requirements props, sockets and infer prop (defense for armors and damage for weapons)
-  //- 2.select prop
-  //  Pull all category props (defenses, damage, resists, etc...)
-  //- 3.select sub-prop
-  //  Pull all sub-props (ex.: tree skills ==> [comb skills, off auras, def auras])
-  //- 4.input: 1
-  //  Type the value into the input text
-  //- 5.submit
-  //  Handle Gear props fn ==> dispatch gears reducer fn
-  //result
-  //+45 Defense
-  //and go on...
-
-
-  //GEAR PROPS
-  /*  const gearProps = [
-     {
-       id: 'allSkills',
-       descr: '{a} To All Skills'
-     },
-     {
-       id: 'classSkills',
-       descr: '{a} To All {b} Skills'
-     },
-     {
-       id: 'treeSkills',
-       descr: '{a} To All {b} ({c} only)',
-       options: true
-     },
-     {
-       id: 'skill',
-       descr: 'To A Single Class Skill'
-     },
-     {
-       id: 'allAttrs',
-       descr: '{a} To All Attributes'
-     },
-     {
-       id: 'toStrength',
-       descr: '{a} To Strength'
-     },
-     {
-       id: 'toDexterity',
-       descr: '{a} To Dexterity'
-     },
-     {
-       id: 'toVitality',
-       descr: '{a} To Vitality'
-     },
-     {
-       id: 'toEnergy',
-       descr: '{a} To Energy'
-     },
-   ] */
-
-  //selected tree skills
-  //options? === true?
-  //create a form select for the next step
-  //select options loop = getGearPropOptions(id: 'treeSkills'): array[all class tree skills list]
-  //
-
-  /* function getGearProp(id: string) {
-    return gearProps.find(g => g.id === id);
+  function addModExample() {
+    setItemMods(prev => {
+      return {
+        ...prev,
+        energy: 111,
+        defense: 5,
+        defenseBonus: 12,
+        defenseBocl: .75,
+        requirements: 10
+      }
+    });
   }
-
-  function getGearPropOptions(id: string) {
-    switch (id) {
-      case 'treeSkills': {
-        return 'charData.skills.trees.map(t => t.name)';
-      }
-    }
-    return;
-  }
-
-  function handleGearProps<T>(id: string, args: T) {
-    switch (id) {
-      case 'classSkills': {
-        let a = 1;
-        let b = 'Paladin'
-        let result = getGearProp(id)?.descr?.replace(`{a}`, `<span>+${a}</span>`);
-        return getGearProp(id)?.descr?.replace(`{a}`, `<span>+${a}</span>`).replace(`{b}`, `<span>${b}</span>`);
-      }
-      case 'treeSkills': {
-        let a = 3;
-        let b = 'Offensive Auras';
-        let c = 'Paladin';
-        return getGearProp(id)?.descr!
-          .replace(`{a}`, `<span>+${a}</span>`)
-          .replace(`{b}`, `<span>${b}</span>`)
-          .replace(`{c}`, `${c}`);
-      }
-      case 'skill': {
-        return 'ISkill[]'
-      }
-      default: {
-        return {
-          id,
-          print: getGearProp(id)?.descr?.replace(`{a}`, `<span>+${args}</span>`)
-        };
-      }
-    }
-    return;
-  } */
-
-  //GEARS
-  /* 
-  {
-    item: [
-      {
-        [prop: keyof gearProps]: 
-          | number
-          | { min: number, max: number } --> min max damage props (ex.: adds min-max fire dmg)
-          | { skillId: number, level: number } --> to single skill
-          | { treeName: string, batch: number } --> adds skill lvl for all tree skills (+3 combat skills [paladin only])
-          | { skillId: number, level: number, chance: number, isActive: boolean } --> chance to cast skill
-      }
-    ]
-  }
-  */
-
-
-  /* const gearsInit: IGear[] = [
-    {
-      id: 'head',
-      name: 'Head',
-      type: null,
-      props: []
-    },
-    {
-      id: 'gloves',
-      name: 'Gloves',
-      type: null,
-      props: []
-    }
-  ] */
 
   return (
     <Wrapper>
@@ -257,7 +160,7 @@ export default function Item({
                   <li>Throw Damage: <span>{selectedBase.MisDmgMin}-{selectedBase.MisDmgMax}</span></li>
                 }
 
-                {'levelReq' in selectedBase && selectedBase.levelReq! > 0 &&
+                {'levelReq' in selectedBase &&
                   <li>
                     Required Level: {charLevel < selectedBase.levelReq! ?
                       <Tooltip as="span" className="warn" center data-tooltip={`Current Level: ${charLevel}`}>{selectedBase.levelReq}</Tooltip>
@@ -267,18 +170,33 @@ export default function Item({
                   </li>
                 }
 
-                {'strReq' in selectedBase && selectedBase.strReq! > 0 &&
+                {'strReq' in selectedBase &&
                   <li>
-                    Required Strength: {attrs.strength.total! < selectedBase.strReq! ?
-                      <Tooltip as="span" className="warn" center data-tooltip={`Current Strength: ${attrs.strength.total}`}>{selectedBase.strReq}</Tooltip>
-                      :
-                      <span>{selectedBase.strReq}</span>
+                    Required Strength: {attrs.strength.total! < (gear?.props?.strReq || selectedBase.strReq || 0) &&
+                      <Tooltip as="span" className="warn" center data-tooltip={`Current Strength: ${attrs.strength.total}`}>{gear.props?.strReq || selectedBase.strReq!}</Tooltip>
                     }
+
+                    {gear?.props?.strReq ?
+                      <Tooltip as="span" className="highlight" center data-tooltip={`Base: ${selectedBase.strReq!}`}>{gear.props?.strReq}</Tooltip>
+                      :
+                      <span>{selectedBase.strReq!}</span>
+                    }
+
                   </li>
                 }
 
-                {'dexReq' in selectedBase && selectedBase.dexReq! > 0 &&
-                  <li>Required Dexteity: <span className={attrs.dexterity.total! < selectedBase.dexReq! ? 'warn' : ''}>{selectedBase.dexReq}</span></li>
+                {'dexReq' in selectedBase &&
+                  <li>
+                    Required Dexteity: {attrs.dexterity.total! < (gear?.props?.dexReq || selectedBase.dexReq || 0) &&
+                      <Tooltip as="span" className="warn" center data-tooltip={`Current Dexterity: ${attrs.dexterity.total}`}>{gear.props?.dexReq || selectedBase.dexReq!}</Tooltip>
+                    }
+
+                    {gear?.props?.dexReq ?
+                      <Tooltip as="span" className="highlight" center data-tooltip={`Base: ${selectedBase.dexReq!}`}>{gear.props?.dexReq}</Tooltip>
+                      :
+                      <span>{selectedBase.dexReq!}</span>
+                    }
+                  </li>
                 }
 
                 {'sockets' in selectedBase &&
@@ -302,7 +220,10 @@ export default function Item({
             )}
           </ItemMods>
         }
-        <Form></Form>
+        <Button blue onClick={addModExample}>t</Button>
+        <Form>
+        </Form>
+        <Button red>RESET ITEM</Button>
       </Contents>
     </Wrapper>
   )
@@ -387,4 +308,8 @@ const ItemMods = styled.ul`
   text-transform: uppercase;
 `;
 
-const Form = styled.form``;
+const Form = styled.form`
+  ${Button}{
+    text-transform: none;
+  }
+`;

@@ -1,10 +1,47 @@
+const gearPropsModsInit = {
+  props: {},
+  mods: {}
+}
+
+
 const gearsInit: IGear[] = [
   {
     name: 'head',
     props: {},
     mods: {
-      strength: 10,
-      defense: 37
+      strength: 10
+    }
+  },
+  {
+    name: 'torso',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'left-hand',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'right-hand',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'gloves',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'belt',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'boots',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'amulet',
+    props: {},
+    mods: {
+      allAttrs: 5,
+      defense: 33
     }
   },
   {
@@ -22,12 +59,17 @@ const gearsInit: IGear[] = [
     }
   },
   {
-    name: 'amulet',
-    props: {},
-    mods: {
-      allAttrs: 5
-    }
-  }
+    name: 'torch',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'annihilus',
+    ...gearPropsModsInit
+  },
+  {
+    name: 'charms',
+    ...gearPropsModsInit
+  },
 ]
 
 export default gearsInit;
