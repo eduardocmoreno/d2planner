@@ -30,6 +30,12 @@ Bow                                14       15         19         17        15  
 Crossbow                           19       19         24         19        19       19
 */
 
+
+//TODO:
+//handle gear item props by mods (damage, speed/IAS)
+//handle skills
+//how mods are printed
+
 export default function Item({
   bases, slot, icon, setHasTwoHanded
 }: {
@@ -70,18 +76,31 @@ export default function Item({
       let newProps = { ...selectedBase };
 
       //defenses
-      if (selectedBase.maxDef && (itemMods?.defense || itemMods?.defenseBonus || itemMods?.defenseBocl)) {
-        newProps!.maxDef = Math.floor(selectedBase.maxDef * ((itemMods?.defenseBonus || 0) / 100 + 1) + (itemMods?.defense || 0) + ((itemMods?.defenseBocl || 0) * charLevel))
+      if (selectedBase.maxDef && (itemMods.defense || itemMods.defenseBonus || itemMods.defenseBocl)) {
+        newProps.maxDef = Math.floor(selectedBase.maxDef * ((itemMods?.defenseBonus || 0) / 100 + 1) + (itemMods?.defense || 0) + ((itemMods?.defenseBocl || 0) * charLevel))
       }
 
       //requirements
-      if (selectedBase.strReq && itemMods?.requirements) {
-        newProps!.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * (itemMods.requirements || 0) / 100))
+      if (selectedBase.strReq && itemMods.requirements) {
+        newProps.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * itemMods.requirements / 100));
       }
 
-      if (selectedBase.dexReq && itemMods?.requirements) {
-        newProps!.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * (itemMods.requirements || 0) / 100))
+      if (selectedBase.dexReq && itemMods.requirements) {
+        newProps.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * itemMods.requirements / 100));
       }
+
+      //block
+      if (selectedBase.block && itemMods.block) {
+        newProps.block = selectedBase.block + itemMods.block;
+      }
+
+      //damage
+      /* 
+        - enhanced dmg
+        - min dmg
+        - max dmg
+        - max dmg bocl
+      */
 
       return {
         ...selectedBase,
@@ -95,29 +114,15 @@ export default function Item({
     let base = bases?.find(i => i.code === code);
     setHasTwoHanded && setHasTwoHanded(base?.twoHanded ? true : false);
     setSelectedBase(code ? bases?.find(i => i.code === code)! : {});
-
-    //TODO:
-    //organize props section and make a separated component
-    //handle gear item props (block, damage, speed/IAS)
-    //handle skills
-    //how mods are printed
   }
 
-
-
   const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed']
-
-
 
   function addModExample() {
     setItemMods(prev => {
       return {
         ...prev,
-        energy: 111,
-        defense: 5,
-        defenseBonus: 12,
-        defenseBocl: .75,
-        requirements: 10
+        block: 20
       }
     });
   }

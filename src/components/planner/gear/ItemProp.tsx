@@ -5,6 +5,7 @@ import { useContext } from "react";
 
 export default function ItemProp({ itemProps, selectedBase, prop }: { itemProps: Partial<IGearProps>, selectedBase: Partial<IGearProps>, prop: TItemPropsToRender }) {
   const {charClass, charData, charLevel, attrs} = useContext(PlannerContext);
+  
   switch (prop) {
     case 'minDef': {
       if (prop in itemProps!) {

@@ -42,6 +42,8 @@ interface IGearMods {
 
   requirements: number;
 
+  block: number;
+
   dmgBonus: number; //enhanced dmg
   
     dmg: number; //like in Grief
@@ -50,6 +52,37 @@ interface IGearMods {
     dmgMaxBocl: number; //to maximum dmg
     dmgBonusBocl: number; //enhanced dmg based on char level
     dmgBocl: number; //based on char level
+  
+  
+  
+  allSkills: number;
+  allClassSkills: number;
+  
+  skillTree: {
+    tree: 1 | 2 | 3;
+    level: number;
+  }
+
+  singleSkill: {
+    class: string; //type TCharacterClass?
+    id: number; //class.skill.id (ex.: chance to cast FOH => paladin.skills.find(s => s.id === 10))
+    level: number; //skill level
+  }
+
+  skillCharges: {
+    class: string;
+    id: number;  //class.skill.id
+    level: number;  //skill level
+    charges: number; //just for illustration
+    //string literals ==> `Level ${level} capitalize(${class.skills.find(s => s.id === id).name}) (${charges}/${charges} charges)`
+  }
+
+  skillChanceToCast: {
+    class: string;
+    id: number; //class.skill.id
+    level: number; //skill level
+    chance: number; //chance
+  }
 }
 
 type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
