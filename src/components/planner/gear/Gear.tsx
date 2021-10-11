@@ -3,7 +3,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Item from "./Item";
 
-
 export default function Gear() {
   const { charData } = useContext(PlannerContext);
   const armors = useRef([] as IGearProps[]);
@@ -23,37 +22,37 @@ export default function Gear() {
       .then((data: IGearProps[]) => {
         weapons.current = data.filter(i => charData.classItems?.includes(i.type));
       });
-  }, []);
+  }, [charData]);
 
   return (
     <Gears>
-      <Item name="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
+      <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
 
-      <Item name="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
+      <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
       
-      <Item name="left-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
+      <Item slot="left-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
       {!hasTwoHanded &&
-        <Item name="right-hand" bases={armors.current.filter(a => ['shie','ashd'].includes(a.type!))} icon="icon-shield" />
+        <Item slot="right-hand" bases={armors.current.filter(a => ['shie','ashd'].includes(a.type!))} icon="icon-shield" />
       }
 
-      <Item name="hands" bases={armors.current.filter(a => a.type! === 'glov')} icon="icon-gloves" />
+      <Item slot="gloves" bases={armors.current.filter(a => a.type! === 'glov')} icon="icon-gloves" />
 
-      <Item name="belt" bases={armors.current.filter(a => a.type! === 'belt')} icon="icon-belt" />
+      <Item slot="belt" bases={armors.current.filter(a => a.type! === 'belt')} icon="icon-belt" />
 
-      <Item name="boots" bases={armors.current.filter(a => a.type! === 'boot')} icon="icon-boots" />
+      <Item slot="boots" bases={armors.current.filter(a => a.type! === 'boot')} icon="icon-boots" />
 
-      <Item name="amulet" icon="icon-amulet" />
+      <Item slot="amulet" icon="icon-amulet" />
 
-      <Item name="left-ring" icon="icon-ring-left" />
+      <Item slot="left-ring" icon="icon-ring-left" />
 
-      <Item name="right-ring" icon="icon-ring-right" />
+      <Item slot="right-ring" icon="icon-ring-right" />
 
-      <Item name="torch" icon="icon-torch" />
+      <Item slot="torch" icon="icon-torch" />
 
-      <Item name="annihilus" icon="icon-annihilus" />
+      <Item slot="annihilus" icon="icon-annihilus" />
 
-      <Item name="charms" icon="icon-charms" /> 
+      <Item slot="charms" icon="icon-charms" />
     </Gears>
   )
 }

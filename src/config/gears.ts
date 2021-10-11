@@ -3,71 +3,57 @@ const gearPropsModsInit = {
   mods: {}
 }
 
-
 const gearsInit: IGear[] = [
   {
-    name: 'head',
-    props: {},
-    mods: {
-      strength: 10
-    }
-  },
-  {
-    name: 'torso',
+    slot: 'head',
     ...gearPropsModsInit
   },
   {
-    name: 'left-hand',
+    slot: 'torso',
     ...gearPropsModsInit
   },
   {
-    name: 'right-hand',
+    slot: 'left-hand',
     ...gearPropsModsInit
   },
   {
-    name: 'gloves',
+    slot: 'right-hand',
     ...gearPropsModsInit
   },
   {
-    name: 'belt',
+    slot: 'gloves',
     ...gearPropsModsInit
   },
   {
-    name: 'boots',
+    slot: 'belt',
     ...gearPropsModsInit
   },
   {
-    name: 'amulet',
-    props: {},
-    mods: {
-      allAttrs: 5,
-      defense: 33
-    }
-  },
-  {
-    name: 'left-ring',
-    props: {},
-    mods: {
-      vitality: 5
-    }
-  },
-  {
-    name: 'right-ring',
-    props: {},
-    mods: {
-      dexterity: 15
-    }
-  },
-  {
-    name: 'torch',
+    slot: 'boots',
     ...gearPropsModsInit
   },
   {
-    name: 'annihilus',
+    slot: 'amulet',
     ...gearPropsModsInit
   },
   {
-    name: 'charms',
+    slot: 'left-ring',
+    ...gearPropsModsInit
+  },
+  {
+    slot: 'right-ring',
+    ...gearPropsModsInit
+  },
+  {
+    slot: 'torch',
+    ...gearPropsModsInit
+  },
+  {
+    slot: 'annihilus',
+    ...gearPropsModsInit
+  },
+  {
+    slot: 'charms',
     ...gearPropsModsInit
   },
 ]

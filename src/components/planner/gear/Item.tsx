@@ -1,8 +1,8 @@
 import { SetStateAction, useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import styled, { css } from "styled-components";
-import Tooltip from "components/ui/Tooltip";
 import Button from "components/ui/Button";
+import ItemProp from "./ItemProp";
 
 /* 
 WEAPON CLASS MODIFIER TABLE
@@ -31,25 +31,25 @@ Crossbow                           19       19         24         19        19  
 */
 
 export default function Item({
-  bases, name, icon, setHasTwoHanded
+  bases, slot, icon, setHasTwoHanded
 }: {
   bases?: IGearProps[],
-  name: string,
+  slot: IGear['slot'],
   icon: string,
   setHasTwoHanded?: React.Dispatch<SetStateAction<boolean>>
 }) {
 
-  const { charLevel, charData, gears, setGears, attrs } = useContext(PlannerContext);
+  const { charLevel, gears, setGears } = useContext(PlannerContext);
   const [selectedBase, setSelectedBase] = useState({} as Partial<IGearProps>);
-  const [itemProps, setItemProps] = useState(gears.find(g => g.name === name)?.props);
-  const [itemMods, setItemMods] = useState(gears.find(g => g.name === name)?.mods);
+  const [itemProps, setItemProps] = useState(gears.find(g => g.slot === slot)!.props);
+  const [itemMods, setItemMods] = useState(gears.find(g => g.slot === slot)!.mods);
 
-  let gear: Partial<IGear> = gears.find(g => g.name === name)!;
+  let gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
 
   useEffect(() => {
     setGears(prev => {
       return prev.map(p => {
-        if (p.name === name) {
+        if (p.slot === slot) {
           return {
             ...p,
             props: {
@@ -63,15 +63,15 @@ export default function Item({
         return p;
       })
     })
-  }, [name, itemProps, itemMods, setGears]);
+  }, [slot, itemProps, itemMods, setGears]);
 
   useEffect(() => {
-    setItemProps(prev => {
-      let newProps = prev;
+    setItemProps(() => {
+      let newProps = { ...selectedBase };
 
       //defenses
-      if (selectedBase.defMax && (itemMods?.defense || itemMods?.defenseBonus || itemMods?.defenseBocl)) {
-        newProps!.defMax = Math.floor(selectedBase.defMax * ((itemMods?.defenseBonus || 0) / 100 + 1) + (itemMods?.defense || 0) + ((itemMods?.defenseBocl || 0) * charLevel))
+      if (selectedBase.maxDef && (itemMods?.defense || itemMods?.defenseBonus || itemMods?.defenseBocl)) {
+        newProps!.maxDef = Math.floor(selectedBase.maxDef * ((itemMods?.defenseBonus || 0) / 100 + 1) + (itemMods?.defense || 0) + ((itemMods?.defenseBocl || 0) * charLevel))
       }
 
       //requirements
@@ -84,23 +84,30 @@ export default function Item({
       }
 
       return {
-        ...prev,
+        ...selectedBase,
         ...newProps
-      };
-    })
+      }
+    });
   }, [charLevel, selectedBase, itemMods, setItemProps]);
 
   function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    let id = event.target.value;
-    let base = bases?.find(i => i.id === id);
-    setHasTwoHanded && setHasTwoHanded(base?.TwoHanded ? true : false);
-    setSelectedBase(id ? bases!.find(i => i.id === id)! : {});
+    let code = event.target.value;
+    let base = bases?.find(i => i.code === code);
+    setHasTwoHanded && setHasTwoHanded(base?.twoHanded ? true : false);
+    setSelectedBase(code ? bases?.find(i => i.code === code)! : {});
 
     //TODO:
-    //handle gear item props (requirements, damage, speed/IAS)
+    //organize props section and make a separated component
+    //handle gear item props (block, damage, speed/IAS)
     //handle skills
     //how mods are printed
   }
+
+
+
+  const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed']
+
+
 
   function addModExample() {
     setItemMods(prev => {
@@ -118,100 +125,27 @@ export default function Item({
   return (
     <Wrapper>
       <Icon>
-        <img src={require(`assets/images/gears/${icon}.png`).default} alt={name} />
+        <img src={require(`assets/images/gears/${icon}.png`).default} alt={slot} />
       </Icon>
       <Contents>
         {bases ?
           <>
             <BaseSelector as="select" onChange={handleBaseSelect}>
-              <option value="">{name}</option>
-              {bases.map(({ id, name }) =>
-                <option value={id} key={id}>{name}</option>
+              <option value="">{slot}</option>
+              {bases.map(({ code, name }) =>
+                <option value={code} key={code}>{name}</option>
               )}
             </BaseSelector>
-            {'id' in selectedBase &&
+            {Object.keys(selectedBase).length > 0 &&
               <ItemProps>
-                {'defMax' in selectedBase &&
-                  <li>
-                    Defense: {gear.props?.defMax ?
-                      <Tooltip as="span" className="highlight" center data-tooltip={`Base Defense: ${selectedBase.defMax}`}>{gear.props?.defMax}</Tooltip>
-                      :
-                      <span className={gear.props?.defMax ? 'highlight' : ''}>{gear.props?.defMax || selectedBase.defMax}</span>
-                    }
-                  </li>
-                }
-
-                {'block' in selectedBase &&
-                  <li>Chance to Block: <span>{selectedBase.block! + charData.stats.block}%</span></li>
-                }
-
-                {'dmgMin' in selectedBase && !('TwoHanded' in selectedBase) &&
-                  <li>
-                    {['shie', 'ashd'].includes(selectedBase.type!) ? 'Smite Damage: ' : 'One-Hand Damage: '}
-                    <span>{selectedBase.dmgMin}-{selectedBase.dmgMax}</span>
-                  </li>
-                }
-
-                {'TwoHandedDmgMin' in selectedBase &&
-                  <li>Two-Hand Damage: <span>{selectedBase.TwoHandedDmgMin}-{selectedBase.TwoHandedDmgMax}</span></li>
-                }
-
-                {'MisDmgMin' in selectedBase &&
-                  <li>Throw Damage: <span>{selectedBase.MisDmgMin}-{selectedBase.MisDmgMax}</span></li>
-                }
-
-                {'levelReq' in selectedBase &&
-                  <li>
-                    Required Level: {charLevel < selectedBase.levelReq! ?
-                      <Tooltip as="span" className="warn" center data-tooltip={`Current Level: ${charLevel}`}>{selectedBase.levelReq}</Tooltip>
-                      :
-                      <span>{selectedBase.levelReq}</span>
-                    }
-                  </li>
-                }
-
-                {'strReq' in selectedBase &&
-                  <li>
-                    Required Strength: {attrs.strength.total! < (gear?.props?.strReq || selectedBase.strReq || 0) &&
-                      <Tooltip as="span" className="warn" center data-tooltip={`Current Strength: ${attrs.strength.total}`}>{gear.props?.strReq || selectedBase.strReq!}</Tooltip>
-                    }
-
-                    {gear?.props?.strReq ?
-                      <Tooltip as="span" className="highlight" center data-tooltip={`Base: ${selectedBase.strReq!}`}>{gear.props?.strReq}</Tooltip>
-                      :
-                      <span>{selectedBase.strReq!}</span>
-                    }
-
-                  </li>
-                }
-
-                {'dexReq' in selectedBase &&
-                  <li>
-                    Required Dexteity: {attrs.dexterity.total! < (gear?.props?.dexReq || selectedBase.dexReq || 0) &&
-                      <Tooltip as="span" className="warn" center data-tooltip={`Current Dexterity: ${attrs.dexterity.total}`}>{gear.props?.dexReq || selectedBase.dexReq!}</Tooltip>
-                    }
-
-                    {gear?.props?.dexReq ?
-                      <Tooltip as="span" className="highlight" center data-tooltip={`Base: ${selectedBase.dexReq!}`}>{gear.props?.dexReq}</Tooltip>
-                      :
-                      <span>{selectedBase.dexReq!}</span>
-                    }
-                  </li>
-                }
-
-                {'sockets' in selectedBase &&
-                  <li>Max Sockets: <span>{selectedBase.sockets}</span></li>
-                }
-
-                {'speed' in selectedBase &&
-                  /* HANDLE SPEED WITH WEAPON CLASS MODIFIER TABLE */
-                  <li>Item Class (ex. AXE CLASS): <span>{selectedBase.speed}</span></li>
-                }
+                {itemPropsToRender.map(prop =>
+                  <ItemProp key={prop} itemProps={itemProps} selectedBase={selectedBase} prop={prop} />
+                )}
               </ItemProps>
             }
           </>
           :
-          <Title>{name}</Title>
+          <Title>{slot}</Title>
         }
         {gear &&
           <ItemMods>

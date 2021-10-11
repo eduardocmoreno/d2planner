@@ -59,7 +59,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   if (gearBonuses.length) {
     gearBonuses.forEach((g, i) => {
-      tooltipDetails += `${capitalize(g.name)}: +${g.mods[attr] || g.mods.allAttrs}`;
+      tooltipDetails += `${capitalize(g.slot)}: +${g.mods[attr] || g.mods.allAttrs}`;
       i + 1 !== gearBonuses.length && (tooltipDetails += `\n`)
     });
   }
