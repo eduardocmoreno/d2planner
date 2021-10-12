@@ -48,7 +48,6 @@ interface IGearMods {
     dmg: number; //like in Grief
     eDmg: number; //enhanced dmg
     eDmgBocl: number; //enhanced dmg based on char level
-    dmgBocl: number; //based on char level
     minDmg: number; //to minimum dmg
     maxDmg: number; //to maximum dmg
     maxDmgBocl: number; //to maximum dmg
@@ -82,6 +81,8 @@ interface IGearMods {
     level: number; //skill level
     chance: number; //chance
   }
+
+  lightningResBocl: number; //Stormspike
 }
 
 type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";

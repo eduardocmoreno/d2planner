@@ -1,4 +1,4 @@
-import { SetStateAction, useContext, useEffect, useState } from "react";
+import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import styled, { css } from "styled-components";
 import Button from "components/ui/Button";
@@ -31,6 +31,11 @@ Bow                                14       15         19         17        15  
 Crossbow                           19       19         24         19        19       19
 */
 
+/* 
+  absolute final dmg = base + off-weap% (regular values plus demons dmg% or undead dmg%) + elem-dmg
+  ***dmg to demons or undead are OFF-WEAPON properties!--------^--------------^
+*/
+
 
 //TODO:
 //handle gear item props by mods (damage, speed/IAS)
@@ -51,6 +56,7 @@ export default function Item({
   const [selectedBase, setSelectedBase] = useState({} as Partial<IGearProps>);
   const [itemProps, setItemProps] = useState(gears.find(g => g.slot === slot)!.props);
   const [itemMods, setItemMods] = useState(gears.find(g => g.slot === slot)!.mods);
+  const htmlSelector = useRef<HTMLSelectElement>(null);
 
   let gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
 
@@ -96,50 +102,52 @@ export default function Item({
     }
 
     //damage
-    /* calc in order for the base item:
-      - enhanced dmg
-      - dmg
-      - min dmg
-      - max dmg
-      - max dmg bocl
-      
-      absolute final dmg = base + off-weap% (regular values plus demons dmg% or undead dmg%) + elem-dmg
-      ***dmg to demons or undead are OFF-WEAPON properties!--------^--------------^
-
-      props to treat
-      minDmg
-      maxDmg
-      twoHandMinDmg
-      twoHandMaxDmg
-      throwMinDmg
-      throwMaxDmg      
-    */    
-    //if(('minDmg' || 'maxDmg' || 'twoHandMinDmg' || 'twoHandMaxDmg' || 'throwMinDmg' || 'throwMaxDmg') in selectedBase) {
-    if(('minDmg' || 'maxDmg') in selectedBase) {
-      newProps.minDmg = selectedBase.minDmg;
-      newProps.maxDmg = selectedBase.maxDmg;
-      
-      if(itemMods.eDmg) {
-        newProps.minDmg = Math.floor(percent(selectedBase.minDmg!, itemMods.eDmg));
-        newProps.maxDmg = Math.floor(percent(selectedBase.maxDmg!, itemMods.eDmg));
+    let dmgProps: {
+      min: 'minDmg' | 'twoHandMinDmg' | 'throwMinDmg';
+      max: 'maxDmg' | 'twoHandMaxDmg' | 'throwMaxDmg';
+    }[] = [
+      {
+        min: 'minDmg',
+        max: 'maxDmg'
+      },
+      {
+        min: 'twoHandMinDmg',
+        max: 'twoHandMaxDmg'
+      },
+      {
+        min: 'throwMinDmg',
+        max: 'throwMaxDmg'
       }
+    ]
 
-      if(itemMods.maxDmg) {
-        newProps.maxDmg = (newProps.maxDmg || selectedBase.maxDmg!) + itemMods.maxDmg;
-      }
+    dmgProps.forEach(({ min, max }) => {
+      /* 
+      props applied directly on shields
+      - WEAPON +DMG (like grief)
+      */
+      if ((min || max) in selectedBase) {
+        if (itemMods.eDmg) {
+          newProps[min] = Math.floor(percent(selectedBase[min]!, itemMods.eDmg));
+          newProps[max] = Math.floor(percent(selectedBase[max]!, itemMods.eDmg));
+        }
 
-      if(itemMods.minDmg) {
-        newProps.minDmg = (newProps.minDmg || selectedBase.minDmg!) + itemMods.minDmg;
-        if(newProps.minDmg > (newProps.maxDmg || selectedBase.maxDmg!)) {
-          newProps.maxDmg = newProps.minDmg + 1;
+        if (itemMods.maxDmg) {
+          newProps[max] = (newProps[max] || selectedBase[max]!) + itemMods.maxDmg;
+        }
+
+        if (itemMods.minDmg) {
+          newProps[min] = (newProps[min] || selectedBase[min]!) + itemMods.minDmg;
+          if (newProps[min]! > (newProps[max] || selectedBase[max]!)) {
+            newProps[max] = newProps[min]! + 1;
+          }
+        }
+
+        if (itemMods.dmg) {
+          newProps[min] = (newProps[min] || selectedBase[min]!) + itemMods.dmg;
+          newProps[max] = (newProps[max] || selectedBase[max]!) + itemMods.dmg;
         }
       }
-
-      if(itemMods.dmg) {
-        newProps.minDmg = (newProps.minDmg || selectedBase.minDmg!) + itemMods.dmg;
-        newProps.maxDmg = (newProps.maxDmg || selectedBase.maxDmg!) + itemMods.dmg;
-      }
-    }
+    })
 
     setItemProps(() => {
       return {
@@ -162,12 +170,25 @@ export default function Item({
     setItemMods(prev => {
       return {
         ...prev,
-        eDmg: 300,
-        maxDmg: 15,
-        minDmg: 10,
         dmg: 120
       }
     });
+  }
+
+  function addModExample2() {
+    setItemMods(prev => {
+      return {
+        ...prev,
+        eDmg: 300
+      }
+    });
+  }
+
+  function reset() {
+    setSelectedBase({});
+    setItemProps({});
+    setItemMods({});
+    htmlSelector.current!.selectedIndex = 0;
   }
 
   return (
@@ -178,7 +199,7 @@ export default function Item({
       <Contents>
         {bases ?
           <>
-            <BaseSelector as="select" onChange={handleBaseSelect}>
+            <BaseSelector ref={htmlSelector} as="select" onChange={handleBaseSelect}>
               <option value="">{slot}</option>
               {bases.map(({ code, name }) =>
                 <option value={code} key={code}>{name}</option>
@@ -187,7 +208,7 @@ export default function Item({
             {Object.keys(selectedBase).length > 0 &&
               <ItemProps>
                 {itemPropsToRender.map(prop =>
-                  <ItemProp key={prop} {...{itemProps, selectedBase}} prop={prop} />
+                  <ItemProp key={prop} {...{ itemProps, selectedBase }} prop={prop} />
                 )}
               </ItemProps>
             }
@@ -202,10 +223,11 @@ export default function Item({
             )}
           </ItemMods>
         }
-        <Button blue onClick={addModExample}>t</Button>
+        <Button blue onClick={addModExample}>1</Button>
+        <Button blue onClick={addModExample2}>2</Button>
+        <Button red onClick={reset}>RESET ITEM</Button>
         <Form>
         </Form>
-        <Button red>RESET ITEM</Button>
       </Contents>
     </Wrapper>
   )
