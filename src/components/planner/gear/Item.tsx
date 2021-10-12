@@ -3,6 +3,7 @@ import { PlannerContext } from "pages/Planner";
 import styled, { css } from "styled-components";
 import Button from "components/ui/Button";
 import ItemProp from "./ItemProp";
+import { percent } from "helpers";
 
 /* 
 WEAPON CLASS MODIFIER TABLE
@@ -33,6 +34,7 @@ Crossbow                           19       19         24         19        19  
 
 //TODO:
 //handle gear item props by mods (damage, speed/IAS)
+//apply "percend" helper function on old calcs
 //handle skills
 //how mods are printed
 
@@ -72,36 +74,74 @@ export default function Item({
   }, [slot, itemProps, itemMods, setGears]);
 
   useEffect(() => {
+    let newProps = { ...selectedBase };
+
+    //defenses
+    if (selectedBase.maxDef && (itemMods.def || itemMods.eDef || itemMods.defBocl)) {
+      newProps.maxDef = Math.floor(selectedBase.maxDef * ((itemMods?.eDef || 0) / 100 + 1) + (itemMods?.def || 0) + ((itemMods?.defBocl || 0) * charLevel))
+    }
+
+    //requirements
+    if (selectedBase.strReq && itemMods.req) {
+      newProps.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * itemMods.req / 100));
+    }
+
+    if (selectedBase.dexReq && itemMods.req) {
+      newProps.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * itemMods.req / 100));
+    }
+
+    //block
+    if (selectedBase.block && itemMods.block) {
+      newProps.block = selectedBase.block + itemMods.block;
+    }
+
+    //damage
+    /* calc in order for the base item:
+      - enhanced dmg
+      - dmg
+      - min dmg
+      - max dmg
+      - max dmg bocl
+      
+      absolute final dmg = base + off-weap% (regular values plus demons dmg% or undead dmg%) + elem-dmg
+      ***dmg to demons or undead are OFF-WEAPON properties!--------^--------------^
+
+      props to treat
+      minDmg
+      maxDmg
+      twoHandMinDmg
+      twoHandMaxDmg
+      throwMinDmg
+      throwMaxDmg      
+    */    
+    //if(('minDmg' || 'maxDmg' || 'twoHandMinDmg' || 'twoHandMaxDmg' || 'throwMinDmg' || 'throwMaxDmg') in selectedBase) {
+    if(('minDmg' || 'maxDmg') in selectedBase) {
+      newProps.minDmg = selectedBase.minDmg;
+      newProps.maxDmg = selectedBase.maxDmg;
+      
+      if(itemMods.eDmg) {
+        newProps.minDmg = Math.floor(percent(selectedBase.minDmg!, itemMods.eDmg));
+        newProps.maxDmg = Math.floor(percent(selectedBase.maxDmg!, itemMods.eDmg));
+      }
+
+      if(itemMods.maxDmg) {
+        newProps.maxDmg = (newProps.maxDmg || selectedBase.maxDmg!) + itemMods.maxDmg;
+      }
+
+      if(itemMods.minDmg) {
+        newProps.minDmg = (newProps.minDmg || selectedBase.minDmg!) + itemMods.minDmg;
+        if(newProps.minDmg > (newProps.maxDmg || selectedBase.maxDmg!)) {
+          newProps.maxDmg = newProps.minDmg + 1;
+        }
+      }
+
+      if(itemMods.dmg) {
+        newProps.minDmg = (newProps.minDmg || selectedBase.minDmg!) + itemMods.dmg;
+        newProps.maxDmg = (newProps.maxDmg || selectedBase.maxDmg!) + itemMods.dmg;
+      }
+    }
+
     setItemProps(() => {
-      let newProps = { ...selectedBase };
-
-      //defenses
-      if (selectedBase.maxDef && (itemMods.defense || itemMods.defenseBonus || itemMods.defenseBocl)) {
-        newProps.maxDef = Math.floor(selectedBase.maxDef * ((itemMods?.defenseBonus || 0) / 100 + 1) + (itemMods?.defense || 0) + ((itemMods?.defenseBocl || 0) * charLevel))
-      }
-
-      //requirements
-      if (selectedBase.strReq && itemMods.requirements) {
-        newProps.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * itemMods.requirements / 100));
-      }
-
-      if (selectedBase.dexReq && itemMods.requirements) {
-        newProps.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * itemMods.requirements / 100));
-      }
-
-      //block
-      if (selectedBase.block && itemMods.block) {
-        newProps.block = selectedBase.block + itemMods.block;
-      }
-
-      //damage
-      /* 
-        - enhanced dmg
-        - min dmg
-        - max dmg
-        - max dmg bocl
-      */
-
       return {
         ...selectedBase,
         ...newProps
@@ -122,7 +162,10 @@ export default function Item({
     setItemMods(prev => {
       return {
         ...prev,
-        block: 20
+        eDmg: 300,
+        maxDmg: 15,
+        minDmg: 10,
+        dmg: 120
       }
     });
   }
@@ -144,7 +187,7 @@ export default function Item({
             {Object.keys(selectedBase).length > 0 &&
               <ItemProps>
                 {itemPropsToRender.map(prop =>
-                  <ItemProp key={prop} itemProps={itemProps} selectedBase={selectedBase} prop={prop} />
+                  <ItemProp key={prop} {...{itemProps, selectedBase}} prop={prop} />
                 )}
               </ItemProps>
             }

@@ -1,5 +1,2 @@
-export const capitalize = (str: string) => {
-  return str.replaceAll('-', ' ').split(' ').map(w => {
-    return w.charAt(0).toUpperCase() + w.slice(1);
-  }).join(' ');
-}
+export const capitalize = (str: string) => str.replaceAll('-', ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+export const percent = (value: number, percent: number): number => value * (percent / 100 + 1);

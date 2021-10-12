@@ -36,23 +36,22 @@ interface IGearMods {
   vitality: number;
   energy: number;
 
-  defense: number;
-  defenseBonus: number; //enhanced defense
-  defenseBocl: number; //based on char level
+  def: number;
+  eDef: number; //enhanced defense
+  defBocl: number; //based on char level
 
-  requirements: number;
+  req: number;
 
   block: number;
 
-  dmgBonus: number; //enhanced dmg
   
     dmg: number; //like in Grief
-    dmgMin: number; //to minimum dmg
-    dmgMax: number; //to maximum dmg
-    dmgMaxBocl: number; //to maximum dmg
-    dmgBonusBocl: number; //enhanced dmg based on char level
+    eDmg: number; //enhanced dmg
+    eDmgBocl: number; //enhanced dmg based on char level
     dmgBocl: number; //based on char level
-  
+    minDmg: number; //to minimum dmg
+    maxDmg: number; //to maximum dmg
+    maxDmgBocl: number; //to maximum dmg
   
   
   allSkills: number;
@@ -94,9 +93,7 @@ interface IGearProps {
   type: 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'pelt' | 'phlm' | 'ashd' | 'head' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot' | 'h2h' | 'h2h2' | 'orb' | 'abow' | 'aspe' | 'ajav' | 'ring' | 'amul' | 'chrm' | 'torc';
   minDef: number;
   maxDef: number;
-
-    block: number;
-
+  block: number;
   strReq: number;
   strBonus: number;
   dexReq: number;

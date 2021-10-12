@@ -24,7 +24,7 @@ export default function ItemProp({ itemProps, selectedBase, prop }: { itemProps:
       if (prop in itemProps!) {
         return <li>
           {['shie', 'ashd'].includes(itemProps.type!) ? 'Smite Damage: ' : 'One-Hand Damage: '}
-          <span>{selectedBase.minDmg}-{selectedBase.maxDmg}</span>
+          <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>
         </li>
       }
       return null;
@@ -32,14 +32,14 @@ export default function ItemProp({ itemProps, selectedBase, prop }: { itemProps:
 
     case 'twoHandMinDmg': {
       if (prop in itemProps!) {
-        return <li>Two-Hand Damage: <span>{selectedBase.twoHandMinDmg}-{selectedBase.twoHandMaxDmg}</span></li>
+        return <li>Two-Hand Damage: <span>{itemProps.twoHandMinDmg}-{itemProps.twoHandMaxDmg}</span></li>
       }
       return null;
     }
 
     case 'throwMinDmg': {
       if (prop in itemProps!) {
-        return <li>Two-Hand Damage: <span>{selectedBase.throwMinDmg}-{selectedBase.throwMaxDmg}</span></li>
+        return <li>Two-Hand Damage: <span>{itemProps.throwMinDmg}-{itemProps.throwMaxDmg}</span></li>
       }
       return null;
     }
