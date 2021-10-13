@@ -249,7 +249,7 @@ RESULTS =========================================
   eg.: TOTAL CTB: 54%
     "YOU ARE 32 (RETURN - NUMBER) DEXTERITY POINTS AWAY TO ACHIEVE MAX 75% CTB"
 
-    *** CTB FORMULA: T = [B * (D - 15) / (2 * C)]
+    *** CTB FORMULA: T = B * (D - 15) / (2 * C)
         T = TOTAL CHANCE
         B = TOTAL BLOCKING BONUS (CHAR INIT VALUES + SHIELD CTB + ICB FROM ITEMS + HS SKILL)
         D = DEX
@@ -259,6 +259,12 @@ RESULTS =========================================
         - Paladin: +30 (%)
         - Amazon, Assassin, Barbarian: +25 (%)
         - Druid, Necromancer, Sorceress: +20 (%)
+        
+        ex: paladin lvl 99, alma negra (20), guardian angel (20), 70 dex, no HS
+        ex: T = (30 + 28 + 20 + 20 + 0) * (70 - 15) / 2 * 99
+            T = 98 * 55 / 198 = 21.66% >> math.round >> 27%
+        
+        HOW MUCH DEX DO I NEED FORMULA: (75 * 2 * C + (B * 15))/B
 
         * MAX BLOCK CALC WEBSITE http://www.baronsbazaar.ca/forum/ppr/block_calc.html
 

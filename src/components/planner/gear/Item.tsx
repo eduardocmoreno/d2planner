@@ -58,7 +58,8 @@ export default function Item({
   const [itemMods, setItemMods] = useState(gears.find(g => g.slot === slot)!.mods);
   const htmlSelector = useRef<HTMLSelectElement>(null);
 
-  let gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
+  const gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
+  const rhMods: Partial<IGearMods> = gears.find(g => g.slot === 'right-hand')?.mods || {};
 
   useEffect(() => {
     setGears(prev => {
@@ -66,17 +67,13 @@ export default function Item({
         if (p.slot === slot) {
           return {
             ...p,
-            props: {
-              ...itemProps
-            },
-            mods: {
-              ...itemMods
-            }
+            props: { ...itemProps },
+            mods: { ...itemMods }
           }
         }
         return p;
       })
-    })
+    });
   }, [slot, itemProps, itemMods, setGears]);
 
   useEffect(() => {
@@ -106,25 +103,25 @@ export default function Item({
       min: 'minDmg' | 'twoHandMinDmg' | 'throwMinDmg';
       max: 'maxDmg' | 'twoHandMaxDmg' | 'throwMaxDmg';
     }[] = [
-      {
-        min: 'minDmg',
-        max: 'maxDmg'
-      },
-      {
-        min: 'twoHandMinDmg',
-        max: 'twoHandMaxDmg'
-      },
-      {
-        min: 'throwMinDmg',
-        max: 'throwMaxDmg'
-      }
-    ]
+        {
+          min: 'minDmg',
+          max: 'maxDmg'
+        },
+        {
+          min: 'twoHandMinDmg',
+          max: 'twoHandMaxDmg'
+        },
+        {
+          min: 'throwMinDmg',
+          max: 'throwMaxDmg'
+        }
+      ]
 
+    /* 
+    props applied directly on shields
+    - WEAPON +DMG (like grief)
+    */
     dmgProps.forEach(({ min, max }) => {
-      /* 
-      props applied directly on shields
-      - WEAPON +DMG (like grief)
-      */
       if ((min || max) in selectedBase) {
         if (itemMods.eDmg) {
           newProps[min] = Math.floor(percent(selectedBase[min]!, itemMods.eDmg));
@@ -142,12 +139,12 @@ export default function Item({
           }
         }
 
-        if (itemMods.dmg) {
-          newProps[min] = (newProps[min] || selectedBase[min]!) + itemMods.dmg;
-          newProps[max] = (newProps[max] || selectedBase[max]!) + itemMods.dmg;
+        if (itemMods.dmg || ['shie', 'ashd'].includes(selectedBase.type!)) {
+          newProps[min] = (newProps[min] || selectedBase[min]!) + (itemMods.dmg || rhMods.dmg || 0);
+          newProps[max] = (newProps[max] || selectedBase[max]!) + (itemMods.dmg || rhMods.dmg || 0);
         }
       }
-    })
+    });
 
     setItemProps(() => {
       return {
@@ -155,7 +152,7 @@ export default function Item({
         ...newProps
       }
     });
-  }, [charLevel, selectedBase, itemMods, setItemProps]);
+  }, [charLevel, selectedBase, itemMods, setItemProps, rhMods.dmg]);
 
   function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     let code = event.target.value;
@@ -208,7 +205,7 @@ export default function Item({
             {Object.keys(selectedBase).length > 0 &&
               <ItemProps>
                 {itemPropsToRender.map(prop =>
-                  <ItemProp key={prop} {...{ itemProps, selectedBase }} prop={prop} />
+                  <ItemProp key={prop} {...{ slot, itemProps, selectedBase, prop }} />
                 )}
               </ItemProps>
             }

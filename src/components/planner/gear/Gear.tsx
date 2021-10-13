@@ -26,17 +26,21 @@ export default function Gear() {
 
   return (
     <Gears>
-      <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
+      {/* <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
 
-      <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
-      
-      <Item slot="left-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
+      <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" /> */}
+
+      <Item slot="right-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
       {!hasTwoHanded &&
-        <Item slot="right-hand" bases={armors.current.filter(a => ['shie','ashd'].includes(a.type!))} icon="icon-shield" />
+        <Item
+          slot="left-hand"
+          bases={armors.current.filter(a => ['shie', 'ashd'].includes(a.type!))}
+          icon="icon-shield"
+        />
       }
 
-      <Item slot="gloves" bases={armors.current.filter(a => a.type! === 'glov')} icon="icon-gloves" />
+      {/* <Item slot="gloves" bases={armors.current.filter(a => a.type! === 'glov')} icon="icon-gloves" />
 
       <Item slot="belt" bases={armors.current.filter(a => a.type! === 'belt')} icon="icon-belt" />
 
@@ -52,7 +56,7 @@ export default function Gear() {
 
       <Item slot="annihilus" icon="icon-annihilus" />
 
-      <Item slot="charms" icon="icon-charms" />
+      <Item slot="charms" icon="icon-charms" /> */}
     </Gears>
   )
 }

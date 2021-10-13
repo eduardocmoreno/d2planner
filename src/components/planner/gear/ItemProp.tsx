@@ -3,9 +3,14 @@ import { capitalize } from "helpers";
 import { PlannerContext } from "pages/Planner";
 import { useContext } from "react";
 
-export default function ItemProp({ itemProps, selectedBase, prop }: { itemProps: Partial<IGearProps>, selectedBase: Partial<IGearProps>, prop: TItemPropsToRender }) {
-  const {charClass, charData, charLevel, attrs} = useContext(PlannerContext);
-  
+export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
+  slot: IGear['slot'],
+  itemProps: Partial<IGearProps>, 
+  selectedBase: Partial<IGearProps>, 
+  prop: TItemPropsToRender 
+}) {
+  const { charClass, charData, charLevel, attrs, gears } = useContext(PlannerContext);
+
   switch (prop) {
     case 'minDef': {
       if (prop in itemProps!) {
@@ -22,24 +27,32 @@ export default function ItemProp({ itemProps, selectedBase, prop }: { itemProps:
 
     case 'minDmg': {
       if (prop in itemProps!) {
-        return <li>
-          {['shie', 'ashd'].includes(itemProps.type!) ? 'Smite Damage: ' : 'One-Hand Damage: '}
-          <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>
-        </li>
+        let result = <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>;
+        let dataTooltip = `Base Damage: ${selectedBase.minDmg}-${selectedBase.maxDmg}`;
+
+        if(itemProps.minDmg! > selectedBase.minDmg!){
+          if(['shie', 'ashd'].includes(selectedBase.type!)) {
+            dataTooltip += `\n${gears.find(g => g.slot === 'right-hand')?.props.name} Damage: +${gears.find(g => g.slot === 'right-hand')?.mods.dmg}`;
+          }
+          result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.minDmg}-{itemProps.maxDmg}</Tooltip>
+        }
+
+        return <li>One-Hand Damage: {result}</li>
       }
       return null;
     }
 
     case 'twoHandMinDmg': {
       if (prop in itemProps!) {
-        return <li>Two-Hand Damage: <span>{itemProps.twoHandMinDmg}-{itemProps.twoHandMaxDmg}</span></li>
+        let result = <span>{itemProps.twoHandMinDmg}-{itemProps.twoHandMaxDmg}</span>;
+        return <li>Two-Hand Damage: {result}</li>
       }
       return null;
     }
 
     case 'throwMinDmg': {
       if (prop in itemProps!) {
-        return <li>Two-Hand Damage: <span>{itemProps.throwMinDmg}-{itemProps.throwMaxDmg}</span></li>
+        return <li>Throw Damage: <span>{itemProps.throwMinDmg}-{itemProps.throwMaxDmg}</span></li>
       }
       return null;
     }
