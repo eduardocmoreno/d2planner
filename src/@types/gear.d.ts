@@ -1,5 +1,6 @@
 interface IGear {
   slot: 'head' | 'torso' | 'belt' | 'gloves' | 'boots' | 'left-hand' | 'right-hand' | 'amulet' | 'left-ring' | 'right-ring' | 'torch' | 'annihilus' | 'charms';
+  base: Partial<IGearProps>;
   props: Partial<IGearProps>;
   mods: Partial<IGearMods>;
 }

@@ -52,50 +52,66 @@ export default function Item({
   setHasTwoHanded?: React.Dispatch<SetStateAction<boolean>>
 }) {
 
-  const { charLevel, gears, setGears } = useContext(PlannerContext);
+  const { charData, charLevel, gears, setGears } = useContext(PlannerContext);
   const [selectedBase, setSelectedBase] = useState({} as Partial<IGearProps>);
   const [itemProps, setItemProps] = useState(gears.find(g => g.slot === slot)!.props);
   const [itemMods, setItemMods] = useState(gears.find(g => g.slot === slot)!.mods);
-  const htmlSelector = useRef<HTMLSelectElement>(null);
-
+  
+  const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed'];
   const gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
   const rhMods: Partial<IGearMods> = gears.find(g => g.slot === 'right-hand')?.mods || {};
+  const htmlSelector = useRef<HTMLSelectElement>(null);
 
-  useEffect(() => {
-    setGears(prev => {
-      return prev.map(p => {
-        if (p.slot === slot) {
-          return {
-            ...p,
-            props: { ...itemProps },
-            mods: { ...itemMods }
-          }
-        }
-        return p;
-      })
+  function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
+    let code = event.target.value;
+    setSelectedBase(code ? bases?.find(i => i.code === code)! : {});
+  }
+
+  function addModExample() {
+    setItemMods(prev => {
+      return {
+        ...prev,
+        dmg: 400
+      }
     });
-  }, [slot, itemProps, itemMods, setGears]);
+  }
+
+  function addModExample2() {
+    setItemMods(prev => {
+      return {
+        ...prev,
+        eDmg: 300
+      }
+    });
+  }
+
+  function reset() {
+    setSelectedBase({});
+    setItemProps({});
+    setItemMods({});
+    htmlSelector.current!.selectedIndex = 0;
+  }
 
   useEffect(() => {
     let newProps = { ...selectedBase };
 
     //defenses
-    if (selectedBase.maxDef && (itemMods.def || itemMods.eDef || itemMods.defBocl)) {
+    if (selectedBase.maxDef) {
       newProps.maxDef = Math.floor(selectedBase.maxDef * ((itemMods?.eDef || 0) / 100 + 1) + (itemMods?.def || 0) + ((itemMods?.defBocl || 0) * charLevel))
     }
 
     //requirements
-    if (selectedBase.strReq && itemMods.req) {
-      newProps.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * itemMods.req / 100));
+    if (selectedBase.strReq) {
+      newProps.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * (itemMods.req || 0) / 100));
     }
 
-    if (selectedBase.dexReq && itemMods.req) {
-      newProps.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * itemMods.req / 100));
+    if (selectedBase.dexReq) {
+      newProps.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * (itemMods.req || 0) / 100));
     }
 
     //block
-    if (selectedBase.block && itemMods.block) {
-      newProps.block = selectedBase.block + itemMods.block;
+    if (selectedBase.block) {
+      newProps.block = charData.stats.block + selectedBase.block + (itemMods.block || 0);
     }
 
     //damage
@@ -117,10 +133,6 @@ export default function Item({
         }
       ]
 
-    /* 
-    props applied directly on shields
-    - WEAPON +DMG (like grief)
-    */
     dmgProps.forEach(({ min, max }) => {
       if ((min || max) in selectedBase) {
         if (itemMods.eDmg) {
@@ -152,41 +164,25 @@ export default function Item({
         ...newProps
       }
     });
-  }, [charLevel, selectedBase, itemMods, setItemProps, rhMods.dmg]);
 
-  function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    let code = event.target.value;
-    let base = bases?.find(i => i.code === code);
-    setHasTwoHanded && setHasTwoHanded(base?.twoHanded ? true : false);
-    setSelectedBase(code ? bases?.find(i => i.code === code)! : {});
-  }
+    setHasTwoHanded && setHasTwoHanded(selectedBase?.twoHanded ? true : false);
+  }, [charData, charLevel, selectedBase, itemMods, rhMods.dmg, setItemProps, setHasTwoHanded]);
 
-  const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed']
-
-  function addModExample() {
-    setItemMods(prev => {
-      return {
-        ...prev,
-        dmg: 120
-      }
+  useEffect(() => {
+    setGears(prev => {
+      return prev.map(p => {
+        if (p.slot === slot) {
+          return {
+            ...p,
+            base: { ...itemProps },
+            props: { ...itemProps },
+            mods: { ...itemMods }
+          }
+        }
+        return p;
+      })
     });
-  }
-
-  function addModExample2() {
-    setItemMods(prev => {
-      return {
-        ...prev,
-        eDmg: 300
-      }
-    });
-  }
-
-  function reset() {
-    setSelectedBase({});
-    setItemProps({});
-    setItemMods({});
-    htmlSelector.current!.selectedIndex = 0;
-  }
+  }, [slot, itemProps, itemMods, setGears]);
 
   return (
     <Wrapper>

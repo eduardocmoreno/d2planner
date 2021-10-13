@@ -1,4 +1,5 @@
 const gearPropsModsInit = {
+  base: {},
   props: {},
   mods: {}
 }
