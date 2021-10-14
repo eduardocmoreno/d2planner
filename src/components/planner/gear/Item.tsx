@@ -38,10 +38,10 @@ Crossbow                           19       19         24         19        19  
 
 
 //TODO:
-//handle gear item props by mods (damage, speed/IAS)
-//apply "percend" helper function on old calcs
-//handle skills
+//make a form to add mods
 //how mods are printed
+//handle gear item props by mods (speed/IAS)
+//handle skills
 
 export default function Item({
   bases, slot, icon, setHasTwoHanded
@@ -58,7 +58,7 @@ export default function Item({
   const [itemMods, setItemMods] = useState(gears.find(g => g.slot === slot)!.mods);
 
   const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed'];
-  const gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
+  const item: Partial<IGear> = gears.find(g => g.slot === slot)!;
   const rhMods: Partial<IGearMods> = gears.find(g => g.slot === 'right-hand')?.mods || {};
   const htmlSelector = useRef<HTMLSelectElement>(null);
 
@@ -72,12 +72,12 @@ export default function Item({
     setSelectedBase(code ? bases?.find(i => i.code === code)! : {});
   }
 
+  
   function addModExample() {
     setItemMods(prev => {
       return {
         ...prev,
-        minDmg: 15,
-
+        req: 50
       }
     });
   }
@@ -108,11 +108,11 @@ export default function Item({
 
     //requirements
     if (selectedBase.strReq) {
-      newProps.strReq = Math.floor(selectedBase.strReq - (selectedBase.strReq * (itemMods.req || 0) / 100));
+      newProps.strReq = Math.floor(percent(selectedBase.strReq, -(itemMods.req || 0)));
     }
 
     if (selectedBase.dexReq) {
-      newProps.dexReq = Math.floor(selectedBase.dexReq - (selectedBase.dexReq * (itemMods.req || 0) / 100));
+      newProps.dexReq = Math.floor(percent(selectedBase.dexReq, -(itemMods.req || 0)));
     }
 
     //block
@@ -185,7 +185,7 @@ export default function Item({
       }
     });
 
-    setHasTwoHanded && setHasTwoHanded(selectedBase?.twoHanded ? true : false);
+    setHasTwoHanded && setHasTwoHanded(!!selectedBase?.twoHanded);
   }, [charData, charLevel, selectedBase, itemMods, rhMods.dmg, setItemProps, setHasTwoHanded, offWeaponMods.minDmg, offWeaponMods.maxDmg]);
 
   useEffect(() => {
@@ -204,6 +204,33 @@ export default function Item({
     });
   }, [slot, itemProps, itemMods, setGears]);
 
+  const gearModsList: Array<keyof IGearMods> = ['allAttrs', 'strength', 'dexterity', 'vitality', 'energy'];
+  const [selectedMod, setSelectedMod] = useState('');
+  const [inputLvl1, setInputLvl1] = useState('');
+  const [inputLvl2, setInputLvl2] = useState('');
+  const [selectLvl1, setSelectLvl1] = useState('');
+
+  function handleModSelect(event: React.ChangeEvent<HTMLSelectElement>){
+    setSelectedMod(event.target.value);
+    /* switch(mod){
+      case 'strength': {
+        return <input type="number" />
+      }
+    } */
+  }
+
+  function handleModsForm(event: React.FormEvent<HTMLFormElement>){
+    event.preventDefault();
+    console.log(selectedMod, inputLvl1);
+    setItemMods(prev => {
+      return {
+        ...prev,
+        [selectedMod!]: inputLvl1
+      }
+    });
+  }
+
+
   return (
     <Wrapper>
       <Icon>
@@ -220,6 +247,7 @@ export default function Item({
             </BaseSelector>
             {Object.keys(selectedBase).length > 0 &&
               <ItemProps>
+                {/* FIX: attr has been add as string on attrs char setup */}
                 {itemPropsToRender.map(prop =>
                   <ItemProp key={prop} {...{ slot, itemProps, selectedBase, prop }} />
                 )}
@@ -229,9 +257,9 @@ export default function Item({
           :
           <Title>{slot}</Title>
         }
-        {gear &&
+        {item &&
           <ItemMods>
-            {Object.entries(gear.mods!).map(([k, v], i) =>
+            {Object.entries(item.mods!).map(([k, v]) =>
               <li key={k}>+{v} to {k}</li>
             )}
           </ItemMods>
@@ -239,7 +267,19 @@ export default function Item({
         <Button blue onClick={addModExample}>1</Button>
         <Button blue onClick={addModExample2}>2</Button>
         <Button red onClick={reset}>RESET ITEM</Button>
-        <Form>
+        <Form onSubmit={handleModsForm}>
+          <select onChange={handleModSelect}>
+            <option value="">Add mod</option>
+            {gearModsList.map((m, i) => {
+              return <option key={i} value={m}>{m}</option>
+            })}
+          </select>
+          {selectedMod &&
+            <>
+              <input type="number" placeholder="Numbers only" onChange={e => setInputLvl1(e.target.value)} />
+              <Button blue type="submit">OK</Button>
+            </>
+          }
         </Form>
       </Contents>
     </Wrapper>
@@ -273,7 +313,7 @@ const Title = styled.h2`
 `;
 
 const BaseSelector = styled(Title).attrs<React.SelectHTMLAttributes<HTMLSelectElement>>({ as: 'select' })`
-  ${HeadingStyle}
+  ${HeadingStyle};
   border-width: 0 0 1px 0;
   background-color: transparent;
   font-family: var(--font-family-main);

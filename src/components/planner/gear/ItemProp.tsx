@@ -1,7 +1,7 @@
 import Tooltip from "components/ui/Tooltip";
 import { capitalize } from "helpers";
 import { PlannerContext } from "pages/Planner";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
   slot: IGear['slot'],
@@ -10,6 +10,16 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
   prop: TItemPropsToRender
 }) {
   const { charClass, charData, charLevel, attrs, gears } = useContext(PlannerContext);
+
+  const isShield = ['shie', 'ashd'].includes(selectedBase.type!);
+  const isWeapon = !!selectedBase.weaponClass;
+
+  const offWeaponItemsRef = useRef([] as IGear[]);
+  const offWeaponItems = offWeaponItemsRef.current;
+
+  useEffect(() => {
+    offWeaponItemsRef.current = gears.filter(g => !g.base.weaponClass && Object.values(g.mods).length > 0);
+  }, [gears]);
 
   switch (prop) {
     case 'minDef': {
@@ -27,17 +37,22 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
 
     case 'minDmg': {
       if (prop in itemProps!) {
-        let isShield = ['shie', 'ashd'].includes(selectedBase.type!);
         let propLabel = isShield ? 'Smite' : 'One-Hand';
         let result = <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>;
         let dataTooltip = `Base ${propLabel} Damage: ${selectedBase.minDmg}-${selectedBase.maxDmg}`;
         let rhSlot = gears.find(g => g.slot === 'right-hand');
 
         if (itemProps.minDmg! > selectedBase.minDmg! || itemProps.maxDmg! > selectedBase.maxDmg!) {
+          if (isWeapon) {
+            offWeaponItems.forEach(g => {
+              dataTooltip += `\n${capitalize(g.slot)}: +${(g.mods.minDmg || 0)}-${(g.mods.maxDmg || 0)}`;
+            });
+          }
+
           if (isShield && rhSlot?.mods.dmg) {
             dataTooltip += `\n${rhSlot?.props.name || rhSlot?.slot} Damage: +${rhSlot?.mods.dmg}`;
           }
-          //TODO: list off Weapon items that provides min/max dmg
+          
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.minDmg}-{itemProps.maxDmg}</Tooltip>
         }
 
@@ -69,7 +84,7 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.throwMinDmg}-{itemProps.throwMaxDmg}</Tooltip>
         }
 
-        return <li>Throw Damage: <span>{result}</span></li>
+        return <li>Throw Damage: {result}</li>
       }
       return null;
     }
