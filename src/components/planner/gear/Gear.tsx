@@ -26,9 +26,9 @@ export default function Gear() {
 
   return (
     <Gears>
-      {/* <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
+      <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
 
-      <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" /> */}
+      <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
 
       <Item slot="right-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 

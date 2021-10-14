@@ -56,11 +56,16 @@ export default function Item({
   const [selectedBase, setSelectedBase] = useState({} as Partial<IGearProps>);
   const [itemProps, setItemProps] = useState(gears.find(g => g.slot === slot)!.props);
   const [itemMods, setItemMods] = useState(gears.find(g => g.slot === slot)!.mods);
-  
+
   const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed'];
   const gear: Partial<IGear> = gears.find(g => g.slot === slot)!;
   const rhMods: Partial<IGearMods> = gears.find(g => g.slot === 'right-hand')?.mods || {};
   const htmlSelector = useRef<HTMLSelectElement>(null);
+
+  const offWeaponMods: Partial<IGearMods> = {
+    minDmg: gears.filter(g => !g.props.weaponClass && g.mods.minDmg).map(g => g.mods.minDmg).reduce((a, b) => a! + b!, 0),
+    maxDmg: gears.filter(g => !g.props.weaponClass && g.mods.maxDmg).map(g => g.mods.maxDmg).reduce((a, b) => a! + b!, 0)
+  }
 
   function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     let code = event.target.value;
@@ -71,7 +76,8 @@ export default function Item({
     setItemMods(prev => {
       return {
         ...prev,
-        dmg: 400
+        minDmg: 15,
+
       }
     });
   }
@@ -80,7 +86,7 @@ export default function Item({
     setItemMods(prev => {
       return {
         ...prev,
-        eDmg: 300
+        maxDmg: 10
       }
     });
   }
@@ -114,49 +120,63 @@ export default function Item({
       newProps.block = charData.stats.block + selectedBase.block + (itemMods.block || 0);
     }
 
-    //damage
-    let dmgProps: {
-      min: 'minDmg' | 'twoHandMinDmg' | 'throwMinDmg';
-      max: 'maxDmg' | 'twoHandMaxDmg' | 'throwMaxDmg';
-    }[] = [
-        {
-          min: 'minDmg',
-          max: 'maxDmg'
-        },
-        {
-          min: 'twoHandMinDmg',
-          max: 'twoHandMaxDmg'
-        },
-        {
-          min: 'throwMinDmg',
-          max: 'throwMaxDmg'
-        }
-      ]
+    //damage (weapons only)
+    if (selectedBase.weaponClass) {
+      let dmgProps: {
+        min: 'minDmg' | 'twoHandMinDmg' | 'throwMinDmg';
+        max: 'maxDmg' | 'twoHandMaxDmg' | 'throwMaxDmg';
+      }[] = [
+          {
+            min: 'minDmg',
+            max: 'maxDmg'
+          },
+          {
+            min: 'twoHandMinDmg',
+            max: 'twoHandMaxDmg'
+          },
+          {
+            min: 'throwMinDmg',
+            max: 'throwMaxDmg'
+          }
+        ];
 
-    dmgProps.forEach(({ min, max }) => {
-      if ((min || max) in selectedBase) {
-        if (itemMods.eDmg) {
-          newProps[min] = Math.floor(percent(selectedBase[min]!, itemMods.eDmg));
-          newProps[max] = Math.floor(percent(selectedBase[max]!, itemMods.eDmg));
-        }
+      dmgProps.forEach(({ min, max }) => {
+        if ((min || max) in selectedBase) {
+          if (itemMods.eDmg) {
+            //weapon eDmg mod reflects directly to the weapon base damage,
+            //BUT, eDmg mod from other items is classified as off-weapon
+            newProps[min] = Math.floor(percent(selectedBase[min]!, itemMods.eDmg));
+            newProps[max] = Math.floor(percent(selectedBase[max]!, itemMods.eDmg));
+          }
 
-        if (itemMods.maxDmg) {
-          newProps[max] = (newProps[max] || selectedBase[max]!) + itemMods.maxDmg;
-        }
+          if (itemMods.maxDmg || offWeaponMods.maxDmg) {
+            //maxDmg from all items reflects to the weapon base damage
+            newProps[max] = (newProps[max] || selectedBase[max]!) + (itemMods.maxDmg || 0) + (offWeaponMods.maxDmg || 0);
+          }
 
-        if (itemMods.minDmg) {
-          newProps[min] = (newProps[min] || selectedBase[min]!) + itemMods.minDmg;
-          if (newProps[min]! > (newProps[max] || selectedBase[max]!)) {
-            newProps[max] = newProps[min]! + 1;
+          if (itemMods.minDmg || offWeaponMods.minDmg) {
+            //minDmg from all items reflects to the weapon base damage
+            newProps[min] = (newProps[min] || selectedBase[min]!) + (itemMods.minDmg || 0) + (offWeaponMods.minDmg || 0);
+            if (newProps[min]! > (newProps[max] || selectedBase[max]!)) {
+              newProps[max] = newProps[min]! + 1;
+            }
+          }
+
+          if (itemMods.dmg) {
+            //dmg mod is available only for weapons
+            newProps[min] = (newProps[min] || selectedBase[min]!) + itemMods.dmg;
+            newProps[max] = (newProps[max] || selectedBase[max]!) + itemMods.dmg;
           }
         }
+      });
+    }
 
-        if (itemMods.dmg || ['shie', 'ashd'].includes(selectedBase.type!)) {
-          newProps[min] = (newProps[min] || selectedBase[min]!) + (itemMods.dmg || rhMods.dmg || 0);
-          newProps[max] = (newProps[max] || selectedBase[max]!) + (itemMods.dmg || rhMods.dmg || 0);
-        }
-      }
-    });
+    //damage (shields only)
+    if (['shie', 'ashd'].includes(selectedBase.type!) && rhMods.dmg) {
+      //dmg mod from weapons reflects to shield base damage
+      newProps['minDmg'] = selectedBase['minDmg']! + rhMods.dmg;
+      newProps['maxDmg'] = selectedBase['maxDmg']! + rhMods.dmg;
+    }
 
     setItemProps(() => {
       return {
@@ -166,7 +186,7 @@ export default function Item({
     });
 
     setHasTwoHanded && setHasTwoHanded(selectedBase?.twoHanded ? true : false);
-  }, [charData, charLevel, selectedBase, itemMods, rhMods.dmg, setItemProps, setHasTwoHanded]);
+  }, [charData, charLevel, selectedBase, itemMods, rhMods.dmg, setItemProps, setHasTwoHanded, offWeaponMods.minDmg, offWeaponMods.maxDmg]);
 
   useEffect(() => {
     setGears(prev => {
