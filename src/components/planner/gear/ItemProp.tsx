@@ -9,7 +9,7 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
   selectedBase: Partial<IGearProps>,
   prop: TItemPropsToRender
 }) {
-  const { charClass, charData, charLevel, attrs, gears } = useContext(PlannerContext);
+  const { charClass, charData, charLevel, attrs, gear } = useContext(PlannerContext);
 
   const isShield = ['shie', 'ashd'].includes(selectedBase.type!);
   const isWeapon = !!selectedBase.weaponClass;
@@ -18,8 +18,8 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
   const offWeaponItems = offWeaponItemsRef.current;
 
   useEffect(() => {
-    offWeaponItemsRef.current = gears.filter(g => !g.base.weaponClass && Object.values(g.mods).length > 0);
-  }, [gears]);
+    offWeaponItemsRef.current = gear.filter(g => !g.base.weaponClass && Object.values(g.mods).length > 0);
+  }, [gear]);
 
   switch (prop) {
     case 'minDef': {
@@ -40,7 +40,7 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
         let propLabel = isShield ? 'Smite' : 'One-Hand';
         let result = <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>;
         let dataTooltip = `Base ${propLabel} Damage: ${selectedBase.minDmg}-${selectedBase.maxDmg}`;
-        let rhSlot = gears.find(g => g.slot === 'right-hand');
+        let rhSlot = gear.find(g => g.slot === 'right-hand');
 
         if (itemProps.minDmg! > selectedBase.minDmg! || itemProps.maxDmg! > selectedBase.maxDmg!) {
           if (isWeapon) {

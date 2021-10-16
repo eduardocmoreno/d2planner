@@ -25,7 +25,7 @@ export default function Gear() {
   }, [charData]);
 
   return (
-    <Gears>
+    <Items>
       <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
 
       <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
@@ -57,11 +57,11 @@ export default function Gear() {
       <Item slot="annihilus" icon="icon-annihilus" />
 
       <Item slot="charms" icon="icon-charms" /> */}
-    </Gears>
+    </Items>
   )
 }
 
-const Gears = styled.div`
+const Items = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);

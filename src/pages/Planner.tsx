@@ -8,7 +8,7 @@ import { PageTitle } from "components/ui/Headings";
 import plannerInit from "config/planner";
 import questsInit from "config/quests";
 import attrsInit from "config/attrs";
-import gearsInit from "config/gears";
+import gearInit from "config/gear";
 
 import questsReducer from "reducers/quests";
 import attrsReducer from "reducers/attrs";
@@ -40,7 +40,7 @@ export default function Planner() {
   const [skills, dispatchSkills] = useReducer(skillsReducer, []);
   const [skillPoints, setSkillPoints] = useState(0);
 
-  const [gears, setGears] = useState(gearsInit);
+  const [gear, setGear] = useState(gearInit);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -59,7 +59,7 @@ export default function Planner() {
     skills, dispatchSkills,
     skillPoints, setSkillPoints,
 
-    gears, setGears
+    gear, setGear
   }
 
   //on mount: retrieve character data

@@ -29,8 +29,8 @@ interface IPlannerContext {
   skillPoints: number;
   setSkillPoints: setStateAsNumber;
 
-  gears: IGear[];
-  setGears: React.Dispatch<React.SetStateAction<IGear[]>>;
+  gear: IGear[];
+  setGear: React.Dispatch<React.SetStateAction<IGear[]>>;
 };
 
 

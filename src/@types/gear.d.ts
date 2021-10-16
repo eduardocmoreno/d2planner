@@ -30,6 +30,12 @@ interface IGear {
 "dmg-undead"
 */
 
+type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
+
+interface IGearModsByCategory {
+  [key: keyof IGearMods]: string; 
+}
+
 interface IGearMods {
   allAttrs: number;
   strength: number;
@@ -40,24 +46,58 @@ interface IGearMods {
   def: number;
   eDef: number; //enhanced defense
   defBocl: number; //based on char level
+  block: number;
+  fhr: number;
 
   req: number;
+  mf: number;
 
-  block: number;
+  dmg: number; //like in Grief
+  eDmg: number; //enhanced dmg
+  eDmgBocl: number; //enhanced dmg based on char level
+  minDmg: number; //to minimum dmg
+  maxDmg: number; //to maximum dmg
+  maxDmgBocl: number; //to maximum dmg
+  dmgDemon: number;
+  dmgDemonBocl: number;
+  dmgUndead: number;
+  dmgUndeadBocl: number;
+  fireMin: number;
+  coldMin: number;
+  ltngMin: number;
+  poisMin: number;
+  fireMax: number;
+  coldMax: number;
+  ltngMax: number;
+  poisMax: number;
 
-  
-    dmg: number; //like in Grief
-    eDmg: number; //enhanced dmg
-    eDmgBocl: number; //enhanced dmg based on char level
-    minDmg: number; //to minimum dmg
-    maxDmg: number; //to maximum dmg
-    maxDmgBocl: number; //to maximum dmg
-  
-  
+  fireRes: number;
+  coldRex: number;
+  ltngRes: number;
+  poisRes: number;
+  maxFireRes: number;
+  maxColdRex: number;
+  maxLtngRes: number;
+  maxPoisRes: number;
+
+  ar: number;
+  arBocl: number;
+  eAr: number;
+  eArBocl: number;
+  ias: number;
+  ow: number;
+  cb: number;
+  ds: number;
+  dsBocl: number;
+  fcr: number;
+  frw: number;
+  lifeSteal: number;
+  manaSteal: number;
+
   allSkills: number;
   allClassSkills: number;
   
-  skillTree: {
+  treeSkills: {
     tree: 1 | 2 | 3;
     level: number;
   }
@@ -81,6 +121,12 @@ interface IGearMods {
     id: number; //class.skill.id
     level: number; //skill level
     chance: number; //chance
+  }
+
+  nonClassSkills: {
+    class: string;
+    id: number; //class.skill.id
+    level: number; //skill level
   }
 
   lightningResBocl: number; //Stormspike

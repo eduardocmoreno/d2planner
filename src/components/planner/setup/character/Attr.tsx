@@ -7,20 +7,20 @@ import Tooltip from "components/ui/Tooltip";
 import { capitalize } from "helpers";
 
 export default function Attr({ attr }: { attr: keyof IAttrs }) {
-  const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gears } = useContext(PlannerContext);
+  const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
 
-  const gearBonuses = gears.filter(g => g.mods[attr] || g.mods.allAttrs);
+  const gearBonuses = gear.filter(g => g.mods[attr] || g.mods.allAttrs);
 
   useEffect(() => {
     dispatchAttrs({
       type: 'BONUS',
       payload: {
         attr,
-        batch: gears.filter(g => g.mods[attr] || g.mods.allAttrs).map(g => g.mods[attr] || g.mods.allAttrs).reduce((a, b) => a! + b!, 0) || 0
+        batch: gear.filter(g => g.mods[attr] || g.mods.allAttrs).map(g => g.mods[attr] || g.mods.allAttrs).reduce((a, b) => a! + b!, 0) || 0
       }
     });
-  }, [attr, gears, dispatchAttrs]);
+  }, [attr, gear, dispatchAttrs]);
 
   function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
     let batch = 1;

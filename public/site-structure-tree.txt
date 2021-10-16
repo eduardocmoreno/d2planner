@@ -92,7 +92,7 @@ GEAR ========================================================
         - DAMAGE REDUCTION %
         - BLOCK CHANCE
         - FHR
-        - FBR
+        ?? FBR
         ?? DAMAGE REDUCTION
         ?? MAGIC DAMAGE REDUCTION
         ?? FIRE ABSORB
@@ -244,6 +244,11 @@ RESULTS =========================================
 
     -> APLIFY DMG (CHECKBOX - BOOLEAN)
 
+
+absolute final dmg = base + off-weap% (regular values plus demons dmg% or undead dmg%) + elem-dmg
+***dmg to demons or undead are OFF-WEAPON properties!--------^--------------^
+
+
 ==> CTB
     -> TOTAL CTB (RETURN - NUMBER)
   eg.: TOTAL CTB: 54%
@@ -279,6 +284,31 @@ RESULTS =========================================
     "FURTHER IAS POINTS WILL BE DISCARTED"
 
     *** IAS WEBSITE https://mmmpld.github.io/pod-attack-calc/
+
+
+WEAPON CLASS MODIFIER TABLE
+                                Act 1 Rogue Act 2 Guard Act 5 Barbarian Amazon Assassin
+Dagger                                                                    12      14
+1h-"Swing"                                                    16          13      14
+2h-Sword                                                      16          17      22
+2h-Axe, Staff, Polearm                            8                       17      18
+2h-Mace (Maul, wsm 10)                                                    20      21
+Claw                                                                              13.5
+Javelin, Spear                                    8                       15      22
+Bow                                  15                                   13      15
+Crossbow                                                                  19      20
+
+
+                                Barbarian Druid (in wereform) Necromancer Paladin Sorceress
+Dagger                             13       20         22         18        16       16
+1h-"Swing"                         13       20         22         18        14       17
+2h-Sword                           17       21         25         22        17.5     21
+2h-Axe, Staff, Polearm             18       17         20         19        17       15
+2h-Mace (Maul, wsm 10)             21       20         23         22        20       17
+Orb                                                                                  17
+Javelin, Spear                     18       23         27         23        19       20
+Bow                                14       15         19         17        15       16
+Crossbow                           19       19         24         19        19       19
 
 ==> CTH FORM
     -> MONSTER (SEL - OBJ)
