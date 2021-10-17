@@ -5,4 +5,7 @@ export const Wrapper = styled.div`
   color: var(--color-blue);
   font-family: var(--font-family-main);
   text-transform: uppercase;
+  span {
+    color: var(--color-gold);
+  }
 `;

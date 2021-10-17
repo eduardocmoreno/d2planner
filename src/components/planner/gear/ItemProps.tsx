@@ -7,10 +7,10 @@ import { percent } from "helpers";
 
 export default function ItemProps({ slot, itemProps, setItemProps, itemMods, selectedBase }: {
   slot: IGear['slot'],
-  itemProps: Partial<IGearProps>,
-  setItemProps: React.Dispatch<SetStateAction<Partial<IGearProps>>>,
-  itemMods: Partial<IGearMods>,
-  selectedBase: Partial<IGearProps>
+  itemProps: IGearProps,
+  setItemProps: React.Dispatch<SetStateAction<IGearProps>>,
+  itemMods: IGearMods,
+  selectedBase: IGearProps
 }) {
   const { charData, charLevel, gear } = useContext(PlannerContext);
   const itemPropsToRender: TItemPropsToRender[] = ['minDef', 'block', 'minDmg', 'twoHandMinDmg', 'throwMinDmg', 'levelReq', 'strReq', 'dexReq', 'sockets', 'speed'];

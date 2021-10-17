@@ -5,36 +5,9 @@ interface IGear {
   mods: Partial<IGearMods>;
 }
 
-/* 
-  "dmg"
-  "dmg-min"
-  "dmg-max"
-  "dmg%"
-  "dmg/lvl"
-  "dmg%/lvl"
-
-"dmg-throw"
-"dmg-norm"
-
-"dmg-fire"
-"dmg-cold"
-"dmg-ltng"
-"dmg-pois"
-"dmg-mag"
-"dmg-fire/lvl"
-"dmg-cold/lvl"
-"dmg-ltng/lvl"
-"dmg-pois/lvl"
-
-"dmg-demon"
-"dmg-undead"
-*/
-
 type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
 
-interface IGearModsByCategory {
-  [key: keyof IGearMods]: string; 
-}
+interface IGearModsByCategory extends Partial<Record<keyof IGearMods, string>> {}
 
 interface IGearMods {
   allAttrs: number;
@@ -83,7 +56,6 @@ interface IGearMods {
   ar: number;
   arBocl: number;
   eAr: number;
-  eArBocl: number;
   ias: number;
   ow: number;
   cb: number;

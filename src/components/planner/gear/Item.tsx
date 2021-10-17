@@ -21,21 +21,21 @@ export default function Item({
 }) {
 
   const { gear, setGear } = useContext(PlannerContext);
-  const [selectedBase, setSelectedBase] = useState({} as Partial<IGearProps>);
-  const [itemProps, setItemProps] = useState(gear.find(g => g.slot === slot)!.props);
-  const [itemMods, setItemMods] = useState(gear.find(g => g.slot === slot)!.mods);
+  const [selectedBase, setSelectedBase] = useState({} as IGearProps);
+  const [itemProps, setItemProps] = useState({} as IGearProps);
+  const [itemMods, setItemMods] = useState({} as IGearMods);
 
   const htmlSelector = useRef<HTMLSelectElement>(null);
 
   function handleBaseSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     let code = event.target.value;
-    setSelectedBase(code ? bases?.find(i => i.code === code)! : {});
+    setSelectedBase(code ? bases?.find(i => i.code === code)! : {} as IGearProps);
   }
 
   function reset() {
-    setSelectedBase({});
-    setItemProps({});
-    setItemMods({});
+    setSelectedBase({} as IGearProps);
+    setItemProps({} as IGearProps);
+    setItemMods({} as IGearMods);
     htmlSelector.current!.selectedIndex = 0;
   }
 
