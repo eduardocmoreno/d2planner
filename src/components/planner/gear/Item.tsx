@@ -84,7 +84,7 @@ export default function Item({
         {gear.find(g => g.slot === slot) && Object.keys(selectedBase).length > 0 &&
           <>
             <ItemMods {...{ itemMods, setItemMods }} />
-            <Button red onClick={reset}>RESET ITEM</Button>
+            {/* <Button red onClick={reset}>RESET ITEM</Button> */}
           </>
         }
 

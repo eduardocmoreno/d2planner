@@ -1,69 +1,96 @@
-import { gearModsCategNames, gearModsByCategories, gearMods } from "config/gear";
-import { SetStateAction, useEffect, useState } from "react";
+import { gearMods } from "config/gear";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Wrapper } from "./ItemMods.styles";
 import Button from "components/ui/Button";
 import ItemMod from "./ItemMod";
+import DropdownMenu from "components/ui/DropdownMenu";
+import { PlannerContext } from "pages/Planner";
+import { capitalize } from "helpers";
 
 export default function ItemMods({ itemMods, setItemMods }: {
   itemMods: IGearMods,
   setItemMods: React.Dispatch<React.SetStateAction<IGearMods>>
 }) {
-  const [selectedCategory, setSelectedCategory] = useState<TGearModsCategNames>();
-  const [modsByCategory, setModsByCategory] = useState({});
+  const { charClass } = useContext(PlannerContext);
   const [selectedMod, setSelectedMod] = useState<keyof IGearMods>();
   const [inputLvl1, setInputLvl1] = useState<number | null>();
-  const [inputLvl2, setInputLvl2] = useState<number | null>();
-  const [selectLvl1, setSelectLvl1] = useState();
+  const gearModsToRender = useRef(gearMods);
 
   function handleModsForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setItemMods(prev => {
       return {
         ...prev,
-        [selectedMod!]: null
+        [selectedMod!]: inputLvl1
       }
     });
   }
 
   useEffect(() => {
-    setModsByCategory(gearModsByCategories[selectedCategory!]);
-  }, [selectedCategory, setModsByCategory]);
+    gearModsToRender.current = Object.fromEntries(
+      Object.entries(gearMods).map(([k, v]) => {
+        v = v
+          .replace('{charClass}', charClass)
+          .replace(/(-|\+)?(\{\w\})(%)?/g, '')
+          .trim()
+          .replace(/^To/g, '')
+          .replace(/^Adds/g, '')
+        
+        let newStr = v;
 
-
-  console.log(itemMods);
+        switch (k as keyof IGearMods) {
+          case 'allClassSkills': {
+            v = `All ${charClass} Skill Levels`;
+            break;
+          }
+          case 'treeSkills': {
+            v = `All Skill Tree Levels (Tab Skills)`;
+            break;
+          }
+          case 'singleSkill': {
+            v = `Single ${charClass} Skill`;
+            break;
+          }
+          case 'skillCharges': {
+            v = `Charged Skill`;
+            break;
+          }
+          case 'skillChanceToCast': {
+            v = `Chance To Cast Skill`;
+            break;
+          }
+          case 'nonClassSkills': {
+            v = `Non-Class Skills`;
+            break;
+          }
+          case 'mf': {
+            v = `Magic Find`;
+            break;
+          }
+        }
+        return [k, capitalize(v)];
+      })
+    );
+  });
 
 
   return (
     <Wrapper>
       {Object.entries(itemMods).map(([mod, value], i) =>
-        <ItemMod key={i} {...{ 
+        <ItemMod key={i} {...{
           mod: mod as keyof IGearMods,
-          setItemMods
-          //value: value as ValueOf<IGearMods> 
+          value: value as ValueOf<IGearMods>
         }} />
       )}
       <form onSubmit={handleModsForm}>
-        <select onChange={e => setSelectedCategory(e.target.value as TGearModsCategNames)}>
-          <option value="">Add mod</option>
-          {gearModsCategNames.map((m, i) => {
-            return <option key={i} value={m}>{m}</option>
-          })}
-        </select>
-        {modsByCategory &&
-          <select onChange={e => setSelectedMod(e.target.value as keyof IGearMods)}>
-            <option value="">Add mod</option>
-            {Object.entries(modsByCategory).map(([mod, value]) => {
-              return <option key={mod} value={mod}>{value as string}</option>
-            })}
-          </select>
-        }
-        {/* selectedMod &&
+        {selectedMod &&
           <>
             <input type="number" placeholder="Numbers only" onChange={e => setInputLvl1(parseInt(e.target.value))} />
+            <Button blue type="submit">OK</Button>
           </>
-         */}
-        <Button blue type="submit">OK</Button>
+        }
       </form>
+      <DropdownMenu options={gearModsToRender.current} callBack={setSelectedMod} />
     </Wrapper>
   )
 }

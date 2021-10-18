@@ -107,7 +107,7 @@ export const gearDefMods:  Partial<Record<keyof IGearMods, string>> = {
 };
 
 export const gearMiscMods:  Partial<Record<keyof IGearMods, string>> = {
-  mf: '+{a}% Magic Finding',
+  mf: '+{a}% Better Chance Of Getting Magic Items',
   req: 'Requirements -{a}'
 };
 

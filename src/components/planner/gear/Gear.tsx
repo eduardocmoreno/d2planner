@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Item from "./Item";
 
 export default function Gear() {
-  const { charData, gear } = useContext(PlannerContext);
+  const { charData } = useContext(PlannerContext);
   const armors = useRef([] as IGearProps[]);
   const weapons = useRef([] as IGearProps[]);
 

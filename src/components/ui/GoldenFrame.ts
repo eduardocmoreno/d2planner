@@ -4,7 +4,7 @@ const GoldenFrame = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0.25em;
+  padding: var(--spacing-sm);
   border: 2px solid;
   border-color: var(--golden-border);
   box-shadow: inset 0 0 1.5em rgba(0 0 0 / .5);
