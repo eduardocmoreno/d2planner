@@ -14,7 +14,7 @@
 body {
   background: #000;
   color: #ddd;
-  font-family: "Spectral", Arial, sans-serif;
+  font-family: var(--font-family-pair), Arial, sans-serif;
   font-size: 1.6rem;
 }
 :where(body, button, ul, figure, h1, h2, h3, h4, h5, h6) {

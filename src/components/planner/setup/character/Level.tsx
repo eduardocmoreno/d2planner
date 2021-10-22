@@ -4,6 +4,7 @@ import styled from "styled-components";
 import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
+import { Input } from "components/ui/Input";
 
 export default function Level() {
   const { charLevel, setCharLevel } = useContext(PlannerContext);
@@ -36,7 +37,7 @@ export default function Level() {
             <Result>{charLevel}</Result>
             :
             <form id="char-level-form" onSubmit={handleSubmit}>
-              <Input
+              <LevelInput
                 type="number"
                 placeholder="00"
                 value={inputValue}
@@ -51,9 +52,9 @@ export default function Level() {
       </Tooltip>
 
       {charLevel > 1 ?
-        <Button red onClick={reset}>respec</Button>
+        <Button big red onClick={reset}>respec</Button>
         :
-        <Button blue form="char-level-form">OK</Button>
+        <Button big blue form="char-level-form">OK</Button>
       }
     </Wrapper>
   )
@@ -63,6 +64,9 @@ const Wrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  ${GoldenFrame}{
+    flex-direction: column;
+  };
   ${FrameContent} {
     form {
       flex: 1;
@@ -74,17 +78,10 @@ const Wrapper = styled.div`
   }
 `;
 
-const Input = styled.input`
-  --inner-glow: inset 0 0 15px rgba(0 0 0 / .5);
-  flex: 1;
-  width: 100%;
-  box-shadow: var(--inner-glow);
-  background: rgba(0 0 0 / .3);
+const LevelInput = styled(Input)`
+  padding: 0;
   font-size: 4rem;
   text-align: center;
-  :focus{
-    box-shadow: var(--inner-glow), 0 0 .15em rgba(var(--color-blue-rgb), .5);
-  }
 `;
 
 const Result = styled.div`

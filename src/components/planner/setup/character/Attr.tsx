@@ -86,19 +86,21 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
       <ButtonsWrapper>
         <Button
           blue
+          big
           title={titleHtmlAttr}
           onClick={(e) => handleClick(e, 'ADD')}
           {...(applied! > 0 && { arrowLeft: true })}
           {...(attrPoints === 0 && { disabled: true })}
-        >t</Button>
+        ><i className="icon-plus" /></Button>
 
         {applied! > 0 &&
           <Button
             red
+            big
             arrowRight
             title={titleHtmlAttr}
             onClick={(e) => handleClick(e, 'SUB')}
-          >&ndash;</Button>
+          ><i className="icon-dash" /></Button>
         }
       </ButtonsWrapper>
     </Wrapper>
@@ -108,22 +110,21 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  ${GoldenFrame}{
+    flex-direction: column;
+  };
 `;
 
 const ButtonsWrapper = styled.div`
   display: flex;
   margin-top: var(--spacing-md);
-  border: 2px solid;
-  border-color: var(--golden-border);
   ${Button}{
     flex: 1;
     padding-right: 0;
     padding-left: 0;
-    border: 0;
-    text-transform: none;
     :not(:first-child){
       flex: .5;
-      border-left: 2px solid var(--color-gold-800);
+      border-left: 0;
     }
   }
 `;

@@ -6,10 +6,10 @@
   font-display: swap;
 }
 
-/* @font-face {
-  font-family: "D2font";
+@font-face {
+  font-family: 'icons';
+  src: url('../icons/icons.woff') format('woff');
+  font-weight: normal;
   font-style: normal;
-  font-weight: 700;
-  src: url("../fonts/d2-heavy.woff2") format("woff");
-  font-display: swap;
-} */
+  font-display: block;
+}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 const GoldenFrame = styled.div`
   flex: 1;
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   padding: var(--spacing-sm);
   border: 2px solid;
   border-color: var(--golden-border);

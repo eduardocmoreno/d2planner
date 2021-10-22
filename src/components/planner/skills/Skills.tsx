@@ -157,7 +157,7 @@ export default function Skills() {
                       <PropName>
                         {name}
                         {info &&
-                          <Tooltip as={InfoIcon} center data-tooltip={info}>&#8505;</Tooltip>
+                          <Tooltip center data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                         }
                       </PropName>
                       <PropValue isActive={skillSelected.points > 0}>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{getUnit(unit!)}</PropValue>
@@ -177,7 +177,7 @@ export default function Skills() {
                         <PropName>
                           {bonus}
                           {info &&
-                            <Tooltip as={InfoIcon} center data-tooltip={info}>&#8505;</Tooltip>
+                            <Tooltip center data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                           }
                         </PropName>
                         <PropValue isActive={skillSelected.points > 0}>
@@ -373,16 +373,7 @@ const PropBonus = styled.div`
 `;
 
 const InfoIcon = styled.i`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: .5em;
-  padding-top: .3em;
-  width: 1.3em;
-  height: 1.3em;
-  border-radius: 100%;
-  background: var(--color-blue-700);
-  color: white;
-  text-indent: -0.05em;
-  font-size: .9em;
+  display: block;
+  margin-left: .25em;
+  color: var(--color-blue-700);
 `;

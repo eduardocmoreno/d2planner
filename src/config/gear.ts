@@ -92,7 +92,7 @@ export const gearDmgMods:  Partial<Record<keyof IGearMods, string>> = {
   dmgDemonBocl: '+{a}% Damage To Demons (Based On Character Level)',
   dmgUndead: '+{a}% Damage To Undead',
   dmgUndeadBocl: '+{a}% Damage To Undead (Based On Character Level)',
-  fireMin: 'Adds {a}-{b} Fire Dmage',
+  fireMin: 'Adds {a}-{b} Fire Damage',
   coldMin: 'Adds {a}-{b} Cold Damage',
   ltngMin: 'Adds {a}-{b} Lightning Damage',
   poisMin: 'Adds {a}-{b} Poison Damage'

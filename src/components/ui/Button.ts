@@ -11,7 +11,10 @@ interface IButtonProps {
 }
 
 const Button = styled.button<IButtonProps>(({ disabled, big, blue, red, arrowLeft, arrowRight, noArrows }) => css`
-  padding: 0.3em 0.7em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25em 0.7em;
   margin: 0;
   box-shadow: inset 0 0 10px rgba(0 0 0 / 0.5);
   border: 2px solid;
@@ -21,30 +24,31 @@ const Button = styled.button<IButtonProps>(({ disabled, big, blue, red, arrowLef
   text-align: center;
   text-transform: uppercase;
   font-family: var(--font-family-main);
-  font-size: ${big ? '2.2rem' : '1.6rem'};
+  font-size: ${big ? '1.6rem' : '1.2rem'};
   font-weight: bold;
   white-space: nowrap;
   cursor: pointer;
   transition: var(--duration-default);
+  line-height: 1.1;
   ${!noArrows && css`
     ${pseudo('before', 'after')};
     
     &::before,
     &::after {
-      top: calc(50% - 4px);
-      border-top: 4px solid var(--color-gold);
-      border-right: 4px solid var(--color-gold-900);
-      border-bottom: 4px solid transparent;
-      border-left: 4px solid transparent;
+      top: calc(50% - 3px);
+      border-top: 3px solid var(--color-gold);
+      border-right: 3px solid var(--color-gold-900);
+      border-bottom: 3px solid transparent;
+      border-left: 3px solid transparent;
     }
     
     &::before {
-      right: -6px;
+      right: -5px;
       transform: rotate(45deg);
     }
     
     &::after {
-      left: -6px;
+      left: -5px;
       transform: rotate(-45deg) scaleX(-1);
     }
 

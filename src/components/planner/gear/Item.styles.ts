@@ -26,29 +26,31 @@ export const Title = styled.h2`
   ${HeadingStyle};
 `;
 
-export const BaseSelector = styled(Title).attrs<React.SelectHTMLAttributes<HTMLSelectElement>>({ as: 'select' })`
+export const BaseSelector = styled(Title)`
   ${HeadingStyle};
-  border-width: 0 0 1px 0;
-  background-color: transparent;
-  font-family: var(--font-family-main);
-  font-weight: bold;
-  option {
-    color: #333;
-    font-family: arial, sans-serif;
-    font-weight: normal;
+  display: flex;
+  align-items: center;
+  [class^=icon-]{
+    margin-left: auto;
+    color: var(--color-blue);
     font-size: 1.6rem;
-    :not(:first-child) {
-      text-transform: none;
-    }
   }
   :hover {
+    color: var(--color-gold-200);
     cursor: pointer;
   }
 `;
 
 export const Contents = styled.div`
+  --class: item-contents;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
+`;
+
+export const CallToAction = styled.div`
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
 `;
