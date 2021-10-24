@@ -9,17 +9,31 @@ export default function FakeSelector({ children, position = 'bottom', options, c
   callBack: Function;
 }) {
 
+  //refs
   const optionsRefs = useRef<any>([]);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const selectorRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const optIdxRef = useRef<number>(0);
+
+  //state
   const [input, setInput] = useState('');
   const [filteredOptions, setFilteredOptions] = useState({});
   const [isActive, setIsActive] = useState(false);
   const [optIdx, setOptIdx] = useState(0);
-  const optIdxRef = useRef<number>(0);
+  const [vpRepos, setVpRepos] = useState<boolean>(false);
+  
+  //to prevent scrolling "jumping" bug
+  const [eventType, setEventType] = useState<'mouseMove' | 'keyDown' | null>(null)
+  
+  //to prevent the selector window "jumping" bug
+  const [show, setShow] = useState<boolean>(false);
+
 
   function focusOptionByKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    setEventType('keyDown');
+
     e.key === 'ArrowDown' && setOptIdx(prev => prev < Object.keys(filteredOptions).length - 1 ? prev + 1 : prev);
     e.key === 'ArrowUp' && setOptIdx(prev => prev > 0 ? prev - 1 : prev);
     e.key === 'Escape' && setIsActive(false);
@@ -32,6 +46,8 @@ export default function FakeSelector({ children, position = 'bottom', options, c
 
   useEffect(() => {
     setInput('');
+    setVpRepos(!!(selectorRef.current!.getBoundingClientRect().top + selectorRef.current!.offsetHeight > window.innerHeight));
+    setShow(selectorRef.current!.offsetHeight > 0);
   }, [isActive]);
 
   useEffect(() => {
@@ -61,13 +77,13 @@ export default function FakeSelector({ children, position = 'bottom', options, c
     let ruleUp = itemOffTop < listOffTop + listRef.current!.scrollTop;
     let ruleDown = itemOffTop - listOffTop + itemOffHeight - listRef.current!.scrollTop > listOffHeight;
 
-    if (down && ruleDown) {
+    if (down && ruleDown && eventType !== 'mouseMove') {
       listRef.current!.scroll({
         top: itemOffTop - listOffTop + itemOffHeight - listOffHeight
       });
     }
 
-    if (up && ruleUp) {
+    if (up && ruleUp && eventType !== 'mouseMove') {
       listRef.current!.scroll({
         top: itemOffTop - listOffTop
       });
@@ -77,21 +93,33 @@ export default function FakeSelector({ children, position = 'bottom', options, c
   });
 
   useEffect(() => {
+    //Please, keep this handle fn in a separated into it`s own useEffect hook
     function handleClickOutside(event: any) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setIsActive(false);
       }
     }
-   
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
   return (
-    <Wrapper ref={wrapperRef}>
+    <Wrapper ref={wrapperRef} onMouseMove={() => setEventType('mouseMove')}>
       <div onClick={() => setIsActive(prev => !prev)}>{children}</div>
-      <Selector {...{ isActive, position }} onKeyDown={e => focusOptionByKeyDown(e)}>
-        <Input ref={inputRef} placeholder="Search" value={input} onChange={e => setInput(e.target.value)} />
+
+      <Selector {...{ isActive, position, vpRepos, show }}
+        ref={selectorRef}
+        onKeyDown={e => focusOptionByKeyDown(e)}>
+
+        <Input
+          ref={inputRef}
+          placeholder="Search"
+          value={input}
+          onChange={
+            e => setInput(e.target.value)
+          } />
+
         <List ref={listRef}>
           {Object.entries(filteredOptions).map(([k, v], i) => {
             return (

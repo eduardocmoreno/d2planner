@@ -15,7 +15,7 @@ export const Icon = styled.div`
 `;
 
 export const HeadingStyle = css`
-  padding-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
   color: var(--color-gold);
   border-bottom: 1px solid var(--color-gold);
   font-size: 2.2rem;

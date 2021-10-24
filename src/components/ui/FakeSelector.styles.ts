@@ -5,19 +5,33 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const Selector = styled(GoldenFrame)(({ isActive, position }: { isActive: boolean, position: string }) => css`
+export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos, show }: {
+  isActive: boolean,
+  position: 'bottom' | 'right',
+  vpRepos: boolean,
+  show: boolean
+}) => css`
   display: ${isActive ? 'block' : 'none'};
+  visibility: ${show ? 'visible' : 'hidden'};
   position: absolute;
   min-width: 100%;
   width: max-content;
   z-index: 1;
-  ${position === 'bottom' && css`
+  ${position === 'bottom' && !vpRepos && css`
     top: calc(100% + 2px);
     left: 0;
   `}
   ${position === 'right' && css`
     top: 0;
     left: calc(100% + 10px);
+  `}
+  ${vpRepos && position === 'bottom' && css`
+    top: -2px;
+    transform: translateY(-100%);
+  `}
+  ${vpRepos && position === 'right' && css`
+    top: 100%;
+    transform: translateY(-100%);
   `}
 `);
 
