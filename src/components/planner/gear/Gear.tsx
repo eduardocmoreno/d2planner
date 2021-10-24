@@ -1,12 +1,17 @@
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
-import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Item from "./Item";
+import { capitalize } from "helpers";
+
+export const GearContext = createContext({} as IGearContext);
 
 export default function Gear() {
-  const { charData } = useContext(PlannerContext);
+  const { charData, charClass } = useContext(PlannerContext);
   const armors = useRef([] as IGearProps[]);
   const weapons = useRef([] as IGearProps[]);
+  const mods = useRef({} as TGearModsStr);
+  const modsDescr = useRef({} as TGearModsDescr);
 
   const [hasTwoHanded, setHasTwoHanded] = useState(false);
 
@@ -22,42 +27,92 @@ export default function Gear() {
       .then((data: IGearProps[]) => {
         weapons.current = data.filter(i => charData.classItems?.includes(i.type));
       });
-  }, [charData]);
+
+    fetch(`/data/items/mods.json`)
+      .then(res => res.json())
+      .then((data: TGearModsStr) => {
+        mods.current = data;
+        modsDescr.current = Object.fromEntries(
+          Object.entries(data).map(([k, v]) => {
+            v = v
+              .replace('{charClass}', charClass)
+              .replace(/(-|\+)?(\{\w\})(%)?/g, '').trim()
+              .replace(/^To/g, '').trim()
+              .replace(/^Adds/g, '').trim()
+              .replace(/^Minimum/g, 'Min').trim()
+              .replace(/^Maximum/g, 'Max').trim()
+              .replace(/^Increased/g, '').trim()
+              .replace(/^Chance Of/g, '').trim()
+              .replace('(Based On Character Level)', '/ Level').trim()
+
+            switch (k as keyof IGearMods) {
+              case 'allClassSkills': {
+                v = `All ${charClass} Skill Levels`;
+                break;
+              }
+              case 'treeSkills': {
+                v = `Skill Tree Levels`;
+                break;
+              }
+              case 'singleSkill': {
+                v = `Single Skill (${capitalize(charClass)} Only)`;
+                break;
+              }
+              case 'skillCharges': {
+                v = `Charged Skill`;
+                break;
+              }
+              case 'skillChanceToCast': {
+                v = `Chance To Cast Skill`;
+                break;
+              }
+              case 'nonClassSkill': {
+                v = `Non-Class Skill`;
+                break;
+              }
+              case 'mf': {
+                v = `Magic Find`;
+                break;
+              }
+            }
+            return [k, capitalize(v)];
+          })
+        );
+      });
+  }, [charData, charClass]);
 
   return (
-    <Items>
-      <Item slot="head" bases={armors.current.filter(a => a.type! === 'helm')} icon="icon-head" />
+    <GearContext.Provider value={{ armors: armors.current, weapons: weapons.current, mods: mods.current, modsDescr: modsDescr.current }}>
+      <Items>
+        <Item slot="head" icon="icon-head" />
 
-      <Item slot="torso" bases={armors.current.filter(a => a.type! === 'tors')} icon="icon-armor" />
+        <Item slot="torso" icon="icon-armor" />
 
-      <Item slot="right-hand" bases={weapons.current} icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
+        <Item slot="right-hand" icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
-      {!hasTwoHanded &&
-        <Item
-          slot="left-hand"
-          bases={armors.current.filter(a => ['shie', 'ashd'].includes(a.type!))}
-          icon="icon-shield"
-        />
-      }
+        {!hasTwoHanded &&
+          <Item slot="left-hand" icon="icon-shield" />
+        }
 
-      <Item slot="gloves" bases={armors.current.filter(a => a.type! === 'glov')} icon="icon-gloves" />
+        <Item slot="gloves" icon="icon-gloves" />
 
-      <Item slot="belt" bases={armors.current.filter(a => a.type! === 'belt')} icon="icon-belt" />
+        <Item slot="belt" icon="icon-belt" />
 
-      <Item slot="boots" bases={armors.current.filter(a => a.type! === 'boot')} icon="icon-boots" />
+        <Item slot="boots" icon="icon-boots" />
 
-      <Item slot="amulet" icon="icon-amulet" />
+        <Item slot="amulet" icon="icon-amulet" />
 
-      <Item slot="left-ring" icon="icon-ring-left" />
+        <Item slot="left-ring" icon="icon-ring-left" />
 
-      <Item slot="right-ring" icon="icon-ring-right" />
+        <Item slot="right-ring" icon="icon-ring-right" />
 
-      <Item slot="torch" icon="icon-torch" />
+        <Item slot="torch" icon="icon-torch" />
 
-      <Item slot="annihilus" icon="icon-annihilus" />
+        <Item slot="annihilus" icon="icon-annihilus" />
 
-      <Item slot="charms" icon="icon-charms" />
-    </Items>
+        <Item slot="charms" icon="icon-charms" />
+      </Items>
+    </GearContext.Provider>
   )
 }
 

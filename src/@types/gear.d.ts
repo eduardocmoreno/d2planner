@@ -5,9 +5,17 @@ interface IGear {
   mods: Partial<IGearMods>;
 }
 
-type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
+type TGearModsStr = Record<keyof IGearMods, string>;
+type TGearModsDescr = Partial<TGearModsStr>;
 
-interface IGearModsByCategory extends Partial<Record<keyof IGearMods, string>> {}
+interface IGearContext {
+  armors: IGearProps[],
+  weapons: IGearProps[],
+  mods: TGearModsStr,
+  modsDescr: TGearModsDescr
+}
+
+type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
 
 interface IGearMods {
   allAttrs: number;
@@ -95,7 +103,7 @@ interface IGearMods {
     chance: number; //chance
   }
 
-  nonClassSkills: {
+  nonClassSkill: {
     class: string;
     id: number; //class.skill.id
     level: number; //skill level

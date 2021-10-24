@@ -44,7 +44,7 @@ const Tooltip = styled.div<ITooltip>(({ focus, center }) => css`
     ::before,
     ::after {
       display: block;
-      animation: fadeIn var(--duration-default);
+      //animation: fadeIn var(--duration-default);
     }
   }
   ${center && css`

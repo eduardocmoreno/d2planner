@@ -3,8 +3,7 @@ import { capitalize } from "helpers";
 import { PlannerContext } from "pages/Planner";
 import { useContext, useEffect, useRef } from "react";
 
-export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
-  slot: IGear['slot'],
+export default function ItemProp({ itemProps, selectedBase, prop }: {
   itemProps: Partial<IGearProps>,
   selectedBase: Partial<IGearProps>,
   prop: TItemPropsToRender
@@ -45,7 +44,9 @@ export default function ItemProp({ slot, itemProps, selectedBase, prop }: {
         if (itemProps.minDmg! > selectedBase.minDmg! || itemProps.maxDmg! > selectedBase.maxDmg!) {
           if (isWeapon) {
             offWeaponItems.forEach(g => {
-              dataTooltip += `\n${capitalize(g.slot)}: +${(g.mods.minDmg || 0)}-${(g.mods.maxDmg || 0)}`;
+              if(['minDmg','maxDmg'].includes(Object.keys(g.mods)[0])){
+                dataTooltip += `\n${capitalize(g.props.name!)}: +${(g.mods.minDmg || 0)}-${(g.mods.maxDmg || 0)}`;
+              }
             });
           }
 
