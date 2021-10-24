@@ -11,19 +11,30 @@ export default function ItemMod({ mod, setItemMods }: {
 }) {
   const { charClass } = useContext(PlannerContext);
   const { mods } = useContext(GearContext);
+
   const [input, setInput] = useState('');
+
   const inputRef = useRef<HTMLInputElement>(null);
-  const sign = mods[mod].match(/-|\+/g);
-  const unit = mods[mod].match(/%/g);
-  const splitStr = mods[mod]
-    .replace(/-|\+/g, `<span class="sign">${sign}</span>`)
-    .replace(/%/g, `<span class="unit">${unit}</span>`)
-    .replace('{charClass}', capitalize(charClass))
-    .split(/\{\w\}/g);
+  const modDescr = useRef(mods[mod]!);
+
+  const sign = modDescr.current.match(/-|\+/g);
+  const unit = modDescr.current.match(/%/g);
+
+  const splitStr = useRef(
+    modDescr.current
+      .replace(/-|\+/g, `<span class="sign">${sign}</span>`)
+      .replace(/%/g, `<span class="unit">${unit}</span>`)
+      .replace('{charClass}', capitalize(charClass))
+      .split(/\{\w\}/g)
+  );
 
   useEffect(() => {
-    inputRef.current?.insertAdjacentHTML('beforebegin', splitStr[0]);
-    inputRef.current?.insertAdjacentHTML('afterend', splitStr[1]);
+    inputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    inputRef.current?.insertAdjacentHTML('beforebegin', splitStr.current[0]);
+    inputRef.current?.insertAdjacentHTML('afterend', splitStr.current[1]);
   }, [splitStr]);
 
   return (
