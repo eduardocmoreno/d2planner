@@ -3,9 +3,8 @@ import { PlannerContext } from "pages/Planner";
 import { GearContext } from "./Gear";
 import ItemProps from "./ItemProps";
 import ItemMods from "./ItemMods";
-import Button from "components/ui/Button";
 import FakeSelector from "components/ui/FakeSelector";
-import { BaseSelector, CallToAction, Contents, Icon, Title, Wrapper } from "./Item.styles";
+import { BaseSelector, Contents, Icon, Title, Wrapper } from "./Item.styles";
 
 //TODO:
 //make a form to add mods
@@ -25,17 +24,15 @@ export default function Item({
 }) {
 
   const { setGear } = useContext(PlannerContext);
-  const { armors, weapons, modsDescr } = useContext(GearContext);
+  const { armors, weapons } = useContext(GearContext);
 
   const [bases, setBases] = useState([] as IGearProps[]);
 
   const [selectedBase, setSelectedBase] = useState({} as IGearProps);
-  const [selectedMod, setSelectedMod] = useState<keyof IGearMods | null>(null);
+  
 
   const [itemProps, setItemProps] = useState({} as IGearProps);
   const [itemMods, setItemMods] = useState({} as IGearMods);
-
-  
 
   function handleBaseSelect(code: keyof IGearProps) {
     setSelectedBase(bases.find(i => i.code === code) || {} as IGearProps);
@@ -43,9 +40,7 @@ export default function Item({
 
   function reset() {
     setSelectedBase({} as IGearProps);
-    setItemProps({} as IGearProps);
     setItemMods({} as IGearMods);
-    setSelectedMod(null);
   }
 
   useEffect(() => {
@@ -87,17 +82,6 @@ export default function Item({
     }
   }, [slot, armors, weapons]);
 
-  
-
-  useEffect(() => {
-    selectedMod && setItemMods(prev => {
-      return {
-        ...prev,
-        [selectedMod!]: null
-      }
-    });
-  }, [selectedMod]);
-
   return (
     <Wrapper>
       <Icon>
@@ -122,19 +106,8 @@ export default function Item({
           <Title>{slot}</Title>
         }
 
-        {Object.keys(itemMods).length > 0 &&
-          <ItemMods {...{ itemMods, setItemMods }} />
-        }
-
         {(['amulet', 'left-ring', 'right-ring', 'torch', 'annihilus', 'charms'].includes(slot) || Object.keys(selectedBase).length > 0) &&
-          <CallToAction>
-            <FakeSelector options={modsDescr} callBack={setSelectedMod}>
-              <Button blue arrowLeft={Object.entries(itemMods).length > 0 || Object.entries(itemProps).length > 0}>Add Mod</Button>
-            </FakeSelector>
-            {(Object.entries(itemMods).length > 0 || Object.entries(itemProps).length > 0) &&
-              <Button red arrowRight onClick={reset}>reset item</Button>
-            }
-          </CallToAction>
+          <ItemMods {...{ itemMods, setItemMods, selectedBase, reset }} />
         }
 
       </Contents>

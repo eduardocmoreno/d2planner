@@ -5,6 +5,7 @@
     "lib": [
       "dom",
       "dom.iterable",
+      "es2016.array.include",
       "esnext"
     ],
     "allowJs": true,

@@ -48,9 +48,3 @@ export const Contents = styled.div`
   justify-content: center;
   flex: 1;
 `;
-
-export const CallToAction = styled.div`
-  display: flex;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
-`;

@@ -76,35 +76,36 @@ interface IGearMods {
 
   allSkills: number;
   allClassSkills: number;
-  
+
   treeSkills: {
-    tree: 1 | 2 | 3;
+    id: number;
     level: number;
   }
 
   singleSkill: {
-    class: string; //type TCharacterClass?
-    id: number; //class.skill.id (ex.: chance to cast FOH => paladin.skills.find(s => s.id === 10))
-    level: number; //skill level
+    id: number;
+    level: number;
   }
 
-  skillCharges: {
-    class: string;
+  /* chargedSkill: { //"Level {a} {skill} (Charges)"
     id: number;  //class.skill.id
     level: number;  //skill level
     charges: number; //just for illustration
     //string literals ==> `Level ${level} capitalize(${class.skills.find(s => s.id === id).name}) (${charges}/${charges} charges)`
-  }
+  } */
 
-  skillChanceToCast: {
-    class: string;
+  castSkill: {
     id: number; //class.skill.id
     level: number; //skill level
     chance: number; //chance
   }
 
+  /* 
+  cast skills
+  
+  */
+
   nonClassSkill: {
-    class: string;
     id: number; //class.skill.id
     level: number; //skill level
   }
@@ -133,14 +134,12 @@ interface IGearProps {
   sockets: number;
   weaponClass: TWeaponClass;
   twoHandWeaponClass: TWeaponClass;
-
-    minDmg: number;
-    maxDmg: number;
-    twoHandMinDmg: number;
-    twoHandMaxDmg: number;
-    throwMinDmg: number;
-    throwMaxDmg: number;
-
+  minDmg: number;
+  maxDmg: number;
+  twoHandMinDmg: number;
+  twoHandMaxDmg: number;
+  throwMinDmg: number;
+  throwMaxDmg: number;
   missileType: number;
   speed: number;
   twoHanded: 1 | 0;

@@ -35,7 +35,7 @@ export default function Gear() {
         modsDescr.current = Object.fromEntries(
           Object.entries(data).map(([k, v]) => {
             v = v
-              .replace('{charClass}', charClass)
+              .replace('{class}', charClass)
               .replace(/(-|\+)?(\{\w\})(%)?/g, '').trim()
               .replace(/^To/g, '').trim()
               .replace(/^Adds/g, '').trim()
@@ -58,11 +58,11 @@ export default function Gear() {
                 v = `Single Skill (${capitalize(charClass)} Only)`;
                 break;
               }
-              case 'skillCharges': {
+              /* case 'chargedSkill': {
                 v = `Charged Skill`;
                 break;
-              }
-              case 'skillChanceToCast': {
+              } */
+              case 'castSkill': {
                 v = `Chance To Cast Skill`;
                 break;
               }
@@ -86,7 +86,7 @@ export default function Gear() {
       <Items>
         <Item slot="head" icon="icon-head" />
 
-        <Item slot="torso" icon="icon-armor" />
+        {/* <Item slot="torso" icon="icon-armor" />
 
         <Item slot="right-hand" icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
@@ -110,7 +110,7 @@ export default function Gear() {
 
         <Item slot="annihilus" icon="icon-annihilus" />
 
-        <Item slot="charms" icon="icon-charms" />
+        <Item slot="charms" icon="icon-charms" /> */}
       </Items>
     </GearContext.Provider>
   )

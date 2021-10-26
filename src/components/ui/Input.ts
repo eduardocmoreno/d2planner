@@ -7,6 +7,7 @@ export const Input = styled.input`
   padding: .25em;
   box-shadow: var(--inner-glow);
   background: rgba(0 0 0 / .3);
+  color: #fff;
   font-size: 1.6rem;
   :focus{
     box-shadow: var(--inner-glow), 0 0 15px rgba(var(--color-blue-rgb), .5);

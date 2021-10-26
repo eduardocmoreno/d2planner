@@ -105,7 +105,7 @@ export default function FakeSelector({ children, position = 'bottom', options, c
   });
 
   return (
-    <Wrapper ref={wrapperRef} onMouseMove={() => setEventType('mouseMove')}>
+    <Wrapper className="fake-selector" ref={wrapperRef} onMouseMove={() => setEventType('mouseMove')}>
       <div onClick={() => setIsActive(prev => !prev)}>{children}</div>
 
       <Selector {...{ isActive, position, vpRepos, show }}
