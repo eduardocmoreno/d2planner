@@ -8,6 +8,7 @@ export interface ITooltip {
 }
 
 const Tooltip = styled.div<ITooltip>(({ focus, center }) => css`
+  cursor: default;
   ${pseudo('before','after')};
   ::before,
   ::after {

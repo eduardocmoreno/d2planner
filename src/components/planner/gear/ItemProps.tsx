@@ -100,6 +100,11 @@ export default function ItemProps({ slot, itemProps, setItemProps, itemMods, sel
       newProps['maxDmg'] = selectedBase['maxDmg']! + rhMods.dmg;
     }
 
+    //speed (TODO: implement IAS mod to it)
+    if (selectedBase.speed) {
+      newProps.speed = selectedBase.speed;
+    }
+
     setItemProps(() => {
       return {
         ...selectedBase,
@@ -111,7 +116,7 @@ export default function ItemProps({ slot, itemProps, setItemProps, itemMods, sel
   return (
     <Wrapper>
       {itemPropsToRender.map(prop =>
-        <ItemProp key={prop} {...{ slot, itemProps, selectedBase, prop }} />
+        <ItemProp key={prop} {...{ itemProps, itemMods, selectedBase, prop }} />
       )}
     </Wrapper>
   )

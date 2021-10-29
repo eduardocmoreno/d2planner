@@ -3,6 +3,9 @@ import GoldenFrame from "./GoldenFrame";
 
 export const Wrapper = styled.div`
   position: relative;
+  input {
+    margin-bottom: var(--spacing-sm);
+  }
 `;
 
 export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos, show }: {
@@ -38,7 +41,6 @@ export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos, show
 export const List = styled.div`
   max-height: 25vh;
   overflow-y: auto;
-  margin-top: var(--spacing-sm);
   
   ::-webkit-scrollbar {
     width: 10px;

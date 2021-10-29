@@ -3,18 +3,39 @@ import { capitalize } from "helpers";
 import { PlannerContext } from "pages/Planner";
 import { useContext, useEffect, useRef } from "react";
 
-export default function ItemProp({ itemProps, selectedBase, prop }: {
-  itemProps: Partial<IGearProps>,
-  selectedBase: Partial<IGearProps>,
+export default function ItemProp({ itemProps, itemMods, selectedBase, prop }: {
+  itemProps: IGearProps,
+  itemMods: IGearMods,
+  selectedBase: IGearProps,
   prop: TItemPropsToRender
 }) {
   const { charClass, charData, charLevel, attrs, gear } = useContext(PlannerContext);
 
-  const isShield = ['shie', 'ashd'].includes(selectedBase.type!);
+  const isShield = ['shie', 'ashd'].includes(selectedBase.type);
   const isWeapon = !!selectedBase.weaponClass;
 
   const offWeaponItemsRef = useRef([] as IGear[]);
   const offWeaponItems = offWeaponItemsRef.current;
+
+  const weaponClassDescr: Partial<Record<IGearProps['type'], string>> = {
+    axe: "Axe Class",
+    swor: "Sword Class",
+    knif: "Dagger Class",
+    spea: "Spear Class",
+    jave: "Javelin Class",
+    pole: "Polearm Class",
+    club: "Mace Class",
+    hamm: "Mace Class",
+    mace: "Mace Class",
+    scep: "Mace Class",
+    wand: "Staff Class",
+    staf: "Staff Class",
+    orb: "Staff Class",
+    h2h: "Claw Class",
+    bow: "Bow Class",
+    xbow: "CrossBow Class",
+    tpot: "Equip to Throw"
+  }
 
   useEffect(() => {
     offWeaponItemsRef.current = gear.filter(g => !g.base.weaponClass && Object.values(g.mods).length > 0);
@@ -22,10 +43,10 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
 
   switch (prop) {
     case 'minDef': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let result = <span>{itemProps.maxDef}</span>;
 
-        if (itemProps.maxDef! > selectedBase.maxDef!) {
+        if (itemProps.maxDef > selectedBase.maxDef) {
           result = <Tooltip as="span" className="highlight" center data-tooltip={`Base Defense: ${selectedBase.maxDef}`}>{itemProps.maxDef}</Tooltip>
         }
 
@@ -35,16 +56,16 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
     }
 
     case 'minDmg': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let propLabel = isShield ? 'Smite' : 'One-Hand';
         let result = <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>;
         let dataTooltip = `Base ${propLabel} Damage: ${selectedBase.minDmg}-${selectedBase.maxDmg}`;
         let rhSlot = gear.find(g => g.slot === 'right-hand');
 
-        if (itemProps.minDmg! > selectedBase.minDmg! || itemProps.maxDmg! > selectedBase.maxDmg!) {
+        if (itemProps.minDmg > selectedBase.minDmg || itemProps.maxDmg > selectedBase.maxDmg) {
           if (isWeapon) {
             offWeaponItems.forEach(g => {
-              if(['minDmg','maxDmg'].includes(Object.keys(g.mods)[0])){
+              if (['minDmg', 'maxDmg'].includes(Object.keys(g.mods)[0])) {
                 dataTooltip += `\n${capitalize(g.props.name!)}: +${(g.mods.minDmg || 0)}-${(g.mods.maxDmg || 0)}`;
               }
             });
@@ -53,8 +74,12 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
           if (isShield && rhSlot?.mods.dmg) {
             dataTooltip += `\n${rhSlot?.props.name || rhSlot?.slot} Damage: +${rhSlot?.mods.dmg}`;
           }
-          
+
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.minDmg}-{itemProps.maxDmg}</Tooltip>
+        }
+
+        if (charClass !== 'barbarian' && selectedBase.twoHanded && selectedBase.oneOrTwoHanded) {
+          return null;
         }
 
         return <li>{propLabel} Damage: {result}</li>
@@ -63,11 +88,11 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
     }
 
     case 'twoHandMinDmg': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let result = <span>{itemProps.twoHandMinDmg}-{itemProps.twoHandMaxDmg}</span>;
         let dataTooltip = `Base Two-Hand Damage: ${selectedBase.twoHandMinDmg}-${selectedBase.twoHandMaxDmg}`;
 
-        if (itemProps.twoHandMinDmg! > selectedBase.twoHandMinDmg! || itemProps.twoHandMaxDmg! > selectedBase.twoHandMaxDmg!) {
+        if (itemProps.twoHandMinDmg > selectedBase.twoHandMinDmg || itemProps.twoHandMaxDmg > selectedBase.twoHandMaxDmg) {
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.twoHandMinDmg}-{itemProps.twoHandMaxDmg}</Tooltip>
         }
 
@@ -77,11 +102,11 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
     }
 
     case 'throwMinDmg': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let result = <span>{itemProps.throwMinDmg}-{itemProps.throwMaxDmg}</span>;
         let dataTooltip = `Base Throw Damage: ${selectedBase.throwMinDmg}-${selectedBase.throwMaxDmg}`;
 
-        if (itemProps.throwMinDmg! > selectedBase.throwMinDmg! || itemProps.throwMaxDmg! > selectedBase.throwMaxDmg!) {
+        if (itemProps.throwMinDmg > selectedBase.throwMinDmg || itemProps.throwMaxDmg > selectedBase.throwMaxDmg) {
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.throwMinDmg}-{itemProps.throwMaxDmg}</Tooltip>
         }
 
@@ -91,7 +116,7 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
     }
 
     case 'block': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let dataTooltip = `${capitalize(charClass)} Block Factor: ${charData.stats.block}%\nBase Block: ${selectedBase.block}%\nMax Block Allowed: 75%`;
         return <li>Chance to Block: <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.block! > 75 ? 75 : itemProps.block!}%</Tooltip></li>
       }
@@ -99,10 +124,10 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
     }
 
     case 'levelReq': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let result = <span>{itemProps.levelReq}</span>;
 
-        if (charLevel < itemProps.levelReq!) {
+        if (charLevel < itemProps.levelReq) {
           result = <Tooltip as="span" className="warn" center data-tooltip={`Current Character Level: ${charLevel}`}>{selectedBase.levelReq}</Tooltip>;
         }
 
@@ -113,19 +138,19 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
 
     case 'strReq':
     case 'dexReq': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         let attrName: keyof IAttrs;
 
         if (prop === 'strReq') attrName = 'strength';
         if (prop === 'dexReq') attrName = 'dexterity';
 
-        let attrReq = itemProps![prop];
+        let attrReq = itemProps[prop];
         let reqVal = attrReq || selectedBase[prop] || 0;
         let result = <span>{attrReq}</span>
         let dataTooltip = `Current Character ${capitalize(attrName!)}: ${attrs[attrName!].total}`;
 
-        if (attrReq! < selectedBase[prop]!) {
-          dataTooltip += `\nBase Requirement: ${selectedBase[prop]!}`;
+        if (attrReq! < selectedBase[prop]) {
+          dataTooltip += `\nBase Requirement: ${selectedBase[prop]}`;
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{attrReq}</Tooltip>
         }
 
@@ -139,15 +164,40 @@ export default function ItemProp({ itemProps, selectedBase, prop }: {
     }
 
     case 'sockets': {
-      if (prop in itemProps!) {
+      if (prop in itemProps) {
         return <li>Max Sockets: <span>{selectedBase.sockets}</span></li>
       }
       return null;
     }
 
     case 'speed': {
-      if (prop in itemProps!) {
-        return <li>Item Class (ex. AXE CLASS): <span>{itemProps.speed}</span></li>
+      if (isWeapon) {
+        let classWeaponSpeed = charData.classWeaponSpeed[selectedBase.weaponClass];
+        let baseSpeed = (itemProps.speed || 0) - (itemMods.ias || 0);
+        let speedStr = "Very Fast Attack Speed";
+
+        if (baseSpeed >= classWeaponSpeed[3]) {
+          speedStr = "Very Slow Attack Speed";
+        }
+
+        if (baseSpeed >= classWeaponSpeed[2]) {
+          speedStr = "Slow Attack Speed";
+        }
+
+        if (baseSpeed >= classWeaponSpeed[1]) {
+          speedStr = "Normal Attack Speed";
+        }
+
+        if (baseSpeed >= classWeaponSpeed[0]) {
+          speedStr = "Fast Attack Speed";
+        }
+
+        return (
+          <>
+            <li>Weapon Speed Modifier: <span>{selectedBase.speed || 0}</span></li>
+            <li>{weaponClassDescr[selectedBase.type]}: <span>{speedStr}</span></li>
+          </>
+        )
       }
       return null;
     }

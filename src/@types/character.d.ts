@@ -11,7 +11,10 @@ interface ICharData {
     block: number;
   };
   classItems: IGearProps["type"];
+  classWeaponSpeed: Record<TWeaponClass, number[]>;
 }
+
+//"1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
 
 /*
 Stats (not mutable)

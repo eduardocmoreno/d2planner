@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Input } from "components/ui/Input";
 import { List, ListItem, Selector, Wrapper } from "./FakeSelector.styles";
 
-export default function FakeSelector({ children, position = 'bottom', options, callBack }: {
+export default function FakeSelector({ children, position = 'bottom', search = true, options, callBack }: {
   children: React.ReactNode;
   position?: 'bottom' | 'right';
+  search?: boolean;
   options: {};
   callBack: Function;
 }) {
@@ -23,10 +24,10 @@ export default function FakeSelector({ children, position = 'bottom', options, c
   const [isActive, setIsActive] = useState(false);
   const [optIdx, setOptIdx] = useState(0);
   const [vpRepos, setVpRepos] = useState<boolean>(false);
-  
+
   //to prevent scrolling "jumping" bug
   const [eventType, setEventType] = useState<'mouseMove' | 'keyDown' | null>(null)
-  
+
   //to prevent the selector window "jumping" bug
   const [show, setShow] = useState<boolean>(false);
 
@@ -112,13 +113,15 @@ export default function FakeSelector({ children, position = 'bottom', options, c
         ref={selectorRef}
         onKeyDown={e => focusOptionByKeyDown(e)}>
 
-        <Input
-          ref={inputRef}
-          placeholder="Search"
-          value={input}
-          onChange={
-            e => setInput(e.target.value)
-          } />
+        {search &&
+          <Input
+            ref={inputRef}
+            placeholder="Search"
+            value={input}
+            onChange={
+              e => setInput(e.target.value)
+            } />
+        }
 
         <List ref={listRef}>
           {Object.entries(filteredOptions).map(([k, v], i) => {

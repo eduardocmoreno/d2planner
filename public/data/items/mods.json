@@ -3,8 +3,6 @@
   "allClassSkills": "+{a} To {class} Skill Levels",
   "treeSkills": "+{a} To {tree} ({class} Only)",
   "singleSkill": "+{a} To {skill} ({class} Only)",
-  "castSkill": "Chance To Cast Level {a} {skill}",
-  "nonClassSkill": "+{a} To {skill}",
 
   "allAttrs": "+{a} To All Attributes",
   "strength": "+{a} To Strength",

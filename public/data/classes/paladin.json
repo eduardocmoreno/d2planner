@@ -1418,5 +1418,14 @@
   },
   "classItems": [
     "helm", "tors", "shie", "glov", "boot", "belt", "ashd", "circ", "axe", "wand", "club", "scep", "mace", "hamm", "swor", "knif", "tkni", "taxe", "jave", "spea", "pole", "staf", "bow", "xbow", "tpot"
-  ]
+  ],
+  "classWeaponSpeed": {
+    "ht1": [-99, -99, -99, -99],  
+    "1hs": [-7, 12, 21, 35],
+    "1ht": [-21, 0, 11, 26],
+    "2ht": [-42, -17, -5, 13],
+    "stf": [-28, 1, 8, 22],
+    "bow": [-14, 6, 16, 31],
+    "xbw": [-42, -17, -5, 13]
+  }
 }

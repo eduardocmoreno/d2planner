@@ -61,7 +61,7 @@ export default function Gear() {
               /* case 'chargedSkill': {
                 v = `Charged Skill`;
                 break;
-              } */
+              }
               case 'castSkill': {
                 v = `Chance To Cast Skill`;
                 break;
@@ -69,7 +69,7 @@ export default function Gear() {
               case 'nonClassSkill': {
                 v = `Non-Class Skill`;
                 break;
-              }
+              } */
               case 'mf': {
                 v = `Magic Find`;
                 break;
@@ -86,7 +86,7 @@ export default function Gear() {
       <Items>
         <Item slot="head" icon="icon-head" />
 
-        {/* <Item slot="torso" icon="icon-armor" />
+        <Item slot="torso" icon="icon-armor" />
 
         <Item slot="right-hand" icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
@@ -110,7 +110,7 @@ export default function Gear() {
 
         <Item slot="annihilus" icon="icon-annihilus" />
 
-        <Item slot="charms" icon="icon-charms" /> */}
+        <Item slot="charms" icon="icon-charms" />
       </Items>
     </GearContext.Provider>
   )

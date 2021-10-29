@@ -55,6 +55,7 @@ interface IGearMods {
   fireRes: number;
   coldRex: number;
   ltngRes: number;
+  ltngResBocl: number; //Stormspike
   poisRes: number;
   maxFireRes: number;
   maxColdRex: number;
@@ -94,27 +95,23 @@ interface IGearMods {
     //string literals ==> `Level ${level} capitalize(${class.skills.find(s => s.id === id).name}) (${charges}/${charges} charges)`
   } */
 
-  castSkill: {
+  /* castSkill: { //"Chance To Cast Level {a} {skill}"
     id: number; //class.skill.id
     level: number; //skill level
     chance: number; //chance
-  }
+  } */
 
-  /* 
-  cast skills
-  
-  */
-
-  nonClassSkill: {
+  /* nonClassSkill: { //"+{a} To {skill}"
     id: number; //class.skill.id
     level: number; //skill level
-  }
+  } */
 
-  lightningResBocl: number; //Stormspike
+  
 }
 
-type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
 type TPaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot';
+
+type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
 
 interface IGearProps {
   name: string;

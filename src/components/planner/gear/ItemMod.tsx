@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import { useArrayIncludes } from "hooks/useArrayIncludes";
 import { PlannerContext } from "pages/Planner";
-import { capitalize } from "helpers";
+import { capitalize, includes } from "helpers";
 import { Input, Mod, Remove, Wrapper } from "./ItemMod.styles";
 import { GearContext } from "./Gear";
 import FakeSelector from "components/ui/FakeSelector";
@@ -14,7 +13,7 @@ export default function ItemMod({ mod, setItemMods }: {
   const { charData, charClass } = useContext(PlannerContext);
   const { mods } = useContext(GearContext);
 
-  const multiPropsMod = useArrayIncludes(['treeSkills', 'singleSkill'] as const, mod);
+  const multiPropsMod = includes(['treeSkills', 'singleSkill'] as const, mod);
 
   const [input, setInput] = useState('');
   const [selectedSubMod, setSelectedSubMod] = useState('');
@@ -80,7 +79,10 @@ export default function ItemMod({ mod, setItemMods }: {
             }
           })} />
         <span dangerouslySetInnerHTML={{ __html: splitStr.current[1] }} />
-        <FakeSelector options={options} callBack={setSelectedSubMod}>
+        <FakeSelector
+          options={options}
+          callBack={setSelectedSubMod}
+          search={!(mod === 'treeSkills')}>
           <span className="selector-ph">
             {options[selectedSubMod] || <>Select {modProps[mod].str} <i className="icon-arrow-down"></i></>}
           </span>

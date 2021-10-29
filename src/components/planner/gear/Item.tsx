@@ -6,15 +6,6 @@ import ItemMods from "./ItemMods";
 import FakeSelector from "components/ui/FakeSelector";
 import { BaseSelector, Contents, Icon, Title, Wrapper } from "./Item.styles";
 
-//TODO:
-//make a form to add mods
-//how mods are printed
-//handle gear item props by mods (speed/IAS)
-//handle skills
-
-
-//armors.current.filter(a => a.type! === 'helm')
-
 export default function Item({
   slot, icon, setHasTwoHanded
 }: {
@@ -25,12 +16,9 @@ export default function Item({
 
   const { setGear } = useContext(PlannerContext);
   const { armors, weapons } = useContext(GearContext);
-
-  const [bases, setBases] = useState([] as IGearProps[]);
-
-  const [selectedBase, setSelectedBase] = useState({} as IGearProps);
   
-
+  const [bases, setBases] = useState([] as IGearProps[]);
+  const [selectedBase, setSelectedBase] = useState({} as IGearProps);
   const [itemProps, setItemProps] = useState({} as IGearProps);
   const [itemMods, setItemMods] = useState({} as IGearMods);
 

@@ -168,32 +168,33 @@ GEAR ========================================================
         - REQUIREMENTS
 
     - LIST OF NON-CLASS SKILLS
-      - TO WEREBEAR (3)
-      - TO LYCANTHROPY (3-6)
-      - TO BATTLE COMMAND (2-6)
-      - TO BATTLE ORDERS (1-6)
-      - TO BATTLE CRY (1-4)
-      - TO WHIRLWIND (1)
-      - TO VALKYRIE (2-6)
-      - TO CRITICAL STRIKE (1-6)
-      - TO VENGEANCE (1)
-      - TO ZEAL (1)
-      - TO BERSERK (1)
-      - TO TELEPORT (1)
-      - TO WARMTH (1)
-      - TO HYDRA (10)
-      - TO GUIDED ARROW (3-5)
-      - TO FERAL RAGE (3-6)
-      - TO WEREWOLF (3-6)
-      - TO INFERNO (12-18)
-      - TO ARTIC BLAST (7-14)
-      - TO ENCHANT
+      - WEREBEAR (3)
+      - LYCANTHROPY (3-6)
+      - BATTLE COMMAND (2-6)
+      - BATTLE ORDERS (1-6)
+      - BATTLE CRY (1-4)
+      - WHIRLWIND (1)
+      - VALKYRIE (2-6)
+      - CRITICAL STRIKE (1-6)
+      - VENGEANCE (1)
+      - ZEAL (1)
+      - BERSERK (1)
+      - TELEPORT (1)
+      - WARMTH (1)
+      - HYDRA (10)
+      - GUIDED ARROW (3-5)
+      - FERAL RAGE (3-6)
+      - WEREWOLF (3-6)
+      - INFERNO (12-18)
+      - ARTIC BLAST (7-14)
 
     - CAST SKILLS CHANCES
-      - TO LIFE TAP
-      - TO VENOM
+      - LIFE TAP
+      - VENOM
+      - ENCHANT
     
     - CAST SKILLS CHARGES
+      - VENOM
       - ENCHANT
       - HEART OF WOLVERINE
       - OAK SAGE
@@ -288,8 +289,9 @@ absolute final dmg = base + off-weap% (regular values plus demons dmg% or undead
 
 WEAPON CLASS MODIFIER TABLE
                                 Act 1 Rogue Act 2 Guard Act 5 Barbarian Amazon Assassin
+normal attack                                                             11      10
 Dagger                                                                    12      14
-1h-"Swing"                                                    16          13      14
+1HS                                                           16          13      14
 2h-Sword                                                      16          17      22
 2h-Axe, Staff, Polearm                            8                       17      18
 2h-Mace (Maul, wsm 10)                                                    20      21
@@ -300,8 +302,9 @@ Crossbow                                                                  19    
 
 
                                 Barbarian Druid (in wereform) Necromancer Paladin Sorceress
-Dagger                             13       20         22         18        16       16
-1h-"Swing"                         13       20         22         18        14       17
+normal attack                      11       15                    14        13       14
+Dagger                             15       18         22         18        16       16
+1HS                                13       20         22         18        14       17
 2h-Sword                           17       21         25         22        17.5     21
 2h-Axe, Staff, Polearm             18       17         20         19        17       15
 2h-Mace (Maul, wsm 10)             21       20         23         22        20       17
@@ -309,6 +312,59 @@ Orb                                                                             
 Javelin, Spear                     18       23         27         23        19       20
 Bow                                14       15         19         17        15       16
 Crossbow                           19       19         24         19        19       19
+
+
+                                                              MAX: 175
+                                                      /----------^----------\
+AnimDuration = ceil{(AnimLength * 256) / floor[256 * (100 + SIAS + EIAS - WSM) / 100]} -1
+EIAS = floor[(120 * IASItem) / (120 + IASItem)]
+
+AnimLength = BaseFrame + 1
+
+example: {
+  Class: Paly, 
+  WSM: -30 (1HS),
+  IAS: 24,
+  SIAS: 0,
+  AnimLength: 14 + 1 (1HS)
+}
+
+EIAS = (120 * 24) / (120 + 24) = 20
+AnimDuration = {(15 * 256) / [256 * (100 + 0 + 20 - (-30)) / 100]} -1
+               {3840 / 384} - 1 = 9
+
+BaseFrames: {
+  paladin: {
+    attack: {
+      '1hs': [
+        [18, 0, 0, 0, 0, 0, 0],
+        [17, 5, 0, 0, 0, 0, 0],
+        [16, 10, 0, 0, 0, 0, 0],
+        [15, 16, 5, 0, 0, 0, 0],
+        [14, 24, 11, 0, 0, 0, 0],
+        [13, 37, 22, 9, 0, 0, 0],
+        [12, 52, 34, 19, 7, 0, 0],
+        [11, 72, 50, 32, 18, 6, 0],
+        [10, 109, 78, 54, 35, 20, 8],
+        [9, 168, 120, 86, 60, 40, 24],
+        [8, 317, 215, 152, 109, 78, 54]
+      ]
+    },
+    zeal: {
+      '1hs': [
+        ['9/9/9/9/18 (54)', 0, 0, 0, 0, 0, 0],
+        ['9/9/9/9/17 (53)', 5, 0, 0, 0, 0, 0],
+        //['8/8/8/8/17 (49)', 9, 0, 0, 0, 0, 0],
+        ['8/8/8/8/16 (48)', 10, 0, 0, 0, 0, 0],
+        ['8/8/8/8/15 (47)', 16, 5, 0, 0, 0, 0],
+        ['7/7/7/7/14 (42)', 24, 11, 0, 0, 0, 0],
+        ['7/7/7/7/13 (41)', 37, 22, 9, 0, 0, 0],
+      ]
+    }
+  }
+}
+
+
 
 ==> CTH FORM
     -> MONSTER (SEL - OBJ)
