@@ -23,7 +23,6 @@ export default function ItemMods({ itemMods, setItemMods, selectedBase, reset }:
       }
     });
     setSelectedMod(null);
-    console.log(itemMods);
   }, [itemMods, selectedMod, setItemMods]);
 
   return (

@@ -3,7 +3,7 @@ import { PlannerContext } from "pages/Planner";
 import styled, { css } from "styled-components";
 
 
-export default function Tree({ tree, setSkillIdOnHover }: {
+export default function SkillTree({ tree, setSkillIdOnHover }: {
   tree: ISkillTree,
   setSkillIdOnHover: React.Dispatch<SetStateAction<number>>
 }) {

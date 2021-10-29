@@ -27,7 +27,7 @@ interface ISkill {
       min: number[];
       max: number[];
     };
-    unit: Unit;
+    unit: TUnit;
     prefix: string;
     value: number | {
       min: number;
@@ -51,7 +51,7 @@ interface ISkillTree {
   isActive: boolean;
 }
 
-type Unit = 'yards' | 'seconds' | 'percent' | 'points' | 'hits';
+type TUnit = 'yards' | 'seconds' | 'percent' | 'points' | 'hits';
 
 //skill reducer action
 interface ISkillsReducer {
