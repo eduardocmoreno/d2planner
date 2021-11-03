@@ -13,14 +13,13 @@ export default function Item({
   icon: string,
   setHasTwoHanded?: React.Dispatch<SetStateAction<boolean>>
 }) {
-
   const { setGear } = useContext(PlannerContext);
   const { armors, weapons } = useContext(GearContext);
-  
+
   const [bases, setBases] = useState([] as IGearProps[]);
   const [selectedBase, setSelectedBase] = useState({} as IGearProps);
   const [itemProps, setItemProps] = useState({} as IGearProps);
-  const [itemMods, setItemMods] = useState({} as IGearMods);
+  const [itemMods, setItemMods] = useState([] as IGearMod[]);
 
   function handleBaseSelect(code: keyof IGearProps) {
     setSelectedBase(bases.find(i => i.code === code) || {} as IGearProps);
@@ -28,7 +27,7 @@ export default function Item({
 
   function reset() {
     setSelectedBase({} as IGearProps);
-    setItemMods({} as IGearMods);
+    setItemMods([] as IGearMod[]);
   }
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function Item({
             ...p,
             base: { ...itemProps },
             props: { ...itemProps },
-            mods: { ...itemMods }
+            mods: [...itemMods]
           }
         }
         return p;

@@ -10,7 +10,7 @@
   "vitality": "+{a} To Vitality",
   "energy": "+{a} To Energy",
 
-  "dmg": "+{a} Damage",
+  "dmg": "Damage +{a}",
   "eDmg": "+{a}% Enhanced Damage",
   "eDmgBocl": "+{a}% Enhanced Damage (Based On Character Level)",
   "minDmg": "+{a} To Minimum Damage",
@@ -20,10 +20,10 @@
   "dmgDemonBocl": "+{a}% Damage To Demons (Based On Character Level)",
   "dmgUndead": "+{a}% Damage To Undead",
   "dmgUndeadBocl": "+{a}% Damage To Undead (Based On Character Level)",
-  "fireMin": "Adds {a}-{b} Fire Damage",
-  "coldMin": "Adds {a}-{b} Cold Damage",
-  "ltngMin": "Adds {a}-{b} Lightning Damage",
-  "poisMin": "Adds {a}-{b} Poison Damage",
+  "fireDmg": "Adds {a}-{b} Fire Damage",
+  "coldDmg": "Adds {a}-{b} Cold Damage",
+  "ltngDmg": "Adds {a}-{b} Lightning Damage",
+  "poisDmg": "+{a} Poison Damage",
  
   "def": "+{a} Defense",
   "eDef": "+{a}% Enhanced Defense",
@@ -32,6 +32,7 @@
   "fhr": "+{a}% Fast Hit Recovery",
 
   "mf": "+{a}% Better Chance Of Getting Magic Items",
+  "mfBocl": "+{a}% Better Chance Of Getting Magic Items (Based On Character Level)",
   "req": "Requirements -{a}%",
  
   "fcr": "+{a}% Faster Cast Rate",

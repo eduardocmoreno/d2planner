@@ -2,10 +2,10 @@ interface IGear {
   slot: 'head' | 'torso' | 'belt' | 'gloves' | 'boots' | 'left-hand' | 'right-hand' | 'amulet' | 'left-ring' | 'right-ring' | 'torch' | 'annihilus' | 'charms';
   base: Partial<IGearProps>;
   props: Partial<IGearProps>;
-  mods: Partial<IGearMods>;
+  mods: IGearMod[];
 }
 
-type TGearModsStr = Record<keyof IGearMods, string>;
+type TGearModsStr = Record<TGearModName, string>;
 type TGearModsDescr = Partial<TGearModsStr>;
 
 interface IGearContext {
@@ -15,7 +15,95 @@ interface IGearContext {
   modsDescr: TGearModsDescr
 }
 
+type TGearModName =
+  'allAttrs' |
+  'strength' |
+  'dexterity' |
+  'vitality' |
+  'energy' |
+  'def' |
+  'eDef' |
+  'defBocl' |
+  'block' |
+  'fhr' |
+  'req' |
+  'mf' |
+  'mfBocl' |
+  'dmg' |
+  'eDmg' |
+  'eDmgBocl' |
+  'minDmg' |
+  'maxDmg' |
+  'maxDmgBocl' |
+  'dmgDemon' |
+  'dmgDemonBocl' |
+  'dmgUndead' |
+  'dmgUndeadBocl' |
+
+  'fireDmg' |
+  'coldDmg' |
+  'ltngDmg' |
+  'poisDmg' |
+
+  'fireRes' |
+  'coldRes' |
+  'ltngRes' |
+  'ltngResBocl' |
+  'poisRes' |
+
+  'maxFireRes' |
+  'maxColdRex' |
+  'maxLtngRes' |
+  'maxPoisRes' |
+
+  'ar' |
+  'arBocl' |
+  'eAr' |
+  'ias' |
+  'ow' |
+  'cb' |
+  'ds' |
+  'dsBocl' |
+  'fcr' |
+  'frw' |
+  'lifeSteal' |
+  'manaSteal' |
+
+  'allSkills' |
+  'allClassSkills' |
+
+  'treeSkills' |
+  'singleSkill';
+
+
 type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
+
+interface IGearSubMod {
+  [k: string]: number;
+  //concat mod name + id ==> [treeSkills_1]: [bonus value]
+}
+
+type TGearMultiLevelMods = Extract<TGearModName, 'treeSkills' | 'singleSkill'>;
+type TGearMultiLevelModsOpts = Record<TGearMultiLevelMods, IGearSubModOptions>;
+
+interface IGearSubModOptions {
+  all: Partial<Record<number, string>>;
+  available: Partial<Record<number, string>>;
+  str: string;
+}
+
+interface IGearMod {
+  name: TGearModName;
+  subModName?: string | null;
+  subModId?: number | null;
+  value?: number | null;
+  maxVal?: number | null;
+  minVal?: number | null;
+  class?: TCharClass | null;
+  charges?: number | null;
+  chance?: number | null;
+  event?: 'On Attack' | 'On Striking' | 'When Struck' | 'When You Kill an Enemy' | 'When You Level-up' | 'When You Die' | null;
+}
 
 interface IGearMods {
   allAttrs: number;
@@ -23,40 +111,36 @@ interface IGearMods {
   dexterity: number;
   vitality: number;
   energy: number;
-
   def: number;
-  eDef: number; //enhanced defense
-  defBocl: number; //based on char level
+  eDef: number;
+  defBocl: number;
   block: number;
   fhr: number;
-
   req: number;
   mf: number;
-
-  dmg: number; //like in Grief
-  eDmg: number; //enhanced dmg
-  eDmgBocl: number; //enhanced dmg based on char level
-  minDmg: number; //to minimum dmg
-  maxDmg: number; //to maximum dmg
-  maxDmgBocl: number; //to maximum dmg
+  mfBocl: number;
+  dmg: number;
+  eDmg: number;
+  eDmgBocl: number;
+  minDmg: number;
+  maxDmg: number;
+  maxDmgBocl: number;
   dmgDemon: number;
   dmgDemonBocl: number;
   dmgUndead: number;
   dmgUndeadBocl: number;
-  fireMin: number;
-  coldMin: number;
-  ltngMin: number;
-  poisMin: number;
-  fireMax: number;
-  coldMax: number;
-  ltngMax: number;
-  poisMax: number;
+
+  fireDmg: number;
+  coldDmg: number;
+  ltngDmg: number;
+  poisDmg: number;
 
   fireRes: number;
-  coldRex: number;
+  coldRes: number;
   ltngRes: number;
-  ltngResBocl: number; //Stormspike
+  ltngResBocl: number;
   poisRes: number;
+
   maxFireRes: number;
   maxColdRex: number;
   maxLtngRes: number;
@@ -74,40 +158,64 @@ interface IGearMods {
   frw: number;
   lifeSteal: number;
   manaSteal: number;
-
   allSkills: number;
   allClassSkills: number;
-
-  treeSkills: {
-    id: number;
-    level: number;
-  }
-
-  singleSkill: {
-    id: number;
-    level: number;
-  }
-
-  /* chargedSkill: { //"Level {a} {skill} (Charges)"
-    id: number;  //class.skill.id
-    level: number;  //skill level
-    charges: number; //just for illustration
-    //string literals ==> `Level ${level} capitalize(${class.skills.find(s => s.id === id).name}) (${charges}/${charges} charges)`
-  } */
-
-  /* castSkill: { //"Chance To Cast Level {a} {skill}"
-    id: number; //class.skill.id
-    level: number; //skill level
-    chance: number; //chance
-  } */
-
-  /* nonClassSkill: { //"+{a} To {skill}"
-    id: number; //class.skill.id
-    level: number; //skill level
-  } */
-
-  
+  treeSkills: IGearSubMod;
+  singleSkill: IGearSubMod;
 }
+/* 
+[ 
+  {
+    id: 'allSkills',
+    value: 1
+  },
+  {
+    id: 'strength',
+    value: 30
+  },
+  {
+    id: 'treeSkills',
+    subId: 1, //combat skills for example
+    value: 1 //+1 skill for example
+  },
+  {
+    id: 'treeSkills',
+    subId: 3, //DEFENSIVE AURAS for example
+    value: 2 //+2 skills for example
+  },
+  {
+    id: 'singleSkill',
+    subId: 19, //fanaticism for example
+    value: 1
+  },
+  {
+    id: 'fireDmg',
+    min: 5,
+    max: 20 //Adds 5-20 Fire Damage
+  },
+  {
+    id: 'ncSkill',
+    class: 'barbarian',
+    subId: 27 //battle orders
+    value: 6
+  },
+  {
+    id: 'chargedSkill',
+    class: 'sorceress',
+    subId: 7 //enchant,
+    value: 10,
+    charges: 11
+  },
+  {
+    id: 'castSkill',
+    class: 'assassin',
+    subId: 19 //venom,
+    value: 15,
+    chance: 10,
+    event: striking
+  }
+]
+*/
 
 type TPaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot';
 

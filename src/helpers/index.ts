@@ -4,8 +4,12 @@ export const percent = (value: number, percent: number): number => value * (perc
 
 export const includes = <T, U extends T>(arr: readonly U[], elem: T): elem is U => arr.includes(elem as any);
 
+export const getItemMod = (mods: IGearMod[], modName: TGearModName) => {
+  return mods.find(m => m.name === modName) || {} as IGearMod;
+}
 
-/* 
+
+/*
 //HOW MUCH DEX DO I NEED TO MAX BLOCK (75%)??
 //B = TOTAL BLOCKING BONUS (CHAR INIT VALUES + SHIELD CTB + ICB FROM ITEMS + HS SKILL)
 //C = CHAR LVL

@@ -1,11 +1,12 @@
 import { SetStateAction, useContext } from "react";
 import { PlannerContext } from "pages/Planner";
-import styled, { css } from "styled-components";
+import { CellContent, CellCount, CellFigure, Count, TreeCell, Wrapper } from "./SkillTree.styles";
+import Tooltip from "components/ui/Tooltip";
 
 
 export default function SkillTree({ tree, setSkillIdOnHover }: {
-  tree: ISkillTree,
-  setSkillIdOnHover: React.Dispatch<SetStateAction<number>>
+  tree: ISkillTree;
+  setSkillIdOnHover: React.Dispatch<SetStateAction<number>>;
 }) {
   const { charClass, charLevel, skills, dispatchSkills, skillPoints, setSkillPoints } = useContext(PlannerContext);
 
@@ -62,7 +63,7 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
       setSkillPoints(prev => prev - batch);
 
       dispatchSkills({
-        type: 'INCREMENT',
+        type: 'INC_POINTS',
         payload: { id, batch }
       });
     }
@@ -78,22 +79,24 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
       setSkillPoints(prev => prev + batch);
 
       dispatchSkills({
-        type: 'DECREMENT',
+        type: 'DEC_POINTS',
         payload: { id, batch }
       });
     }
   }
 
   return (
-    <TreeWrapper isActive={tree.isActive} charClass={charClass} name={tree.name} img={require(`assets/images/skills/${charClass}/${tree.name}/connectors.png`).default}>
+    <Wrapper isActive={tree.isActive} charClass={charClass} name={tree.name} img={require(`assets/images/skills/${charClass}/${tree.name}/connectors.png`).default}>
       {tree.map.map((id, index) => {
-
         if (id > 0) {
-          const { name, level: { points, bonus, total } } = getSkillProps(skills, id);
+          const { name, level: { points, bonus, granted, total } } = getSkillProps(skills, id);
           return (
             <TreeCell key={name}>
-              <CellContent isIterable={isSkillIterable(id)} isActive={points > 0}>
+              <CellContent>
                 <CellFigure
+                  isIterable={isSkillIterable(id)}
+                  isActive={points > 0}
+                  isGranted={granted > 0 && points === 0}
                   onMouseOver={() => setSkillIdOnHover(id)}
                   onClick={(e) => handleSkillPoints(e, id)}
                   onContextMenu={(e) => handleSkillPoints(e, id)}>
@@ -102,12 +105,13 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
                     alt={name}
                   />
                 </CellFigure>
-                {points > 0 &&
+                {(points > 0 || granted > 0) &&
                   <CellCount>
-                    {bonus > 0 &&
-                      <span>{total}</span>
-                    }
-                    {points}
+                    <Tooltip center data-tooltip={`Points Spent: ${points}`}>
+                      <Count hasBonus={bonus > 0 || granted > 0}>
+                        {total}
+                      </Count>
+                    </Tooltip>
                   </CellCount>
                 }
               </CellContent>
@@ -116,95 +120,8 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
         }
 
         return <TreeCell key={index} />
-
       })}
-    </TreeWrapper>
+    </Wrapper>
   )
 }
 
-const TreeWrapper = styled.div(({ isActive, charClass, name, img }: { isActive: boolean, charClass?: string, name?: string, img: string }) => css`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  gap: 25px 0;
-  width: 340px;
-  background: url(${img}) top left no-repeat;
-  ${!isActive && css`
-    display: none;
-  `}
-`);
-
-const TreeCell = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const CellContent = styled.div(({ isIterable, isActive }: { isIterable: boolean, isActive: boolean }) => css`
-  position: relative;
-  ${!isIterable && !isActive && css`
-    img {
-      filter: brightness(30%) saturate(0%);
-      opacity: .3;
-    }
-  `}
-  ${isIterable && css`
-    img {
-      :hover{
-        box-shadow: 0 0 20px rgba(var(--color-green-rgb), .15);
-        
-        cursor: pointer;
-      }
-      :active {
-        transform: scale(.95);
-      }
-    }
-  `}
-  ${isIterable && !isActive && css`
-    img {
-      :not(:hover) {
-        filter: brightness(70%) saturate(50%);
-      }
-    }
-  `}
-  ${isActive && css`
-    img {
-      filter: saturate(150%);
-    }
-  `}
-`);
-
-const CellCount = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 100%;
-  top: 0;
-  padding: 5px 0;
-  width: 25px;
-  background: rgba(0 0 0 / 0.3);
-  color: #666;
-  box-shadow: inset 0 0 5px rgba(0 0 0 / 0.5);
-  font-size: 1.4rem;
-  font-family: var(--font-family-main);
-  text-align: center;
-  letter-spacing: -.15rem;
-  line-height: 1;
-  span {
-    color: var(--color-green-600);
-    font-size: 1.7rem;
-    font-weight: bold;
-  }
-`;
-
-const CellFigure = styled.figure`
-  padding: 3px;
-  box-shadow: inset 0 0 5px #000;
-  img {
-    width: 64px;
-    height: 64px;
-  }
-`;

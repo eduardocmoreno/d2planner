@@ -34,7 +34,7 @@ export default function SkillDetails({ skillIdOnHover }: {
   return (
     <Wrapper>
       <Header>
-        <div><strong>{skillPoints}</strong> <small>skill points remaining</small></div>
+        <div><strong>{skillPoints}</strong> <small>Skill Pts Remaining</small></div>
       </Header>
       <Details>
         {selectedSkill?.name ?
@@ -45,14 +45,14 @@ export default function SkillDetails({ skillIdOnHover }: {
 
             <SkillProps>
 
-              {selectedSkill.points > 0 ?
+              {selectedSkill.level.points > 0 ?
                 <PropDetails>
                   <PropName>Current skill level:</PropName>
-                  <PropValue isActive={selectedSkill.points > 0}>{selectedSkill.points}</PropValue>
+                  <PropValue isActive={selectedSkill.level.total > 0}>{selectedSkill.level.total}</PropValue>
                 </PropDetails>
                 :
                 <PropDetails>
-                  <PropName>Require character level:</PropName>
+                  <PropName>Required level:</PropName>
                   <PropValue isActive={false} warn={charLevel < selectedSkill.levelReq}>{selectedSkill.levelReq}</PropValue>
                 </PropDetails>
               }
@@ -65,7 +65,7 @@ export default function SkillDetails({ skillIdOnHover }: {
                         <Tooltip center data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                       }
                     </PropName>
-                    <PropValue isActive={selectedSkill.points > 0}>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{units[unit]}</PropValue>
+                    <PropValue isActive={selectedSkill.level.points > 0}>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{units[unit]}</PropValue>
                   </PropDetails>
                 )
               })}
@@ -85,7 +85,7 @@ export default function SkillDetails({ skillIdOnHover }: {
                           <Tooltip center data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                         }
                       </PropName>
-                      <PropValue isActive={selectedSkill.points > 0}>
+                      <PropValue isActive={selectedSkill.level.points > 0}>
                         {specialBehavior(selectedSkill) ?? `+${adds}%`}
                       </PropValue>
                     </PropDetails>

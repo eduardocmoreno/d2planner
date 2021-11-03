@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "components/ui/Input";
 import { List, ListItem, Selector, Wrapper } from "./FakeSelector.styles";
+import { capitalize } from "helpers";
 
 export default function FakeSelector({ children, position = 'bottom', search = true, options, callBack }: {
   children: React.ReactNode;
@@ -136,7 +137,7 @@ export default function FakeSelector({ children, position = 'bottom', search = t
                   setIsActive(prev => !prev);
                   setInput('');
                 }}>
-                {v as string}
+                {capitalize(v as string)}
               </ListItem>
             );
           })}

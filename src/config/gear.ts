@@ -1,7 +1,7 @@
 const itemPropsModsInit = {
   base: {},
   props: {},
-  mods: {}
+  mods: []
 }
 
 const gearInit: IGear[] = [
@@ -60,5 +60,3 @@ const gearInit: IGear[] = [
 ]
 
 export default gearInit;
-
-export const gearModsCategNames: TGearModsCategNames[] = ['skills', 'damage', 'defenses', 'offenses', 'resists', 'attributes', 'misc'];

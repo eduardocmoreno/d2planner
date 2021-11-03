@@ -80,7 +80,7 @@ export const PropName = styled.div`
 `;
 
 export const PropValue = styled.div(({ isActive, warn }: { isActive: boolean, warn?: boolean }) => css`
-  --prop-color: #666;
+  --prop-color: #444;
   ${isActive && css`
     --prop-color: var(--color-green);
   `}

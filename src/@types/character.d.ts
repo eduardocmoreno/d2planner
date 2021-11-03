@@ -14,6 +14,8 @@ interface ICharData {
   classWeaponSpeed: Record<TWeaponClass, number[]>;
 }
 
+type TCharClass = 'amazon' | 'assassin' | 'barbarian' | 'druid' | 'necromancer' | 'paladin' | 'sorceress';
+
 //"1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
 
 /*

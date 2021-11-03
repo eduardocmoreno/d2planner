@@ -6,140 +6,150 @@ import { GearContext } from "./Gear";
 import FakeSelector from "components/ui/FakeSelector";
 import Tooltip from "components/ui/Tooltip";
 
-export default function ItemMod({ mod, setItemMods }: {
-  mod: keyof IGearMods;
-  setItemMods: React.Dispatch<React.SetStateAction<IGearMods>>
+export default function ItemMod({ mod, setItemModsArray, subModOptions }: {
+  mod: IGearMod;
+  setItemModsArray: React.Dispatch<React.SetStateAction<IGearMod[]>>;
+  subModOptions: TGearMultiLevelModsOpts;
 }) {
   const { charData, charClass } = useContext(PlannerContext);
   const { mods } = useContext(GearContext);
 
-  const multiPropsMod = includes(['treeSkills', 'singleSkill'] as const, mod);
-
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(mod.value?.toString() || '');
   const [selectedSubMod, setSelectedSubMod] = useState('');
+  const [isValid, setIsValid] = useState<boolean>(true);
 
+  const inputValRef = useRef(input);
+  const selectedSubModRef = useRef(selectedSubMod);
   const inputRef = useRef<HTMLInputElement>(null);
-  const modDescr = useRef(mods[mod]!);
 
-  const sign = modDescr.current.match(/-|\+/g);
-  const unit = modDescr.current.match(/%/g);
+  const multiLvlMods = useRef<TGearMultiLevelMods[]>(['treeSkills', 'singleSkill']);
 
-  const splitStr = useRef(
-    modDescr.current
-      .replace(/-|\+/g, `<span class="sign">${sign}</span>`)
-      .replace(/%/g, `<span class="unit">${unit}</span>`)
-      .replace('{class}', capitalize(charClass))
-      .split(/\{\w\}|\{tree\}|\{skill\}/g)
-  );
+  const modDescr = mods[mod.name]!;
+  const sign = modDescr.match(/-|\+/g);
+  const unit = modDescr.match(/%/g);
+
+  const splitStr = modDescr
+    .replace(/-|\+/g, `<span class="sign">${sign}</span>`)
+    .replace(/%/g, `<span class="unit">${unit}</span>`)
+    .replace('{class}', capitalize(charClass))
+    .split(/\{\w\}|\{tree\}|\{skill\}/g);
 
   const primaryInputProps = {
-    type: "text",
+    type: "number",
     placeholder: "00",
     maxLength: 4,
     ref: inputRef,
     width: input.length * .6,
     value: input,
+    required: true,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value),
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && inputRef.current?.blur()
   }
 
   let content: React.ReactNode;
 
-  switch (mod) {
+  switch (mod.name) {
     case 'treeSkills':
     case 'singleSkill': {
-      const modProps = {
-        treeSkills: {
-          options: Object.fromEntries(
-            charData.skills.trees.map(({ id, name }) => [id, capitalize(name)])
-          ),
-          str: 'Tree'
-        },
-        singleSkill: {
-          options: Object.fromEntries(
-            charData.skills.list.map(({ id, name }) => [id, capitalize(name)])
-          ),
-          str: 'Skill'
-        }
-      }
-
-      const options = modProps[mod].options;
+      const { all, available, str } = subModOptions[mod.name!] as IGearSubModOptions;
 
       content = <>
-        <span dangerouslySetInnerHTML={{ __html: splitStr.current[0] }} />
-        <Input
-          {...primaryInputProps}
-          onBlur={e => setItemMods(prev => {
-            return {
-              ...prev,
-              [mod]: {
-                ...prev[mod],
-                level: parseInt(e.target.value),
-              }
-            }
-          })} />
-        <span dangerouslySetInnerHTML={{ __html: splitStr.current[1] }} />
+        <label>
+          <span dangerouslySetInnerHTML={{ __html: splitStr[0] }} />
+          <Input {...primaryInputProps} />
+          <span dangerouslySetInnerHTML={{ __html: splitStr[1] }} />
+        </label>
         <FakeSelector
-          options={options}
+          options={available}
           callBack={setSelectedSubMod}
-          search={!(mod === 'treeSkills')}>
+          search={!(mod.name === 'treeSkills')}>
           <span className="selector-ph">
-            {options[selectedSubMod] || <>Select {modProps[mod].str} <i className="icon-arrow-down"></i></>}
+            {capitalize(all[mod.subModId || parseInt(selectedSubMod)] || '') || <>Select {str} <i className="icon-arrow-down"></i></>}
           </span>
         </FakeSelector>
-        <span dangerouslySetInnerHTML={{ __html: splitStr.current[2] }} />
+        <span dangerouslySetInnerHTML={{ __html: splitStr[2] }} />
       </>;
+      
+      break;
+    }
+
+    case 'fireDmg':
+    case 'coldDmg':
+    case 'ltngDmg': {
+      content = <div>ELEMENTAL DMG</div>;
       break;
     }
 
     default: {
       content = <>
-        <span dangerouslySetInnerHTML={{ __html: splitStr.current[0] }} />
-        <Input
-          {...primaryInputProps}
-          onBlur={e => setItemMods(prev => {
-            return {
-              ...prev,
-              [mod]: parseInt(e.target.value)
-            }
-          })} />
-        <span dangerouslySetInnerHTML={{ __html: splitStr.current[1] }} />
+        <label>
+          <span dangerouslySetInnerHTML={{ __html: splitStr[0] }} />
+          <Input
+            {...primaryInputProps}
+            onBlur={
+              e => {
+                setItemModsArray(prev => {
+                  return prev.map(p => {
+                    if (p.name === mod.name) {
+                      return {
+                        ...p,
+                        value: parseInt(e.target.value) || null
+                      }
+                    }
+                    return p;
+                  });
+                });
+
+                setIsValid((!e.target.value || e.target.value === '0') ? false : true);
+              }
+            } />
+          <span dangerouslySetInnerHTML={{ __html: splitStr[1] }} />
+        </label>
       </>;
+
       break;
     }
   }
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    !mod.value && inputRef.current?.focus();
+  }, [mod.value]);
 
   useEffect(() => {
-    multiPropsMod && setItemMods(prev => {
-      return {
-        ...prev,
-        [mod]: {
-          ...prev[mod],
-          id: parseInt(selectedSubMod) || 0
-        }
-      }
-    });
-  }, [mod, setItemMods, selectedSubMod, multiPropsMod]);
+    if (!includes(multiLvlMods.current, mod.name)) {
+      return;
+    }
+
+    if (inputValRef.current !== input || selectedSubModRef.current !== selectedSubMod) {
+      setItemModsArray(prev => {
+        return prev.map(p => {
+          if (p.subModName ? p.subModName === mod.subModName : p.name === mod.name) {
+            return {
+              ...p,
+              subModName: subModOptions[mod.name as TGearMultiLevelMods].all[parseInt(selectedSubMod)] || mod.subModName || null,
+              subModId: parseInt(selectedSubMod) || mod.subModId || null,
+              value: parseInt(input) || null
+            }
+          }
+          return p;
+        });
+      });
+      inputValRef.current !== input && (inputValRef.current = input);
+      selectedSubModRef.current !== selectedSubMod && (selectedSubModRef.current = selectedSubMod);
+      setIsValid((!input || !mod.subModId) ? false : true);
+    }
+  }, [mod, subModOptions, setItemModsArray, input, selectedSubMod, charData]);
 
   return (
     <Wrapper>
-      <Mod>
-        {content}
-      </Mod>
-      <Remove
+      <Mod isValid={isValid}>{content}</Mod>
+      {<Remove
         center
         as={Tooltip}
         data-tooltip="Remove Mod?"
-        onClick={() => setItemMods(prev => {
-          const { [mod]: modValue, ...mods } = prev;
-          return mods as IGearMods;
-        })}>
+        onClick={() => setItemModsArray(prev => prev.filter(p => p.subModName !== mod.subModName || p.name !== mod.name))}>
         <i className="icon-close"></i>
-      </Remove>
+      </Remove>}
     </Wrapper>
   );
 };

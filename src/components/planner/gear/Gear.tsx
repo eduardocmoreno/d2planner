@@ -43,7 +43,7 @@ export default function Gear() {
               .replace(/^Maximum/g, 'Max').trim()
               .replace(/^Increased/g, '').trim()
               .replace(/^Chance Of/g, '').trim()
-              .replace('(Based On Character Level)', '/ Level').trim()
+              .replace('(Based On Character Level)', '/ lvl').trim()
 
             switch (k as keyof IGearMods) {
               case 'allClassSkills': {
@@ -51,7 +51,7 @@ export default function Gear() {
                 break;
               }
               case 'treeSkills': {
-                v = `Skill Tree Levels`;
+                v = `Tree Skills`;
                 break;
               }
               case 'singleSkill': {
@@ -74,6 +74,10 @@ export default function Gear() {
                 v = `Magic Find`;
                 break;
               }
+              case 'mfBocl': {
+                v = `Magic Find / lvl`;
+                break;
+              }
             }
             return [k, capitalize(v)];
           })
@@ -86,7 +90,7 @@ export default function Gear() {
       <Items>
         <Item slot="head" icon="icon-head" />
 
-        <Item slot="torso" icon="icon-armor" />
+        {/* <Item slot="torso" icon="icon-armor" />
 
         <Item slot="right-hand" icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
 
@@ -110,7 +114,7 @@ export default function Gear() {
 
         <Item slot="annihilus" icon="icon-annihilus" />
 
-        <Item slot="charms" icon="icon-charms" />
+        <Item slot="charms" icon="icon-charms" /> */}
       </Items>
     </GearContext.Provider>
   )

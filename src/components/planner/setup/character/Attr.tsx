@@ -4,20 +4,20 @@ import { PlannerContext } from "pages/Planner";
 import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
-import { capitalize } from "helpers";
+import { capitalize, getItemMod } from "helpers";
 
 export default function Attr({ attr }: { attr: keyof IAttrs }) {
   const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
 
-  const gearBonuses = gear.filter(g => g.mods[attr] || g.mods.allAttrs);
+  const gearBonuses = gear.filter(g => getItemMod(g.mods, attr).value || getItemMod(g.mods, 'allAttrs').value);
 
   useEffect(() => {
     dispatchAttrs({
       type: 'BONUS',
       payload: {
         attr,
-        batch: gear.filter(g => g.mods[attr] || g.mods.allAttrs).map(g => g.mods[attr] || g.mods.allAttrs).reduce((a, b) => a! + b!, 0) || 0
+        batch: gearBonuses.map(g => getItemMod(g.mods, attr).value || getItemMod(g.mods, 'allAttrs').value).reduce((a, b) => a! + b!, 0) || 0
       }
     });
   }, [attr, gear, dispatchAttrs]);
@@ -59,7 +59,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   if (gearBonuses.length) {
     gearBonuses.forEach((g, i) => {
-      tooltipDetails += `${capitalize(g.slot)}: +${g.mods[attr] || g.mods.allAttrs}`;
+      tooltipDetails += `${capitalize(g.slot)}: +${getItemMod(g.mods, attr).value || getItemMod(g.mods, 'allAttrs').value}`;
       i + 1 !== gearBonuses.length && (tooltipDetails += `\n`)
     });
   }

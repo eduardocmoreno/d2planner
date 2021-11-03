@@ -31,7 +31,7 @@ export default function Planner() {
   const [planner, setPlanner] = useState(plannerInit);
   const [charData, setCharData] = useState({} as ICharData);
 
-  const [charLevel, setCharLevel] = useState(1);
+  const [charLevel, setCharLevel] = useState(99);
   const [attrs, dispatchAttrs] = useReducer(attrsReducer, attrsInit);
   const [attrPoints, setAttrPoints] = useState(0);
 

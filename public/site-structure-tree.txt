@@ -168,25 +168,31 @@ GEAR ========================================================
         - REQUIREMENTS
 
     - LIST OF NON-CLASS SKILLS
-      - WEREBEAR (3)
-      - LYCANTHROPY (3-6)
-      - BATTLE COMMAND (2-6)
-      - BATTLE ORDERS (1-6)
-      - BATTLE CRY (1-4)
-      - WHIRLWIND (1)
-      - VALKYRIE (2-6)
-      - CRITICAL STRIKE (1-6)
-      - VENGEANCE (1)
-      - ZEAL (1)
-      - BERSERK (1)
-      - TELEPORT (1)
-      - WARMTH (1)
-      - HYDRA (10)
-      - GUIDED ARROW (3-5)
-      - FERAL RAGE (3-6)
-      - WEREWOLF (3-6)
-      - INFERNO (12-18)
-      - ARTIC BLAST (7-14)
+      //SKILL NAME (MAX LEVEL)(CHARACTER)
+      - WEREWOLF (3-6)(DRUID)(1)
+      - LYCANTHROPY (3-6)(DRUID)(2)
+      - WEREBEAR (3)(DRUID)(3)
+      - ARTIC BLAST (7-14)(DRUID)
+      - FERAL RAGE (3-6)(DRUID)
+      
+      - BATTLE COMMAND (2-6)(BARB)
+      - BATTLE ORDERS (1-6)(BARB)
+      - BATTLE CRY (1-4)(BARB)
+      - WHIRLWIND (1)(BARB)
+      - BERSERK (1)(BARB)
+
+      - VALKYRIE (2-6)(AMAZON)
+      - CRITICAL STRIKE (1-6)(AMAZON)
+      - GUIDED ARROW (3-5)(AMAZON)
+
+      - VENGEANCE (1)(PALY)
+      - ZEAL (1)(PALY)
+      
+      - TELEPORT (1)(SORC)
+      - WARMTH (1)(SORC)
+      - HYDRA (10)(SORC)
+      - INFERNO (12-18)(SORC)
+      
 
     - CAST SKILLS CHANCES
       - LIFE TAP

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { pseudo } from "styles/mixins";
 
-export interface ITooltip {
+interface ITooltip {
   'data-tooltip': string;
   focus?: boolean;
   center?: boolean;
@@ -25,6 +25,7 @@ const Tooltip = styled.div<ITooltip>(({ focus, center }) => css`
     color: var(--color-gold);
     font-style: italic;
     font-size: 1.4rem;
+    font-family: var(--font-family-pair);
     text-align: center;
     transform: translateY(calc(-100% - 1rem));
     line-height: 1.5;

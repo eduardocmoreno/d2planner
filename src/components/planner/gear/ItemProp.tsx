@@ -1,13 +1,13 @@
-import Tooltip from "components/ui/Tooltip";
-import { capitalize } from "helpers";
-import { PlannerContext } from "pages/Planner";
 import { useContext, useEffect, useRef } from "react";
+import Tooltip from "components/ui/Tooltip";
+import { PlannerContext } from "pages/Planner";
+import { capitalize, getItemMod } from "helpers";
 
 export default function ItemProp({ itemProps, itemMods, selectedBase, prop }: {
-  itemProps: IGearProps,
-  itemMods: IGearMods,
-  selectedBase: IGearProps,
-  prop: TItemPropsToRender
+  itemProps: IGearProps;
+  itemMods: IGearMod[];
+  selectedBase: IGearProps;
+  prop: TItemPropsToRender;
 }) {
   const { charClass, charData, charLevel, attrs, gear } = useContext(PlannerContext);
 
@@ -61,18 +61,19 @@ export default function ItemProp({ itemProps, itemMods, selectedBase, prop }: {
         let result = <span>{itemProps.minDmg}-{itemProps.maxDmg}</span>;
         let dataTooltip = `Base ${propLabel} Damage: ${selectedBase.minDmg}-${selectedBase.maxDmg}`;
         let rhSlot = gear.find(g => g.slot === 'right-hand');
+        let rhDmgMod = rhSlot?.mods.length ? getItemMod(rhSlot?.mods, 'dmg').value : 0;
 
         if (itemProps.minDmg > selectedBase.minDmg || itemProps.maxDmg > selectedBase.maxDmg) {
           if (isWeapon) {
             offWeaponItems.forEach(g => {
               if (['minDmg', 'maxDmg'].includes(Object.keys(g.mods)[0])) {
-                dataTooltip += `\n${capitalize(g.props.name!)}: +${(g.mods.minDmg || 0)}-${(g.mods.maxDmg || 0)}`;
+                dataTooltip += `\n${capitalize(g.props.name!)}: +${getItemMod(g.mods, 'minDmg').value || 0}-${getItemMod(g.mods, 'maxDmg').value || 0}`;
               }
             });
           }
 
-          if (isShield && rhSlot?.mods.dmg) {
-            dataTooltip += `\n${rhSlot?.props.name || rhSlot?.slot} Damage: +${rhSlot?.mods.dmg}`;
+          if (isShield && rhDmgMod) {
+            dataTooltip += `\n${rhSlot?.props.name || rhSlot?.slot} Damage: +${rhDmgMod}`;
           }
 
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{itemProps.minDmg}-{itemProps.maxDmg}</Tooltip>
@@ -173,7 +174,7 @@ export default function ItemProp({ itemProps, itemMods, selectedBase, prop }: {
     case 'speed': {
       if (isWeapon) {
         let classWeaponSpeed = charData.classWeaponSpeed[selectedBase.weaponClass];
-        let baseSpeed = (itemProps.speed || 0) - (itemMods.ias || 0);
+        let baseSpeed = (itemProps.speed || 0) - (getItemMod(itemMods, 'ias').value || 0);
         let speedStr = "Very Fast Attack Speed";
 
         if (baseSpeed >= classWeaponSpeed[3]) {

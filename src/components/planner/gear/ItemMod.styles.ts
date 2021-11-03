@@ -29,8 +29,11 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Mod = styled.div`
+export const Mod = styled.div(({ isValid }: { isValid?: boolean }) => css`
   color: var(--color-blue);
+  ${!isValid && css`
+    color: var(--color-red-400);
+  `}
   font-size: 1.6rem;
   .sign,
   .unit,
@@ -55,10 +58,11 @@ export const Mod = styled.div`
   .fake-selector {
     display: inline-block;
   }
-`;
+`);
 
 export const Input = styled.input(({ width }: { width: number }) => css`
   width: ${width > 0 ? `${width}em` : '1.2em'};
+  min-width: .8em;
   background: transparent;
   color: var(--color-gold);
   border-bottom: 1px dotted transparent;
