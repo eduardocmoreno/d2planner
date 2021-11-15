@@ -70,7 +70,9 @@ type TGearModName =
   'allSkills' |
   'classSkills' |
   'treeSkills' |
-  'singleSkill';
+  'singleSkill' |
+  
+  'ethereal';
 
 
 type TGearModsData = Record<TGearModName, IGearModData>;
@@ -112,6 +114,7 @@ interface IGearContext {
   modsData: TGearModsData;
   partialClassSkillMods: Partial<TGearModName[]>;
   boclMods: Partial<TGearModName[]>;
+  booleanMods: Partial<TGearModName[]>;
 }
 
 type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";

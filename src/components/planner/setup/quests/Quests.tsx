@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import { Description, Details, Difficulty, Item, List, Name, ToggleController, Wrapper } from "./quests.styles";
 
-
-
 export default function Quests() {
   const { quests, dispatchQuests } = useContext(PlannerContext);
   const [toggleAllQuests, setToggleAllQuests] = useState(false);

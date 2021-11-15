@@ -12,18 +12,18 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
   subModOptions: TGearMultiLevelModOpts;
 }) {
   const { charClass, charLevel } = useContext(PlannerContext);
-  const { modsData, partialClassSkillMods, boclMods } = useContext(GearContext);
+  const { modsData, partialClassSkillMods, boclMods, booleanMods } = useContext(GearContext);
 
   const [input, setInput] = useState(mod.value?.toString() || '');
   const [selectedSubMod, setSelectedSubMod] = useState(mod.subModId?.toString() || '');
-  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(booleanMods.includes(mod.name) ? true : false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const allSubModOpts = useRef(subModOptions[mod.name]?.all || {});
 
-  const inputMaxLength = modsData[mod.name].inputMax.toString().length;
+  const inputMaxLength = modsData[mod.name].inputMax?.toString().length || 0;
   const inputLengthFactor = boclMods.includes(mod.name) ? inputMaxLength + 4 : inputMaxLength;
 
   const modDescr = modsData[mod.name].descr;
@@ -126,6 +126,10 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
     </>;
   }
 
+  else if(booleanMods.includes(mod.name)) {
+    content = modsData[mod.name].descr;
+  }
+
   else {
     content = <>
       <label>
@@ -141,9 +145,11 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
   }, [input]);
 
   useEffect(() => {
-    let condition = partialClassSkillMods.includes(mod.name) ? (!input || !selectedSubMod) : !input;
-    setIsValid(condition ? false : true);
-  }, [input, selectedSubMod, partialClassSkillMods, mod.name]);
+    if(!booleanMods.includes(mod.name)) {
+      let condition = partialClassSkillMods.includes(mod.name) ? (!input || !selectedSubMod) : !input;
+      setIsValid(condition ? false : true);
+    }
+  }, [input, selectedSubMod, partialClassSkillMods, booleanMods, mod.name]);
 
   useEffect(() => {
     if (selectedSubMod && selectedSubMod !== mod.subModId?.toString()) {

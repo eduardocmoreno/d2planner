@@ -516,5 +516,11 @@
     "inputMax": 25,
     "step": 1,
     "ref": [5, 20]
+  },
+
+  "ethereal": { 
+    "name": "ethereal",
+    "descr": "Ethereal (Cannot Be Repaired)",
+    "shortDescr": "Ethereal"
   }
 }

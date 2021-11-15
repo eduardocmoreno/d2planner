@@ -61,12 +61,16 @@ export default function ItemMods({ mods, setMods, selectedBase, reset }: {
   const { modsData, partialClassSkillMods } = useContext(GearContext);
 
   const modsListOpts = useMemo<Partial<Record<TGearModName, string>>>(() => {
-    return Object.fromEntries(
-      (Object.values(modsData) as IGearModData[]).map((mod: IGearModData) => {
-        return [mod.name, mod.shortDescr];
-      })
-    )
-  }, [modsData]);
+    let opts = Object.fromEntries((Object.values(modsData) as IGearModData[]).map((mod: IGearModData) => {
+      return [mod.name, mod.shortDescr];
+    }));
+
+    if(selectedBase.nodurability) {
+      delete opts.ethereal;
+    }
+    
+    return opts;
+  }, [modsData, selectedBase]);
 
   const treeSkillsOpts = useRef(Object.fromEntries(
     charData.skills.trees.map(({ id, name }) => [id, capitalize(name)])

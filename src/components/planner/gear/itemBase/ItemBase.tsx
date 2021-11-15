@@ -26,22 +26,23 @@ export default function ItemBase({ base, setBase, mods, selectedBase }: {
       .map(g => g.mods.find(m => m.name === 'maxDmg')?.value)
       .reduce((a, b) => a! + b!, 0) || 0
   }
-
+  
   useEffect(() => {
     let newBaseProps = { ...selectedBase };
 
     //defenses
     if (selectedBase.maxDef) {
-      newBaseProps.maxDef = Math.floor(selectedBase.maxDef * ((getItemMod(mods, 'eDef')?.value || 0) / 100 + 1) + (getItemMod(mods, 'def')?.value || 0) + ((getItemMod(mods, 'def/lvl')?.value || 0) * charLevel))
+      let baseMaxDef = getItemMod(mods, 'ethereal') ? Math.floor(percent(selectedBase.maxDef, 50)) : selectedBase.maxDef;
+      newBaseProps.maxDef = Math.floor(baseMaxDef * ((getItemMod(mods, 'eDef')?.value || 0) / 100 + 1) + (getItemMod(mods, 'def')?.value || 0) + ((getItemMod(mods, 'def/lvl')?.value || 0) * charLevel))
     }
 
-    //requirements 
+    //requirements
     if (selectedBase.strReq) {
-      newBaseProps.strReq = Math.floor(percent(selectedBase.strReq, -(getItemMod(mods, 'req')?.value || 0)));
+      newBaseProps.strReq = Math.floor(percent(selectedBase.strReq, -(getItemMod(mods, 'req')?.value || 0)) - (getItemMod(mods, 'ethereal') ? 10 : 0));
     }
 
     if (selectedBase.dexReq) {
-      newBaseProps.dexReq = Math.floor(percent(selectedBase.dexReq, -(getItemMod(mods, 'req')?.value || 0)));
+      newBaseProps.dexReq = Math.floor(percent(selectedBase.dexReq, -(getItemMod(mods, 'req')?.value || 0)) - (getItemMod(mods, 'ethereal') ? 10 : 0));
     }
 
     //block
@@ -71,11 +72,16 @@ export default function ItemBase({ base, setBase, mods, selectedBase }: {
 
       dmgProps.forEach(({ min, max }) => {
         if ((min || max) in selectedBase) {
+          if(getItemMod(mods, 'ethereal')){
+            newBaseProps[min] = Math.floor(percent(selectedBase[min], 50));
+            newBaseProps[max] = Math.floor(percent(selectedBase[max], 50));
+          }
+          
           if (getItemMod(mods, 'eDmg')?.value) {
             //weapon eDmg mod reflects directly to the weapon base damage,
             //BUT, eDmg mod from other items is classified as off-weapon
-            newBaseProps[min] = Math.floor(percent(selectedBase[min], getItemMod(mods, 'eDmg')?.value || 0));
-            newBaseProps[max] = Math.floor(percent(selectedBase[max], getItemMod(mods, 'eDmg')?.value || 0));
+            newBaseProps[min] = Math.floor(percent(newBaseProps[min] || selectedBase[min], getItemMod(mods, 'eDmg')?.value || 0));
+            newBaseProps[max] = Math.floor(percent(newBaseProps[max] || selectedBase[max], getItemMod(mods, 'eDmg')?.value || 0));
           }
 
           if (getItemMod(mods, 'eMaxDmg/lvl')?.value) {
@@ -117,7 +123,7 @@ export default function ItemBase({ base, setBase, mods, selectedBase }: {
       newBaseProps['maxDmg'] = selectedBase['maxDmg'] + rhDmgMod;
     }
 
-    //speed (TODO: implement IAS mod to it)
+    //speed
     if (selectedBase.speed) {
       newBaseProps.speed = selectedBase.speed;
     }

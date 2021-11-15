@@ -148,7 +148,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
         let attrReq = base[prop];
         let reqVal = attrReq || selectedBase[prop] || 0;
         let result = <span>{attrReq}</span>
-        let dataTooltip = `Current Character ${capitalize(attrName!)}: ${attrs[attrName!]}`;
+        let dataTooltip = `Current Character ${capitalize(attrName!)}: ${attrs[attrName!].total}`;
 
         if (attrReq! < selectedBase[prop]) {
           dataTooltip += `\nBase Requirement: ${selectedBase[prop]}`;

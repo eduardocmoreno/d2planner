@@ -166,6 +166,13 @@ GEAR ========================================================
         - MF
         - MF BOCL
         - REQUIREMENTS
+        - ETHEREAL
+        ?? INDESTRUCTIBLE
+        ?? CANNOT BE FROZEN
+        ?? PREVENT MONSTER HEAL
+        ?? IGNORE TARGET`S DEFENSE
+        ?? KNOCKBACK
+        ?? HIT BLINDS TARGET
 
     - LIST OF NON-CLASS SKILLS
       //SKILL NAME (MAX LEVEL)(CHARACTER)
