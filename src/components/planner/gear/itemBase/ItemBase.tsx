@@ -26,23 +26,25 @@ export default function ItemBase({ base, setBase, mods, selectedBase }: {
       .map(g => g.mods.find(m => m.name === 'maxDmg')?.value)
       .reduce((a, b) => a! + b!, 0) || 0
   }
+
+  const isEthereal = getItemMod(mods, 'ethereal') && !selectedBase.nodurability ? true: false;
   
   useEffect(() => {
     let newBaseProps = { ...selectedBase };
 
     //defenses
     if (selectedBase.maxDef) {
-      let baseMaxDef = getItemMod(mods, 'ethereal') ? Math.floor(percent(selectedBase.maxDef, 50)) : selectedBase.maxDef;
+      let baseMaxDef = isEthereal ? Math.floor(percent(selectedBase.maxDef, 50)) : selectedBase.maxDef;
       newBaseProps.maxDef = Math.floor(baseMaxDef * ((getItemMod(mods, 'eDef')?.value || 0) / 100 + 1) + (getItemMod(mods, 'def')?.value || 0) + ((getItemMod(mods, 'def/lvl')?.value || 0) * charLevel))
     }
 
     //requirements
     if (selectedBase.strReq) {
-      newBaseProps.strReq = Math.floor(percent(selectedBase.strReq, -(getItemMod(mods, 'req')?.value || 0)) - (getItemMod(mods, 'ethereal') ? 10 : 0));
+      newBaseProps.strReq = Math.floor(percent(selectedBase.strReq, -(getItemMod(mods, 'req')?.value || 0)) - (isEthereal ? 10 : 0));
     }
 
     if (selectedBase.dexReq) {
-      newBaseProps.dexReq = Math.floor(percent(selectedBase.dexReq, -(getItemMod(mods, 'req')?.value || 0)) - (getItemMod(mods, 'ethereal') ? 10 : 0));
+      newBaseProps.dexReq = Math.floor(percent(selectedBase.dexReq, -(getItemMod(mods, 'req')?.value || 0)) - (isEthereal ? 10 : 0));
     }
 
     //block
@@ -72,7 +74,7 @@ export default function ItemBase({ base, setBase, mods, selectedBase }: {
 
       dmgProps.forEach(({ min, max }) => {
         if ((min || max) in selectedBase) {
-          if(getItemMod(mods, 'ethereal')){
+          if(isEthereal){
             newBaseProps[min] = Math.floor(percent(selectedBase[min], 50));
             newBaseProps[max] = Math.floor(percent(selectedBase[max], 50));
           }
@@ -134,7 +136,7 @@ export default function ItemBase({ base, setBase, mods, selectedBase }: {
         ...newBaseProps
       }
     });
-  }, [charData, charLevel, selectedBase, mods, rhDmgMod, setBase, offWeaponMods.minDmg, offWeaponMods.maxDmg]);
+  }, [charData, charLevel, selectedBase, mods, rhDmgMod, setBase, offWeaponMods.minDmg, offWeaponMods.maxDmg, isEthereal]);
 
   return (
     <Wrapper>

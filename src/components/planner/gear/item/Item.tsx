@@ -5,6 +5,7 @@ import ItemBase from "../itemBase/ItemBase";
 import ItemMods from "../itemMods/ItemMods";
 import FakeSelector from "components/ui/FakeSelector";
 import { BaseSelector, Contents, Icon, Title, Wrapper } from "./item.styles";
+import { getItemMod } from "helpers";
 
 export default function Item({
   slot, icon, setHasTwoHanded
@@ -35,19 +36,34 @@ export default function Item({
   }, [selectedBase, setHasTwoHanded]);
 
   useEffect(() => {
-    setGear(prev => {
-      return prev.map(p => {
-        if (p.slot === slot) {
-          return {
-            ...p,
-            base: { ...base },
-            mods: [...mods]
+    if (selectedBase.nodurability && getItemMod(mods, 'ethereal')) {
+      setMods(prev => {
+        return prev.filter(p => {
+          if (p.name !== 'ethereal') {
+            return p;
           }
-        }
-        return p;
-      })
-    });
-  }, [slot, base, mods, setGear]);
+          return false;
+        });
+      });
+    }
+  }, [selectedBase, mods, setMods]);
+
+  useEffect(() => {
+    if (mods.length || Object.values(base).length) {
+      setGear(prev => {
+        return prev.map(p => {
+          if (p.slot === slot) {
+            return {
+              ...p,
+              base: { ...base },
+              mods: [...mods]
+            }
+          }
+          return p;
+        })
+      });
+    }
+  }, [slot, base, mods, setGear, selectedBase]);
 
   useEffect(() => {
     switch (slot) {
