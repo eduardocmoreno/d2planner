@@ -49,6 +49,9 @@ export const CellFigure = styled.figure(({ isIterable, isActive, isGranted }: {
         transform: scale(.95);
       }
     }
+    :hover {
+      filter: brightness(130%) saturate(100%);
+    }
   `}
   ${isIterable && !isActive && !isGranted && css`
     img {
@@ -80,8 +83,8 @@ export const CellCount = styled.div`
   z-index: 1;
 `;
 
-export const Count = styled.div(({ hasBonus }: { 
-  hasBonus: boolean 
+export const Count = styled.div(({ hasBonus }: {
+  hasBonus: boolean
 }) => css`
   display: flex;
   flex-direction: column;

@@ -43,8 +43,12 @@
         "effect": "Increased accuracy and damage at the Cost of life",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -95,8 +99,12 @@
         "effect": "Temporarily stun your enemy by bashing it with your shield",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -133,8 +141,12 @@
         "effect": "A bolt of divine energy that damages undead enemies or heals allies",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -197,8 +209,12 @@
         "effect": "Allows you to attack multiple adjacent enemies with a single attack",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 1,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 5
+          },
           "total": 0
         },
         "tree": 1,
@@ -251,8 +267,12 @@
         "effect": "Charge into battle and attack an enemy",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -302,8 +322,12 @@
         "effect": "Fire, lightning and cold damage are added to each successful attack",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -386,8 +410,12 @@
         "effect": "Summons an ethereal hammer that spirals outwards damaging enemies it hits 150 Percent Damage to Undead",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -433,8 +461,12 @@
         "effect": "Converts monsters to fight against other foul demons and beasts",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -463,8 +495,12 @@
         "effect": "Enhances your shield with divine power",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -529,8 +565,12 @@
         "effect": "Lightning strikes your target as holy bolts seek out nearby enemies",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 1,
@@ -588,8 +628,12 @@
         "effect": "When active, aura increases the damage done by you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -620,8 +664,12 @@
         "effect": "When active, aura damages nearby enemies with heavenly flames",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -682,8 +730,12 @@
         "effect": "When active, aura reflects damage done to you back at your attacker",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -713,8 +765,12 @@
         "effect": "When active, aura increases the attack rating for you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -755,8 +811,12 @@
         "effect": "When active, aura increases the damage and decreases the chance that the attack will be interrupted for you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -794,8 +854,12 @@
         "effect": "When active, aura freezes nearby monsters",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -863,8 +927,12 @@
         "effect": "When active, aura causes pulses of electricity to damage nearby enemies adds lightning damage to your attack",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -925,8 +993,12 @@
         "effect": "When active, aura damages the undead and knocks them back",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -976,8 +1048,12 @@
         "effect": "When active, aura increases damage, attack speed, and attack rating for you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -1032,8 +1108,12 @@
         "effect": "When active, aura reduces the defenses and resistances of nearby enemies",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 2,
@@ -1073,8 +1153,12 @@
         "effect": "When active, aura slowly regenerates the life of you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1110,8 +1194,12 @@
         "effect": "When active, aura decreases fire damage done to you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1142,8 +1230,12 @@
         "effect": "When active, aura increases the defense rating of you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1174,8 +1266,12 @@
         "effect": "When active, aura decreases cold damage done to you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1206,8 +1302,12 @@
         "effect": "When active, aura reduces the length of time you and your party will remain poisoned or cursed",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1252,8 +1352,12 @@
         "effect": "When active, aura decreases lightning damage done to you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1284,8 +1388,12 @@
         "effect": "When active, aura increases stamina recovery rate, maximum stamina and movement speed for you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1332,8 +1440,12 @@
         "effect": "When active, aura increases mana recovery for you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1379,8 +1491,12 @@
         "effect": "When active, aura attempts to redeem the souls of slain enemies to give you life and mana",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,
@@ -1417,8 +1533,12 @@
         "effect": "When active, aura decreases fire, cold and lightning damage done to you and your party",
         "level": {
           "points": 0,
-          "bonus": 0,
-          "granted": 0,
+          "bonus": {
+            "toAll": 0,
+            "toClass": 0,
+            "toTree": 0,
+            "toSingle": 0
+          },
           "total": 0
         },
         "tree": 3,

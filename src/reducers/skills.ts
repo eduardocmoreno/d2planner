@@ -2,7 +2,7 @@ export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
   switch (action.type) {
     case 'INC_POINTS':
     case 'DEC_POINTS': {
-      const { id, batch } = action.payload!;
+      const { id, batch } = action;
       const factor = action.type === 'DEC_POINTS' ? -1 : 1;
 
       return prev.map(p => {
@@ -12,7 +12,7 @@ export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
             level: {
               ...p.level,
               points: p.level.points + batch! * factor,
-              total: p.level.bonus + p.level.granted + p.level.points + batch! * factor
+              total: p.level.points + p.level.bonus.toAll + p.level.bonus.toClass + p.level.bonus.toTree + p.level.bonus.toSingle + batch! * factor
             }
           }
         }
@@ -21,57 +21,89 @@ export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
     }
 
     case 'ALL_SKILLS': {
-      let bonus = action.payload?.batch || 0;
       return prev.map(p => {
         return {
           ...p,
-          level : {
+          level: {
             ...p.level,
-            bonus,
-            total: bonus + p.level.granted + p.level.points
+            bonus: {
+              ...p.level.bonus,
+              toAll: (action.batch || 0)
+            },
+            total: (action.batch || 0) + p.level.points + p.level.bonus.toClass + p.level.bonus.toTree + p.level.bonus.toSingle
+          }
+        }
+      });
+    }
+
+    case 'CLASS_SKILLS': {
+      return prev.map(p => {
+        return {
+          ...p,
+          level: {
+            ...p.level,
+            bonus: {
+              ...p.level.bonus,
+              toClass: (action.batch || 0)
+            },
+            total: (action.batch || 0) + p.level.points + p.level.bonus.toAll + p.level.bonus.toTree + p.level.bonus.toSingle
           }
         }
       });
     }
 
     case 'TREE_SKILLS': {
-      
-      return prev;
+      return prev.map(p => {
+        if (p.tree === action.id) {
+          return {
+            ...p,
+            level: {
+              ...p.level,
+              bonus: {
+                ...p.level.bonus,
+                toTree: action.batch || 0
+              },
+              total: (action.batch || 0) + p.level.points + p.level.bonus.toAll + p.level.bonus.toClass + p.level.bonus.toSingle
+            }
+          }
+        }
+        return p;
+      });
     }
 
-    case 'RESET':
-      return [] as ISkill[];
+    case 'SINGLE_SKILL': {
+      return prev.map(p => {
+        if (p.id === action.id) {
+          return {
+            ...p,
+            level: {
+              ...p.level,
+              bonus: {
+                ...p.level.bonus,
+                toSingle: action.batch || 0
+              },
+              total: (action.batch || 0) + p.level.points + p.level.bonus.toAll + p.level.bonus.toClass + p.level.bonus.toTree
+            }
+          }
+        }
+        return p;
+      });
+    }
 
     case 'INIT':
-      return action.payload?.initialState!;
+    case 'RESET': {
+      return action.initialState!.map(s => {
+        return {
+          ...s,
+          level: {
+            ...s.level,
+            total: s.level.points + s.level.bonus.toAll + s.level.bonus.toClass + s.level.bonus.toTree + s.level.bonus.toSingle
+          }
+        }
+      });
+    }
 
     default:
       return prev;
   }
 }
-
-/* 
-
-allSkills || allClassSkills
-type: "INC_ALL_SKILLS" | "DEC_ALL_SKILLS",
-payload: {
-  batch: number
-}
-
-treeSkills
-type: "INC_TREE_SKILLS" | "DEC_TREE_SKILLS",
-payload: {
-  treeId: 1 | 2 | 3
-  batch: number
-}
-
-singleSkill
-type: "INC_SINGLE_SKILL" | "DEC_SINGLE_SKILL",
-payload: {
-  id: number
-  batch: number
-}
-
-"INC_ALL_SKILLS" | "DEC_ALL_SKILLS" | "INC_TREE_SKILLS" | "DEC_TREE_SKILLS" | "INC_SINGLE_SKILL" | "DEC_SINGLE_SKILL"
-
-*/

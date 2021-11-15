@@ -1,19 +1,10 @@
 interface IGear {
   slot: 'head' | 'torso' | 'belt' | 'gloves' | 'boots' | 'left-hand' | 'right-hand' | 'amulet' | 'left-ring' | 'right-ring' | 'torch' | 'annihilus' | 'charms';
-  base: Partial<IGearProps>;
-  props: Partial<IGearProps>;
+  base: IGearBase;
   mods: IGearMod[];
 }
 
-type TGearModsStr = Record<TGearModName, string>;
-type TGearModsDescr = Partial<TGearModsStr>;
-
-interface IGearContext {
-  armors: IGearProps[],
-  weapons: IGearProps[],
-  mods: TGearModsStr,
-  modsDescr: TGearModsDescr
-}
+type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
 
 type TGearModName =
   'allAttrs' |
@@ -21,24 +12,31 @@ type TGearModName =
   'dexterity' |
   'vitality' |
   'energy' |
+
+  'life' |
+  'life/lvl' |
+  'mana' |
+  'mana/lvl' |
+  
   'def' |
   'eDef' |
-  'defBocl' |
+  'def/lvl' |
+  'dmgRed' |
   'block' |
   'fhr' |
   'req' |
   'mf' |
-  'mfBocl' |
+  'mf/lvl' |
   'dmg' |
   'eDmg' |
-  'eDmgBocl' |
   'minDmg' |
   'maxDmg' |
-  'maxDmgBocl' |
+  'maxDmg/lvl' |
+  'eMaxDmg/lvl' |
   'dmgDemon' |
-  'dmgDemonBocl' |
+  'dmgDemon/lvl' |
   'dmgUndead' |
-  'dmgUndeadBocl' |
+  'dmgUndead/lvl' |
 
   'fireDmg' |
   'coldDmg' |
@@ -48,7 +46,7 @@ type TGearModName =
   'fireRes' |
   'coldRes' |
   'ltngRes' |
-  'ltngResBocl' |
+  'ltngRes/lvl' |
   'poisRes' |
 
   'maxFireRes' |
@@ -57,39 +55,34 @@ type TGearModName =
   'maxPoisRes' |
 
   'ar' |
-  'arBocl' |
+  'ar/lvl' |
   'eAr' |
   'ias' |
   'ow' |
   'cb' |
   'ds' |
-  'dsBocl' |
+  'ds/lvl' |
   'fcr' |
   'frw' |
   'lifeSteal' |
   'manaSteal' |
 
   'allSkills' |
-  'allClassSkills' |
-
+  'classSkills' |
   'treeSkills' |
   'singleSkill';
 
 
-type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | 'resists' | 'skills' | 'misc';
+type TGearModsData = Record<TGearModName, IGearModData>;
 
-interface IGearSubMod {
-  [k: string]: number;
-  //concat mod name + id ==> [treeSkills_1]: [bonus value]
-}
-
-type TGearMultiLevelMods = Extract<TGearModName, 'treeSkills' | 'singleSkill'>;
-type TGearMultiLevelModsOpts = Record<TGearMultiLevelMods, IGearSubModOptions>;
-
-interface IGearSubModOptions {
-  all: Partial<Record<number, string>>;
-  available: Partial<Record<number, string>>;
-  str: string;
+interface IGearModData {
+  name: TGearModName;
+  descr: string;
+  shortDescr: string;
+  inputMin: number;
+  inputMax: number;
+  step: number;
+  ref: number[]
 }
 
 interface IGearMod {
@@ -105,64 +98,56 @@ interface IGearMod {
   event?: 'On Attack' | 'On Striking' | 'When Struck' | 'When You Kill an Enemy' | 'When You Level-up' | 'When You Die' | null;
 }
 
-interface IGearMods {
-  allAttrs: number;
-  strength: number;
-  dexterity: number;
-  vitality: number;
-  energy: number;
-  def: number;
-  eDef: number;
-  defBocl: number;
+type TGearMultiLevelModOpts = Partial<Record<TGearModName, IGearSubModOptions>>;
+
+interface IGearSubModOptions {
+  all: Partial<Record<number, string>>;
+  available: Partial<Record<number, string>>;
+  str: string;
+}
+
+interface IGearContext {
+  armorsData: IGearBase[];
+  weaponsData: IGearBase[];
+  modsData: TGearModsData;
+  partialClassSkillMods: Partial<TGearModName[]>;
+  boclMods: Partial<TGearModName[]>;
+}
+
+type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
+
+interface IGearBase {
+  name: string;
+  code: string;
+  type: 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'pelt' | 'phlm' | 'ashd' | 'head' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot' | 'h2h' | 'h2h2' | 'orb' | 'abow' | 'aspe' | 'ajav' | 'ring' | 'amul' | 'chrm' | 'torc';
+  minDef: number;
+  maxDef: number;
   block: number;
-  fhr: number;
-  req: number;
-  mf: number;
-  mfBocl: number;
-  dmg: number;
-  eDmg: number;
-  eDmgBocl: number;
+  strReq: number;
+  strBonus: number;
+  dexReq: number;
+  dexBonus: number;
+  durability: number;
+  nodurability: number;
+  level: number;
+  levelReq: number;
+  sockets: number;
+  weaponClass: TWeaponClass;
+  twoHandWeaponClass: TWeaponClass;
   minDmg: number;
   maxDmg: number;
-  maxDmgBocl: number;
-  dmgDemon: number;
-  dmgDemonBocl: number;
-  dmgUndead: number;
-  dmgUndeadBocl: number;
-
-  fireDmg: number;
-  coldDmg: number;
-  ltngDmg: number;
-  poisDmg: number;
-
-  fireRes: number;
-  coldRes: number;
-  ltngRes: number;
-  ltngResBocl: number;
-  poisRes: number;
-
-  maxFireRes: number;
-  maxColdRex: number;
-  maxLtngRes: number;
-  maxPoisRes: number;
-
-  ar: number;
-  arBocl: number;
-  eAr: number;
-  ias: number;
-  ow: number;
-  cb: number;
-  ds: number;
-  dsBocl: number;
-  fcr: number;
-  frw: number;
-  lifeSteal: number;
-  manaSteal: number;
-  allSkills: number;
-  allClassSkills: number;
-  treeSkills: IGearSubMod;
-  singleSkill: IGearSubMod;
+  twoHandMinDmg: number;
+  twoHandMaxDmg: number;
+  throwMinDmg: number;
+  throwMaxDmg: number;
+  missileType: number;
+  speed: number;
+  twoHanded: 1 | 0;
+  oneOrTwoHanded: 1 | 0;
 }
+
+type TGearBaseVisibleProps = 'minDef' | 'block' | 'minDmg' | 'twoHandMinDmg' | 'throwMinDmg' | 'levelReq' | 'strReq' | 'dexReq' | 'sockets' | 'speed';
+
 /* 
 [ 
   {
@@ -216,39 +201,3 @@ interface IGearMods {
   }
 ]
 */
-
-type TPaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot';
-
-type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
-
-interface IGearProps {
-  name: string;
-  code: string;
-  type: 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'pelt' | 'phlm' | 'ashd' | 'head' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot' | 'h2h' | 'h2h2' | 'orb' | 'abow' | 'aspe' | 'ajav' | 'ring' | 'amul' | 'chrm' | 'torc';
-  minDef: number;
-  maxDef: number;
-  block: number;
-  strReq: number;
-  strBonus: number;
-  dexReq: number;
-  dexBonus: number;
-  durability: number;
-  nodurability: number;
-  level: number;
-  levelReq: number;
-  sockets: number;
-  weaponClass: TWeaponClass;
-  twoHandWeaponClass: TWeaponClass;
-  minDmg: number;
-  maxDmg: number;
-  twoHandMinDmg: number;
-  twoHandMaxDmg: number;
-  throwMinDmg: number;
-  throwMaxDmg: number;
-  missileType: number;
-  speed: number;
-  twoHanded: 1 | 0;
-  oneOrTwoHanded: 1 | 0;
-}
-
-type TItemPropsToRender = 'minDef' | 'block' | 'minDmg' | 'twoHandMinDmg' | 'throwMinDmg' | 'levelReq' | 'strReq' | 'dexReq' | 'sockets' | 'speed';

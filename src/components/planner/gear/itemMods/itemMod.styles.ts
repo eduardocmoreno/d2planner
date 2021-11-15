@@ -37,6 +37,7 @@ export const Mod = styled.div(({ isValid }: { isValid?: boolean }) => css`
   font-size: 1.6rem;
   .sign,
   .unit,
+  .value,
   .selector-ph {
     color: var(--color-gold);
   }
@@ -66,7 +67,7 @@ export const Input = styled.input(({ width }: { width: number }) => css`
   background: transparent;
   color: var(--color-gold);
   border-bottom: 1px dotted transparent;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1.3;
   text-align: center;
   cursor: pointer;

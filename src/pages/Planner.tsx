@@ -104,9 +104,7 @@ export default function Planner() {
 
         dispatchSkills({
           type: 'INIT',
-          payload: {
-            initialState: skills.list
-          }
+          initialState: skills.list
         });
 
         setIsLoading(false);
@@ -120,13 +118,13 @@ export default function Planner() {
   return (
     <>
       <PageTitle>{charLevel > 1 && `Level ${charLevel} `}{charClass}</PageTitle>
-      {isLoading ?
-        <div>LOADING DATA...</div>
-        :
+      {!isLoading && Object.keys(charData).length > 0 ?
         <PlannerContext.Provider value={plannerContextProps}>
           <Tabs />
           <Stages />
         </PlannerContext.Provider>
+        :
+        <div>LOADING DATA...</div>
       }
     </>
   )

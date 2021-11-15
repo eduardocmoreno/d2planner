@@ -1,19 +1,6 @@
 import { useContext } from "react";
-import styled from "styled-components";
 import { PlannerContext } from "pages/Planner";
-
-const StagesWrapper = styled.div`
-  padding: 2rem;
-  background: rgba(0 0 0 / 0.3);
-  border: solid var(--color-red-700);
-  border-width: 2px 0;
-`;
-
-const Stage = styled.div`
-  &:not(.active) {
-    display: none;
-  }
-`;
+import { Stage, StagesWrapper } from "./stages.styles";
 
 export default function Stages() {
   const { planner } = useContext(PlannerContext);
@@ -22,7 +9,7 @@ export default function Stages() {
     <StagesWrapper>
       {planner.map(({ id, Component, isActive }) => {
         return (
-          <Stage className={isActive ? 'active' : ''} key={id}>
+          <Stage isActive={isActive} key={id}>
             <Component />
           </Stage>
         )
@@ -30,3 +17,5 @@ export default function Stages() {
     </StagesWrapper>
   )
 }
+
+

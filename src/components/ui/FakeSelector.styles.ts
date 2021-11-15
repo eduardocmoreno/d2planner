@@ -3,8 +3,9 @@ import GoldenFrame from "./GoldenFrame";
 
 export const Wrapper = styled.div`
   position: relative;
-  input {
-    margin-bottom: var(--spacing-sm);
+  input + * {
+      margin-top: var(--spacing-sm);
+    }
   }
 `;
 
@@ -38,7 +39,8 @@ export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos, show
   `}
 `);
 
-export const List = styled.div`
+export const List = styled.div(({ isEmpty }: { isEmpty: boolean }) => css`
+  display: ${isEmpty ? 'none' : 'block'};
   max-height: 25vh;
   overflow-y: auto;
   
@@ -53,7 +55,7 @@ export const List = styled.div`
   scrollbar-width: thin;
   scrollbar-color: var(--color-gold) transparent;
 }
-`;
+`);
 
 export const ListItem = styled.div(({ isActive }: { isActive: boolean }) => css`
   padding: .3em .5em;

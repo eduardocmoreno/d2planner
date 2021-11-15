@@ -1,16 +1,15 @@
 import styled, { css } from "styled-components";
 import { pseudo } from "styles/mixins";
 
-interface IButtonProps {
+const Button = styled.button(({ disabled, red, blue, big, arrowLeft, arrowRight, noArrows }: { 
+  disabled?: boolean;
   red?: boolean;
   blue?: boolean;
   big?: boolean;
   arrowLeft?: boolean;
   arrowRight?: boolean;
   noArrows?: boolean;
-}
-
-const Button = styled.button<IButtonProps>(({ disabled, big, blue, red, arrowLeft, arrowRight, noArrows }) => css`
+}) => css`
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -1,56 +1,36 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { questsRewardsReducer } from "reducers/quests";
 import { PlannerContext } from "pages/Planner";
 import SkillTree from "./SkillTree";
 import SkillDetails from "./SkillsDetails";
-import { Tab, Trees, TreesSection, TreesTabs, Wrapper } from "./Skills.styles";
-import { getItemMod } from "helpers";
-
-//TODO: special behavior
-//Smite gets Holy Shield damage
-//ZEAL gets sacrifice damage value
-//Blessed Aim The Passive Bonus is 5% Attack Rating bonus per hard point invested while the aura is not active.
-//move the styled comp to a separated file?
-
-//ENCHANT, VENOM ADDS DAMAGE TO WEAPONS!!!
-
-//skill
-// |-level
-//   |-points --> comes from hard points applied
-//   |-bonus --> comes from a reducer function*
-//   |-total --> points and bonus reduced
-
-//*SKILL POINTS BONUS (these points might be reduced in a separated function)
-// -all --> to all skills
-// -class --> to all class skills
-// -tree --> to all tree skills
-// -total --> reduced
-
-//examples
-//Sacrifice
-// |-level
-//   |-points: 15
-//   |-bonus: 7*
-//   |-total: 18
-
-//*bonus points reduced
-// -all: 2 --> no check needed
-// -class: 2 --> no check needed
-// -tree: 3 --> check if the skill includes in the selected tree
-// -total: 7
+import { Tab, Trees, TreesSection, TreesTabs, Wrapper } from "./skills.styles";
+import { getItemModValuesReduced, getSubModValuesReduced } from "helpers";
 
 export default function Skills() {
   const { charData, charLevel, skills, dispatchSkills, setSkillPoints, quests, gear } = useContext(PlannerContext);
 
-  const [skillsTreesTabs, setSkillsTreesTabs] = useState([] as ISkillTree[]);
+  const [skillsTreesTabs, setSkillsTreesTabs] = useState(charData.skills.trees);
   const [skillIdOnHover, setSkillIdOnHover] = useState(0);
 
   const skillPointsApplied = useRef(0);
 
-  const [filteredSkillMods, setFilteredSkillMods] = useState([] as Partial<IGear[]>);
-  const [allSkillsModReduced, setAllSkillsModReduced] = useState(0);
-  const [allClassSkillsModReduced, setAllClassSkillsModReduced] = useState(0);
-  const [treeSkillsModReduced, setTreeSkillsModReduced] = useState([] as number[]);
+  const toTreeSkills = useMemo(() => {
+    return charData.skills.trees.map(tree => {
+      return {
+        id: tree.id,
+        batch: getSubModValuesReduced(gear, 'treeSkills', tree.id) || 0
+      }
+    });
+  }, [gear, charData]);
+
+  const toSingleSkill = useMemo(() => {
+    return charData.skills.list.map(sk => {
+      return {
+        id: sk.id,
+        batch: getSubModValuesReduced(gear, 'singleSkill', sk.id) || 0
+      }
+    });
+  }, [gear, charData]);
 
   function handleTabs(id: number) {
     setSkillsTreesTabs(prevState => prevState.map(t => {
@@ -62,40 +42,39 @@ export default function Skills() {
   }
 
   useEffect(() => {
-    setSkillsTreesTabs(charData.skills?.trees);
-  }, [charData]);
-
-  useEffect(() => {
     skillPointsApplied.current = skills.map(s => s.level.points).reduce((a, b) => a + b, 0) || 0;
   }, [skills]);
-
-  useEffect(() => {
-    setFilteredSkillMods(gear.filter(g =>
-      getItemMod(g.mods, 'allSkills').value ||
-      getItemMod(g.mods, 'allClassSkills').value ||
-      getItemMod(g.mods, 'treeSkills').value ||
-      getItemMod(g.mods, 'singleSkill').value
-    ));
-
-    let f = gear
-      .filter(g => getItemMod(g.mods, 'treeSkills').value)
-      .map(g => getItemMod(g.mods, 'treeSkills').value);
-  }, [gear]);
-
-  useEffect(() => {
-    setAllSkillsModReduced(filteredSkillMods.map(f => getItemMod(f!.mods, 'allSkills').value || 0).reduce((a, b) => a! + b!, 0));
-    setAllClassSkillsModReduced(filteredSkillMods.map(f => getItemMod(f!.mods, 'allClassSkills').value || 0).reduce((a, b) => a! + b!, 0));
-  }, [filteredSkillMods]);
-
+  
   useEffect(() => {
     dispatchSkills({
       type: "ALL_SKILLS",
-      payload: {
-        batch: allSkillsModReduced + allClassSkillsModReduced
-      }
+      batch: getItemModValuesReduced(gear, 'allSkills') as number
     });
-  }, [allSkillsModReduced, allClassSkillsModReduced, dispatchSkills]);
+    dispatchSkills({
+      type: "CLASS_SKILLS",
+      batch: getItemModValuesReduced(gear, 'classSkills') as number
+    });
+  }, [gear, dispatchSkills]);
 
+  useEffect(() => {
+    toTreeSkills.forEach(t => {
+      dispatchSkills({
+        type: "TREE_SKILLS",
+        id: t.id,
+        batch: t.batch
+      });
+    });
+  }, [toTreeSkills, dispatchSkills]);
+
+  useEffect(() => {
+    toSingleSkill.forEach(s => {
+      dispatchSkills({
+        type: "SINGLE_SKILL",
+        id: s.id,
+        batch: s.batch
+      });
+    });
+  }, [toSingleSkill, dispatchSkills]);
 
   useEffect(() => {
     let levelFactor = charLevel - 1;
@@ -104,12 +83,13 @@ export default function Skills() {
 
     if (skillPtsCalc < 0) {
       dispatchSkills({
-        type: 'RESET'
+        type: 'INIT',
+        initialState: charData.skills.list
       })
     } else {
       setSkillPoints(skillPtsCalc);
     }
-  }, [charLevel, quests, skills, setSkillPoints, dispatchSkills]);
+  }, [charData.skills.list, charLevel, quests, skills, setSkillPoints, dispatchSkills]);
 
   return (
     <Wrapper>
@@ -120,12 +100,10 @@ export default function Skills() {
           )}
         </TreesTabs>
         <Trees>
-          {skillsTreesTabs.map(tree => <SkillTree key={tree.id} {...{ tree, setSkillIdOnHover, allSkillsModReduced, allClassSkillsModReduced }} />)}
+          {skillsTreesTabs.map(tree => <SkillTree key={tree.id} {...{ tree, setSkillIdOnHover }} />)}
         </Trees>
       </TreesSection>
-
       <SkillDetails {...{ skillIdOnHover }} />
-
     </Wrapper>
   )
 }

@@ -10,11 +10,13 @@ interface ICharData {
     energy: number;
     block: number;
   };
-  classItems: IGearProps["type"];
+  classItems: IGearBase["type"];
   classWeaponSpeed: Record<TWeaponClass, number[]>;
 }
 
 type TCharClass = 'amazon' | 'assassin' | 'barbarian' | 'druid' | 'necromancer' | 'paladin' | 'sorceress';
+
+type TPaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot';
 
 //"1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
 

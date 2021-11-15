@@ -1,26 +1,30 @@
 import { MouseEvent, useContext, useEffect } from "react";
-import styled from "styled-components";
 import { PlannerContext } from "pages/Planner";
-import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
+import GoldenFrame, { FrameContent } from "components/ui/GoldenFrame";
 import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
 import { capitalize, getItemMod } from "helpers";
+import { ButtonsWrapper, Label, Results, Wrapper } from "./attr.styles";
 
 export default function Attr({ attr }: { attr: keyof IAttrs }) {
   const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
 
-  const gearBonuses = gear.filter(g => getItemMod(g.mods, attr).value || getItemMod(g.mods, 'allAttrs').value);
+  const attrModsFiltered = gear.filter(g => getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value);
+
+  const attrModsReduced = attrModsFiltered
+    .map(g => getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value)
+    .reduce((a, b) => a! + b!, 0) || 0;
 
   useEffect(() => {
     dispatchAttrs({
       type: 'BONUS',
       payload: {
         attr,
-        batch: gearBonuses.map(g => getItemMod(g.mods, attr).value || getItemMod(g.mods, 'allAttrs').value).reduce((a, b) => a! + b!, 0) || 0
+        batch: attrModsReduced
       }
     });
-  }, [attr, gear, dispatchAttrs]);
+  }, [attr, dispatchAttrs, attrModsReduced]);
 
   function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
     let batch = 1;
@@ -45,22 +49,15 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
     }
 
     setAttrPoints(prev => prev + (batch * factor));
-
-    dispatchAttrs({
-      type,
-      payload: {
-        attr,
-        batch: batch
-      }
-    });
+    dispatchAttrs({ type, payload: { attr, batch } });
   }
 
-  let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nSpent: +${applied}` : ''}\n`;
+  let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nSpent Points: ${applied}` : ''}\n`;
 
-  if (gearBonuses.length) {
-    gearBonuses.forEach((g, i) => {
-      tooltipDetails += `${capitalize(g.slot)}: +${getItemMod(g.mods, attr).value || getItemMod(g.mods, 'allAttrs').value}`;
-      i + 1 !== gearBonuses.length && (tooltipDetails += `\n`)
+  if (attrModsFiltered.length) {
+    attrModsFiltered.forEach((g, i) => {
+      tooltipDetails += `${capitalize(g.slot)}: +${getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value}`;
+      i + 1 !== attrModsFiltered.length && (tooltipDetails += `\n`)
     });
   }
 
@@ -84,9 +81,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
       </GoldenFrame>
 
       <ButtonsWrapper>
-        <Button
-          blue
-          big
+        <Button blue big
           title={titleHtmlAttr}
           onClick={(e) => handleClick(e, 'ADD')}
           {...(applied! > 0 && { arrowLeft: true })}
@@ -94,10 +89,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
         ><i className="icon-plus" /></Button>
 
         {applied! > 0 &&
-          <Button
-            red
-            big
-            arrowRight
+          <Button red big arrowRight
             title={titleHtmlAttr}
             onClick={(e) => handleClick(e, 'SUB')}
           ><i className="icon-dash" /></Button>
@@ -106,46 +98,3 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
     </Wrapper>
   )
 }
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  ${GoldenFrame}{
-    flex-direction: column;
-  };
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  margin-top: var(--spacing-md);
-  ${Button}{
-    flex: 1;
-    padding-right: 0;
-    padding-left: 0;
-    :not(:first-child){
-      flex: .5;
-      border-left: 0;
-    }
-  }
-`;
-
-const Label = styled(FrameLabel)`
-  font-size: 1.2rem;
-`;
-
-const Results = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-family: var(--font-family-main);
-  font-size: 2.2rem;
-  font-weight: bold;
-  line-height: 1;
-  span {
-    color: var(--color-gold);
-    font-size: 2.8rem;
-  }
-`;

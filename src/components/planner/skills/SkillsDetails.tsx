@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import Tooltip from "components/ui/Tooltip";
-import { Details, Header, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper } from "./SkillsDetails.styles";
+import { Details, Header, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper } from "./skillsDetails.styles";
 
 export default function SkillDetails({ skillIdOnHover }: {
   skillIdOnHover: number;

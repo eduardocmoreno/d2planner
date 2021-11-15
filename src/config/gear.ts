@@ -1,61 +1,60 @@
-const itemPropsModsInit = {
-  base: {},
-  props: {},
-  mods: []
+const gearPropsInit = {
+  base: {} as IGearBase,
+  mods: [] as IGearMod[]
 }
 
 const gearInit: IGear[] = [
   {
     slot: 'head',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'torso',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'right-hand',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'left-hand',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'gloves',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'belt',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'boots',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'amulet',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'left-ring',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'right-ring',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'torch',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'annihilus',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
   {
     slot: 'charms',
-    ...itemPropsModsInit
+    ...gearPropsInit
   },
 ]
 
