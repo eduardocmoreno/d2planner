@@ -12,8 +12,7 @@ const Gear = React.memo(() => {
   const modsData = useRef({} as TGearModsData);
   const partialClassSkillMods = useRef<Partial<TGearModName[]>>(['treeSkills', 'singleSkill']);
   const boclMods = useRef<Partial<TGearModName[]>>(['ar/lvl', 'ds/lvl', 'mf/lvl', 'def/lvl', 'ltngRes/lvl', 'maxDmg/lvl', 'eMaxDmg/lvl', 'dmgDemon/lvl', 'dmgUndead/lvl', 'life/lvl', 'mana/lvl']);
-  const booleanMods = useRef<Partial<TGearModName[]>>(['ethereal']);
-
+  const booleanMods = useRef<Partial<TGearModName[]>>(['ethereal', 'noHeal', 'ignoreDef', 'knockback', 'hitBlinds', 'indestruct', 'noFreeze', 'halfFreeze', 'rip']);
   const [hasTwoHanded, setHasTwoHanded] = useState(false);
 
   useEffect(() => {

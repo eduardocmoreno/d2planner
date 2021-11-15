@@ -72,7 +72,15 @@ type TGearModName =
   'treeSkills' |
   'singleSkill' |
   
-  'ethereal';
+  'ethereal' |
+  'noHeal' |
+  'ignoreDef' |
+  'knockback' |
+  'hitBlinds' |
+  'indestruct' |
+  'noFreeze' |
+  'halfFreeze' |
+  'rip';
 
 
 type TGearModsData = Record<TGearModName, IGearModData>;

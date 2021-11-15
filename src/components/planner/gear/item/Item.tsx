@@ -63,7 +63,7 @@ export default function Item({
         })
       });
     }
-  }, [slot, base, mods, setGear, selectedBase]);
+  }, [slot, base, mods, setGear]);
 
   useEffect(() => {
     switch (slot) {

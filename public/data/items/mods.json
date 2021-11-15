@@ -522,5 +522,37 @@
     "name": "ethereal",
     "descr": "Ethereal (Cannot Be Repaired)",
     "shortDescr": "Ethereal"
+  },
+  "noHeal": { 
+    "name": "noHeal",
+    "descr": "Prevent Monster Heal"
+  },
+  "ignoreDef": { 
+    "name": "ignoreDef",
+    "descr": "Ignore Target`s Defense"
+  },
+  "knockback": { 
+    "name": "knockback",
+    "descr": "Knockback"
+  },
+  "hitBlinds": { 
+    "name": "hitBlinds",
+    "descr": "Hit Blinds Target"
+  },
+  "indestruct": { 
+    "name": "indestruct",
+    "descr": "Indestructible"
+  },
+  "noFreeze": { 
+    "name": "noFreeze",
+    "descr": "Cannot Be Frozen"
+  },
+  "halfFreeze": { 
+    "name": "halfFreeze",
+    "descr": "Half Freeze Duration"
+  },
+  "rip": { 
+    "name": "rip",
+    "descr": "Slain Monsters Rest In Peace"
   }
 }

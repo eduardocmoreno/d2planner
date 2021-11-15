@@ -62,13 +62,13 @@ export default function ItemMods({ mods, setMods, selectedBase, reset }: {
 
   const modsListOpts = useMemo<Partial<Record<TGearModName, string>>>(() => {
     let opts = Object.fromEntries((Object.values(modsData) as IGearModData[]).map((mod: IGearModData) => {
-      return [mod.name, mod.shortDescr];
+      return [mod.name, (mod.shortDescr || mod.descr)];
     }));
 
     if(selectedBase.nodurability) {
       delete opts.ethereal;
     }
-    
+
     return opts;
   }, [modsData, selectedBase]);
 
