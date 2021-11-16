@@ -140,11 +140,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
     case 'strReq':
     case 'dexReq': {
       if (prop in base) {
-        let attrName: keyof IAttrs;
-
-        if (prop === 'strReq') attrName = 'strength';
-        if (prop === 'dexReq') attrName = 'dexterity';
-
+        let attrName: keyof IAttrs = prop === 'strReq' ? 'strength' : 'dexterity';
         let attrReq = base[prop];
         let reqVal = attrReq || selectedBase[prop] || 0;
         let result = <span>{attrReq}</span>
@@ -155,7 +151,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
           result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{attrReq}</Tooltip>
         }
 
-        if (attrs[attrName!] < reqVal) {
+        if (attrs[attrName!].total! < reqVal) {
           result = <Tooltip as="span" className="warn" center data-tooltip={dataTooltip}>{reqVal}</Tooltip>
         }
 

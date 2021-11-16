@@ -45,6 +45,7 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
     min: modsData[mod.name].inputMin,
     max: modsData[mod.name].inputMax,
     step: modsData[mod.name].step,
+    //onFocus: (e: React.FocusEvent<HTMLInputElement, Element>) => e.target.select(),
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => e.target.value.length <= inputLengthFactor && setInput(e.target.value),
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && inputRef.current?.blur(),
     onBlur: (e: React.FocusEvent<HTMLInputElement, Element>) => handleModValueOnBlur(e.target.value)
