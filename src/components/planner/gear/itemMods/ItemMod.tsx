@@ -59,11 +59,11 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
       if ((number / 1) === 0) {
         return '';
       }
-      
+
       if (Number.isInteger(factor)) {
         return number;
       }
-      
+
       return Math.floor(((Math.floor(factor) * 0.025) + 0.025) * 1000) / 1000;
     }
 
@@ -75,23 +75,24 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
   }
 
   function handleModValueOnBlur(targetValue: string) {
+    let newValue: number | null = null;
+
     if (targetValue) {
-      let newValue = parseFloat(targetValue);
+      newValue = parseFloat(targetValue);
       if (newValue > modsData[mod.name].inputMax) newValue = modsData[mod.name].inputMax;
       if (newValue > 0 && newValue < modsData[mod.name].inputMin) newValue = modsData[mod.name].inputMin;
-      setMods(prev => {
-        return prev.map(p => {
-          if (p.subModName ? p.subModName === mod.subModName : p.name === mod.name) {
-            return {
-              ...p,
-              value: validateInputValue(newValue) || null
-            }
-          }
-          return p;
-        });
-      });
+      newValue = validateInputValue(newValue) as number;
       setInput(validateInputValue(newValue).toString());
     }
+
+    setMods(prev => {
+      return prev.map(p => {
+        if (p.subModName ? p.subModName === mod.subModName : p.name === mod.name) {
+          return { ...p, value: newValue }
+        }
+        return p;
+      });
+    });
   }
 
   if (boclMods.includes(mod.name)) {
@@ -127,7 +128,7 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
     </>;
   }
 
-  else if(booleanMods.includes(mod.name)) {
+  else if (booleanMods.includes(mod.name)) {
     content = modsData[mod.name].descr;
   }
 
@@ -146,7 +147,7 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
   }, [input]);
 
   useEffect(() => {
-    if(!booleanMods.includes(mod.name)) {
+    if (!booleanMods.includes(mod.name)) {
       let condition = partialClassSkillMods.includes(mod.name) ? (!input || !selectedSubMod) : !input;
       setIsValid(condition ? false : true);
     }

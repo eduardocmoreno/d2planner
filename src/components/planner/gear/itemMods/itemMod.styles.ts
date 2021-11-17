@@ -1,8 +1,12 @@
 import styled, { css } from "styled-components";
 
-const fieldHoverEffect = css`
-  box-shadow: 0 0 10px rgba(var(--color-gold-rgb), .35);
-  border-radius: 4px;
+const fieldHoverFocusEffect = css`
+  border-bottom: 1px dashed transparent;
+  :hover,
+  :focus-within {
+    color: var(--color-gold-200);
+    border-bottom-color: rgba(var(--color-gold-rgb), .35);
+  }
 `;
 
 export const Remove = styled.div.attrs(() => ({
@@ -50,14 +54,8 @@ export const Mod = styled.div(({ isValid }: { isValid?: boolean }) => css`
     font-size: 1.4rem;
   }
   .selector-ph {
-    padding: 0 .15em;
-    margin: 0 -.15em;
+    ${fieldHoverFocusEffect};
     cursor: pointer;
-    :hover,
-    :focus-within {
-      ${fieldHoverEffect};
-      color: var(--color-gold-300);
-    }
     [class^=icon-] {
       font-size: 1.2rem;
     }
@@ -68,20 +66,15 @@ export const Mod = styled.div(({ isValid }: { isValid?: boolean }) => css`
 `);
 
 export const Input = styled.input(({ width }: { width: number }) => css`
+  ${fieldHoverFocusEffect};
   padding: 0 .075em;
   width: ${width > 0 ? `${width + .15}em` : '1.2em'};
   background: transparent;
   color: var(--color-gold);
-  border-bottom: 1px dotted transparent;
   font-size: 1.6rem;
-  line-height: 1.3;
+  line-height: 1.5;
   text-align: center;
   cursor: pointer;
-  :hover,
-  :focus{
-    color: var(--color-gold-300);
-    ${fieldHoverEffect};
-  }
   :focus {
     //min-width: 1em;
   }
