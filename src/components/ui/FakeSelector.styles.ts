@@ -9,14 +9,12 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos, show }: {
-  isActive: boolean,
-  position: 'bottom' | 'right',
-  vpRepos: boolean,
-  show: boolean
+export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos }: {
+  isActive: boolean;
+  position: 'bottom' | 'right';
+  vpRepos: boolean
 }) => css`
   display: ${isActive ? 'block' : 'none'};
-  visibility: ${show ? 'visible' : 'hidden'};
   position: absolute;
   min-width: 100%;
   width: max-content;

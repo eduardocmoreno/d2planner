@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Input } from "components/ui/Input";
 import { List, ListItem, Selector, Wrapper } from "./FakeSelector.styles";
 
@@ -12,26 +12,23 @@ export default function FakeSelector({ children, position = 'bottom', search = t
 
   //refs
   const optionsRefs = useRef<any>([]);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const selectorRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
   const optIdxRef = useRef<number>(0);
+  const wrapperElem = useRef<HTMLDivElement>(null);
+  const selectorElem = useRef<HTMLDivElement>(null);
+  const searchInputElem = useRef<HTMLInputElement>(null);
+  const listElem = useRef<HTMLDivElement>(null);
 
   //state
-  const [input, setInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [filteredOptions, setFilteredOptions] = useState({});
   const [isActive, setIsActive] = useState(false);
   const [optIdx, setOptIdx] = useState(0);
   const [vpRepos, setVpRepos] = useState<boolean>(false);
 
   //to prevent scrolling "jumping" bug
-  const [eventType, setEventType] = useState<'mouseMove' | 'keyDown' | null>(null)
+  const [eventType, setEventType] = useState<'mouseMove' | 'keyDown' | null>(null);
 
-  //to prevent the selector window "jumping" bug
-  const [show, setShow] = useState<boolean>(false);
-
-
+  //focus list items by key press (up, down), and control visibility by escape key press
   function focusOptionByKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     setEventType('keyDown');
 
@@ -45,65 +42,75 @@ export default function FakeSelector({ children, position = 'bottom', search = t
     }
   }
 
+  //filtering list opts
   useEffect(() => {
-    if (isActive) {
-      setInput('');
-      setVpRepos(!!(selectorRef.current!.getBoundingClientRect().top + selectorRef.current!.offsetHeight > window.innerHeight));
-      setShow(selectorRef.current!.offsetHeight > 0);
-    }
-  }, [isActive]);
-
-  useEffect(() => {
-    if (input) {
-      console.log('fs: filtering opts');
-      const filtered = Object.fromEntries(Object.entries(options).filter(([k, v]) => (k as string).toUpperCase().includes(input.toUpperCase()) || (v as string).toUpperCase().includes(input.toUpperCase())));
+    if (searchInput) {
+      const filtered = Object.fromEntries(Object.entries(options).filter(([k, v]) => (k as string).toUpperCase().includes(searchInput.toUpperCase()) || (v as string).toUpperCase().includes(searchInput.toUpperCase())));
       setFilteredOptions(filtered);
       setOptIdx(0);
     } else {
       setFilteredOptions(options);
     }
-  }, [options, input]);
+  }, [options, searchInput]);
 
-  useEffect(() => {
+  //watch activeness to control the selector positioning relative to the view port (vp)
+  useLayoutEffect(() => {
+    const vpReposRule: boolean = isActive && !!(selectorElem.current!.getBoundingClientRect().top + selectorElem.current!.offsetHeight > window.innerHeight);
+    setVpRepos(vpReposRule);
+
+    //reset any past search input value
+    setSearchInput('');
+  }, [isActive]);
+
+  useLayoutEffect(() => {
+    //if no options, no filter opts nor is active, then return false
     if (!isActive || !optionsRefs.current.length || Object.entries(filteredOptions).length < 1) {
       return;
     }
-    
-    inputRef.current?.focus();
 
+    searchInputElem.current?.focus();
+
+    //capture the navigation event (going up? or down?)
+    //when selecting options by using key press
     let up = optIdx < optIdxRef.current;
     let down = optIdx > optIdxRef.current;
 
-    let list = listRef.current!;
+    //capture the html list elem layout position
+    let list = listElem.current!;
     let listOffTop = list.offsetTop;
     let listOffHeight = list.offsetHeight;
 
+    //capture the html list option elem layout position
     let item = optionsRefs.current[optIdx];
     let itemOffTop = item.offsetTop;
     let itemOffHeight = item.offsetHeight;
 
-    let ruleUp = itemOffTop < listOffTop + listRef.current!.scrollTop;
-    let ruleDown = itemOffTop - listOffTop + itemOffHeight - listRef.current!.scrollTop > listOffHeight;
+    //rules to go up or down
+    let ruleUp = itemOffTop < listOffTop + listElem.current!.scrollTop;
+    let ruleDown = itemOffTop - listOffTop + itemOffHeight - listElem.current!.scrollTop > listOffHeight;
 
+    //rules to control the html list elem inner scrolling (excluding the mouse event)
     if (down && ruleDown && eventType !== 'mouseMove') {
-      listRef.current!.scroll({
+      listElem.current!.scroll({
         top: itemOffTop - listOffTop + itemOffHeight - listOffHeight
       });
     }
 
     if (up && ruleUp && eventType !== 'mouseMove') {
-      listRef.current!.scroll({
+      listElem.current!.scroll({
         top: itemOffTop - listOffTop
       });
     }
 
+    //store the last index selected to help controlling
+    //the navigation by usgin key up or down
     optIdxRef.current = optIdx;
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     //Please, keep this handle fn in a separated into it`s own useEffect hook
     function handleClickOutside(event: any) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      if (wrapperElem.current && !wrapperElem.current.contains(event.target)) {
         setIsActive(false);
       }
     }
@@ -113,23 +120,23 @@ export default function FakeSelector({ children, position = 'bottom', search = t
   });
 
   return (
-    <Wrapper className="fake-selector" ref={wrapperRef} onMouseMove={() => setEventType('mouseMove')}>
+    <Wrapper className="fake-selector" ref={wrapperElem} onMouseMove={() => setEventType('mouseMove')}>
       <div onClick={() => setIsActive(prev => !prev)}>{children}</div>
 
       {isActive &&
-        <Selector {...{ isActive, position, vpRepos, show }}
-          ref={selectorRef}
+        <Selector {...{ isActive, position, vpRepos }}
+          ref={selectorElem}
           onKeyDown={e => focusOptionByKeyDown(e)}>
 
           {search &&
             <Input
-              ref={inputRef}
+              ref={searchInputElem}
               placeholder="Search"
-              value={input}
-              onChange={e => setInput(e.target.value)} />
+              value={searchInput}
+              onChange={e => setSearchInput(e.target.value)} />
           }
 
-          <List ref={listRef} isEmpty={Object.entries(filteredOptions).length === 0}>
+          <List ref={listElem} isEmpty={Object.entries(filteredOptions).length === 0}>
             {Object.entries(filteredOptions).map(([k, v], i) => {
               return (
                 <ListItem
@@ -140,7 +147,7 @@ export default function FakeSelector({ children, position = 'bottom', search = t
                   onClick={() => {
                     callBack(k);
                     setIsActive(prev => !prev);
-                    setInput('');
+                    setSearchInput('');
                   }}>
                   {v as string}
                 </ListItem>
