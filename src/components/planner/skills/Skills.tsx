@@ -57,7 +57,7 @@ export default function Skills() {
   }, [gear, dispatchSkills]);
 
   useEffect(() => {
-    toTreeSkills.forEach(t => {
+    toTreeSkills.length && toTreeSkills.forEach(t => {
       dispatchSkills({
         type: "TREE_SKILLS",
         id: t.id,
@@ -67,7 +67,7 @@ export default function Skills() {
   }, [toTreeSkills, dispatchSkills]);
 
   useEffect(() => {
-    toSingleSkill.forEach(s => {
+    toSingleSkill.length && toSingleSkill.forEach(s => {
       dispatchSkills({
         type: "SINGLE_SKILL",
         id: s.id,

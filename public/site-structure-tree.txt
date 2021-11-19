@@ -78,11 +78,11 @@ GEAR ========================================================
         - TO VITALITY BOCL
         - TO ENERGY
         - TO ENERGY BOCL
-        ?? TO LIFE
-        ?? TO LIFE BOCL
+        - TO LIFE
+        - TO LIFE BOCL
+        - TO MANA
+        - TO MANA BOCL
         ?? INCR MAX LIFE
-        ?? TO MANA
-        ?? TO MANA BOCL
         ?? INCR MAX MANA
       
       - DEFENSE
@@ -92,8 +92,8 @@ GEAR ========================================================
         - DAMAGE REDUCTION %
         - BLOCK CHANCE
         - FHR
+        - DAMAGE REDUCTION
         ?? FBR
-        ?? DAMAGE REDUCTION
         ?? MAGIC DAMAGE REDUCTION
         ?? FIRE ABSORB
         ?? FIRE ABSORB %
@@ -130,13 +130,14 @@ GEAR ========================================================
         - POISON DAMAGE
         - POISON DAMAGE %
         - MAGIC DAMAGE
+        - DMG VS DEMONS
+        - DMG VS DEMONS BOCL
+        - DMG VS UNDEAD
+        - DMG VS UNDEAD BOCL
         ?? TO FIRE SKILL DMG %
         ?? TO COLD SKILL DMG %
         ?? TO LIGHTNING SKILL DMG %
         ?? TO POISON SKILL DMG %
-        ?? DMG VS DEMONS
-        ?? DMG VS DEMONS BOCL
-        ?? DMG VS UNDEAD
       
       - OFFENSES
         - AR
@@ -167,12 +168,12 @@ GEAR ========================================================
         - MF BOCL
         - REQUIREMENTS
         - ETHEREAL
-        ?? INDESTRUCTIBLE
-        ?? CANNOT BE FROZEN
-        ?? PREVENT MONSTER HEAL
-        ?? IGNORE TARGET`S DEFENSE
-        ?? KNOCKBACK
-        ?? HIT BLINDS TARGET
+        - INDESTRUCTIBLE
+        - CANNOT BE FROZEN
+        - PREVENT MONSTER HEAL
+        - IGNORE TARGET`S DEFENSE
+        - KNOCKBACK
+        - HIT BLINDS TARGET
 
     - LIST OF NON-CLASS SKILLS
       //SKILL NAME (MAX LEVEL)(CHARACTER)

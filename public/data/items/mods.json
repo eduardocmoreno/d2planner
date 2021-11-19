@@ -236,7 +236,7 @@
   },
   "poisDmg": { 
     "name": "poisDmg",
-    "descr": "+{a} Poison Damage",
+    "descr": "+{a} Poison Damage Over Seconds",
     "shortDescr": "Poison Damage",
     "inputMin": 1,
     "inputMax": 999,

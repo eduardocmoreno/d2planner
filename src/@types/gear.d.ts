@@ -123,6 +123,7 @@ interface IGearContext {
   partialClassSkillMods: Partial<TGearModName[]>;
   boclMods: Partial<TGearModName[]>;
   booleanMods: Partial<TGearModName[]>;
+  rangeMods: Partial<TGearModName[]>;
 }
 
 type TWeaponClass = "1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";

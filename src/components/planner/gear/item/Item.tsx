@@ -46,6 +46,7 @@ export default function Item({
         });
       });
     }
+    console.log(mods);
   }, [selectedBase, mods, setMods]);
 
   useEffect(() => {

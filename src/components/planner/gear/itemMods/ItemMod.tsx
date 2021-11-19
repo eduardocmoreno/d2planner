@@ -12,14 +12,16 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
   subModOptions: TGearMultiLevelModOpts;
 }) {
   const { charClass, charLevel } = useContext(PlannerContext);
-  const { modsData, partialClassSkillMods, boclMods, booleanMods } = useContext(GearContext);
+  const { modsData, partialClassSkillMods, boclMods, booleanMods, rangeMods } = useContext(GearContext);
 
-  const [input, setInput] = useState(mod.value?.toString() || '');
+  const [mainInput, setMainInput] = useState(mod.value?.toString() || mod.minVal?.toString() || '');
+  const [helperInput, setHelperInput] = useState(mod.maxVal?.toString() || '');
   const [selectedSubMod, setSelectedSubMod] = useState(mod.subModId?.toString() || '');
   const [isValid, setIsValid] = useState<boolean>(booleanMods.includes(mod.name) ? true : false);
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const wrapperElem = useRef<HTMLDivElement>(null);
+  const mainInputElem = useRef<HTMLInputElement>(null);
+  const helperInputElem = useRef<HTMLInputElement>(null);
 
   const allSubModOpts = useRef(subModOptions[mod.name]?.all || {});
 
@@ -36,29 +38,50 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
     .replace('{class}', capitalize(charClass))
     .split(/\{\w\}|\{tree\}|\{skill\}/gi);
 
-  const primaryInputProps = {
+  const inputWidthFactor = .55;
+
+  const mainInputProps = {
     type: "number",
     placeholder: "00",
-    ref: inputRef,
-    width: input.length * .55,
-    value: input,
     min: modsData[mod.name].inputMin,
     max: modsData[mod.name].inputMax,
     step: modsData[mod.name].step,
+    ref: mainInputElem,
+    value: mainInput,
+    width: mainInput.length * inputWidthFactor,
     //onFocus: (e: React.FocusEvent<HTMLInputElement, Element>) => e.target.select(),
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => e.target.value.length <= inputLengthFactor && setInput(e.target.value),
-    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && inputRef.current?.blur(),
-    onBlur: (e: React.FocusEvent<HTMLInputElement, Element>) => handleModValueOnBlur(e.target.value)
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => e.target.value.length <= inputLengthFactor && setMainInput(e.target.value),
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && mainInputElem.current?.blur(),
+    onBlur: (e: React.FocusEvent<HTMLInputElement, Element>) => handleInputOnBlur(e.target.value, rangeMods.includes(mod.name) ? 'minVal' : 'value')
   }
 
-  let content: React.ReactNode;
+  const helperInputProps = {
+    ...mainInputProps,
+    ref: helperInputElem,
+    value: helperInput,
+    width: helperInput.length * inputWidthFactor,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => e.target.value.length <= inputLengthFactor && setHelperInput(e.target.value),
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && helperInputElem.current?.blur(),
+    onBlur: (e: React.FocusEvent<HTMLInputElement, Element>) => handleInputOnBlur(e.target.value, 'maxVal')
+  }
 
-  function validateInputValue(number: number) {
+  function validateInputValue(value: string): number | null {
+    let number = parseFloat(value) || 0;
+
+    if (number === 0 || (number / 1) === 0) {
+      return null;
+    };
+
+    if (number > modsData[mod.name].inputMax) {
+      number = modsData[mod.name].inputMax
+    };
+
+    if (number > 0 && number < modsData[mod.name].inputMin) {
+      number = modsData[mod.name].inputMin
+    };
+
     if (boclMods.includes(mod.name)) {
       let factor = number / 0.025;
-      if ((number / 1) === 0) {
-        return '';
-      }
 
       if (Number.isInteger(factor)) {
         return number;
@@ -67,41 +90,42 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
       return Math.floor(((Math.floor(factor) * 0.025) + 0.025) * 1000) / 1000;
     }
 
-    if ((number / 1) === 0) {
-      return '';
-    };
-
     return number;
   }
 
-  function handleModValueOnBlur(targetValue: string) {
-    let newValue: number | null = null;
-
-    if (targetValue) {
-      newValue = parseFloat(targetValue);
-      if (newValue > modsData[mod.name].inputMax) newValue = modsData[mod.name].inputMax;
-      if (newValue > 0 && newValue < modsData[mod.name].inputMin) newValue = modsData[mod.name].inputMin;
-      newValue = validateInputValue(newValue) as number;
-      setInput(validateInputValue(newValue).toString());
-    }
+  function handleInputOnBlur(targetValue: string, prop: keyof IGearMod) {
+    let validatedVal: number | null = validateInputValue(targetValue);
 
     setMods(prev => {
       return prev.map(p => {
         if (p.subModName ? p.subModName === mod.subModName : p.name === mod.name) {
-          return { ...p, value: newValue }
+          return { ...p, [prop]: validatedVal }
         }
         return p;
       });
     });
+
+    if(prop === 'maxVal'){
+      setHelperInput(validatedVal ? validatedVal.toString() : '');
+      !mainInput && mainInputElem.current?.focus();
+    } 
+    
+    else {
+      setMainInput(validatedVal ? validatedVal.toString() : '');
+      !helperInput && helperInputElem.current?.focus();
+    }
+
   }
+
+  let content: React.ReactNode;
 
   if (boclMods.includes(mod.name)) {
     content = <>
       <label>
         <span dangerouslySetInnerHTML={{ __html: splitStr[0] }} />
-        <span className="value">{Math.floor(parseFloat(input) * charLevel) || '00'}</span>
+        <span className="value">{Math.floor(parseFloat(mainInput) * charLevel) || '00'}</span>
         <span dangerouslySetInnerHTML={{ __html: splitStr[1] }} />
-        <Input {...primaryInputProps} />
+        <Input {...mainInputProps} />
         <span dangerouslySetInnerHTML={{ __html: splitStr[2] }} />
       </label>
     </>;
@@ -113,7 +137,7 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
     content = <>
       <label>
         <span dangerouslySetInnerHTML={{ __html: splitStr[0] }} />
-        <Input {...primaryInputProps} />
+        <Input {...mainInputProps} />
         <span dangerouslySetInnerHTML={{ __html: splitStr[1] }} />
       </label>
       <FakeSelector
@@ -132,26 +156,49 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
     content = modsData[mod.name].descr;
   }
 
+  else if (rangeMods.includes(mod.name)) {
+    content = <>
+      <label>
+        <span dangerouslySetInnerHTML={{ __html: splitStr[0] }} />
+        <Input {...mainInputProps} />
+      </label>
+      <span dangerouslySetInnerHTML={{ __html: splitStr[1] }} />
+      <label>
+        <Input {...helperInputProps} />
+        <span dangerouslySetInnerHTML={{ __html: splitStr[2] }} />
+      </label>
+    </>;
+  }
+
   else {
     content = <>
       <label>
         <span dangerouslySetInnerHTML={{ __html: splitStr[0] }} />
-        <Input {...primaryInputProps} />
+        <Input {...mainInputProps} />
         <span dangerouslySetInnerHTML={{ __html: splitStr[1] }} />
       </label>
     </>;
   }
 
   useEffect(() => {
-    !input && inputRef.current?.focus();
-  }, [input]);
+    !mainInput && mainInputElem.current?.focus();
+  }, [mainInput]);
 
   useEffect(() => {
     if (!booleanMods.includes(mod.name)) {
-      let condition = partialClassSkillMods.includes(mod.name) ? (!input || !selectedSubMod) : !input;
+      let condition = !mainInput;
+
+      if (partialClassSkillMods.includes(mod.name)) {
+        condition = !mainInput || !selectedSubMod;
+      }
+
+      if (rangeMods.includes(mod.name)) {
+        condition = !mainInput || !helperInput;
+      }
+
       setIsValid(condition ? false : true);
     }
-  }, [input, selectedSubMod, partialClassSkillMods, booleanMods, mod.name]);
+  }, [mainInput, helperInput, selectedSubMod, partialClassSkillMods, booleanMods, rangeMods, mod.name]);
 
   useEffect(() => {
     if (selectedSubMod && selectedSubMod !== mod.subModId?.toString()) {
@@ -172,7 +219,7 @@ export default function ItemMod({ mod, setMods, subModOptions }: {
 
   return (
     <Wrapper>
-      <Mod ref={wrapperRef} isValid={isValid}>{content}</Mod>
+      <Mod ref={wrapperElem} isValid={isValid}>{content}</Mod>
       <Remove
         center
         as={Tooltip}
