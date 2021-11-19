@@ -46,24 +46,22 @@ export default function Item({
         });
       });
     }
-    console.log(mods);
+    console.table(mods);
   }, [selectedBase, mods, setMods]);
 
   useEffect(() => {
-    if (mods.length || Object.values(base).length) {
-      setGear(prev => {
-        return prev.map(p => {
-          if (p.slot === slot) {
-            return {
-              ...p,
-              base: { ...base },
-              mods: [...mods]
-            }
+    setGear(prev => {
+      return prev.map(p => {
+        if (p.slot === slot) {
+          return {
+            ...p,
+            base: { ...base },
+            mods: [...mods]
           }
-          return p;
-        })
-      });
-    }
+        }
+        return p;
+      })
+    });
   }, [slot, base, mods, setGear]);
 
   useEffect(() => {

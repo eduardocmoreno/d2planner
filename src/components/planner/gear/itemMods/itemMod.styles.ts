@@ -53,6 +53,9 @@ export const Mod = styled.div(({ isValid }: { isValid?: boolean }) => css`
   .unit {
     font-size: 1.4rem;
   }
+  .value {
+    padding: 0 .1em;
+  }
   .selector-ph {
     ${fieldHoverFocusEffect};
     cursor: pointer;

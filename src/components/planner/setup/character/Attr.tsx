@@ -7,13 +7,17 @@ import { capitalize, getItemMod } from "helpers";
 import { ButtonsWrapper, Label, Results, Wrapper } from "./attr.styles";
 
 export default function Attr({ attr }: { attr: keyof IAttrs }) {
-  const { attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
+  const { charLevel, attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
 
-  const attrModsFiltered = gear.filter(g => getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value);
+  const attrModsFiltered = gear.filter(g => getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value || getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value);
 
   const attrModsReduced = attrModsFiltered
-    .map(g => getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value)
+    .map(g =>
+      (getItemMod(g.mods, attr)?.value || 0) +
+      (getItemMod(g.mods, 'allAttrs')?.value || 0) +
+      Math.floor((getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value || 0) * charLevel)
+    )
     .reduce((a, b) => a! + b!, 0) || 0;
 
   useEffect(() => {
@@ -56,7 +60,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   if (attrModsFiltered.length) {
     attrModsFiltered.forEach((g, i) => {
-      tooltipDetails += `${capitalize(g.slot)}: +${getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value}`;
+      tooltipDetails += `${capitalize(g.slot)}: +${(getItemMod(g.mods, attr)?.value || 0) + (getItemMod(g.mods, 'allAttrs')?.value || 0) + Math.floor((getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value || 0) * charLevel)}`;
       i + 1 !== attrModsFiltered.length && (tooltipDetails += `\n`)
     });
   }

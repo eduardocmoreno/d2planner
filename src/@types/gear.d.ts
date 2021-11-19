@@ -9,8 +9,11 @@ type TGearModsCategNames = 'damage' | 'defenses' | 'offenses' | 'attributes' | '
 type TGearModName =
   'allAttrs' |
   'strength' |
+  'strength/lvl' |
   'dexterity' |
+  'dexterity/lvl' |
   'vitality' |
+  'vitality/lvl' |
   'energy' |
 
   'life' |

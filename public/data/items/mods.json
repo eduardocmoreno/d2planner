@@ -54,6 +54,15 @@
     "step": 1,
     "ref": [1, 50]
   },
+  "strength/lvl": { 
+    "name": "strength/lvl",
+    "descr": "+{a} To Strength ({b}/lvl)",
+    "shortDescr": "Strength / lvl",
+    "inputMin": 0.25,
+    "inputMax": 5,
+    "step": 0.025,
+    "ref": [0.375, 0.75]
+  },
   "dexterity": { 
     "name": "dexterity",
     "descr": "+{a} To Dexterity",
@@ -63,6 +72,15 @@
     "step": 1,
     "ref": [1, 35]
   },
+  "dexterity/lvl": { 
+    "name": "dexterity/lvl",
+    "descr": "+{a} To Dexterity ({b}/lvl)",
+    "shortDescr": "Dexterity / lvl",
+    "inputMin": 0.25,
+    "inputMax": 5,
+    "step": 0.025,
+    "ref": [0.5, 0.5]
+  },
   "vitality": { 
     "name": "vitality",
     "descr": "+{a} To Vitality",
@@ -71,6 +89,15 @@
     "inputMax": 250,
     "step": 1,
     "ref": [1, 40]
+  },
+  "vitality/lvl": { 
+    "name": "vitality/lvl",
+    "descr": "+{a} To Vitality ({b}/lvl)",
+    "shortDescr": "Vitality / lvl",
+    "inputMin": 0.25,
+    "inputMax": 5,
+    "step": 0.025,
+    "ref": [0.5, 0.5]
   },
   "energy": { 
     "name": "energy",
