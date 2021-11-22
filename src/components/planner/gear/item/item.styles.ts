@@ -41,6 +41,12 @@ export const BaseSelector = styled(Title)`
   }
 `;
 
+export const CallToAction = styled.div`
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+`;
+
 export const Contents = styled.div`
   --class: item-contents;
   display: flex;

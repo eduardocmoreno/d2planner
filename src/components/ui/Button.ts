@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
 import { pseudo } from "styles/mixins";
 
-const Button = styled.button(({ disabled, red, blue, big, arrowLeft, arrowRight, noArrows }: { 
+const Button = styled.button(({ disabled, red, blue, green, big, arrowLeft, arrowRight, noArrows }: { 
   disabled?: boolean;
   red?: boolean;
   blue?: boolean;
+  green?: boolean;
   big?: boolean;
   arrowLeft?: boolean;
   arrowRight?: boolean;
@@ -75,6 +76,13 @@ const Button = styled.button(({ disabled, red, blue, big, arrowLeft, arrowRight,
     background: var(--color-blue-800);
     &:hover {
       background: var(--color-blue-700);
+    }
+  `}
+
+  ${green && !disabled && css`
+    background: var(--color-green-800);
+    &:hover {
+      background: var(--color-green-700);
     }
   `}
 

@@ -6,9 +6,3 @@ export const Mods = styled.div`
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
 `;
-
-export const CallToAction = styled.div`
-  display: flex;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-`;

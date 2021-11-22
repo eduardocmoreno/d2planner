@@ -4,8 +4,9 @@ import { GearContext } from "../Gear";
 import ItemBase from "../itemBase/ItemBase";
 import ItemMods from "../itemMods/ItemMods";
 import FakeSelector from "components/ui/FakeSelector";
-import { BaseSelector, Contents, Icon, Title, Wrapper } from "./item.styles";
+import { BaseSelector, CallToAction, Contents, Icon, Title, Wrapper } from "./item.styles";
 import { getItemMod } from "helpers";
+import Button from "components/ui/Button";
 
 export default function Item({
   slot, icon, setHasTwoHanded
@@ -15,12 +16,28 @@ export default function Item({
   setHasTwoHanded?: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const { setGear } = useContext(PlannerContext);
-  const { armorsData, weaponsData } = useContext(GearContext);
+  const { armorsData, weaponsData, modsData } = useContext(GearContext);
 
-  const [basesList, setBasesList] = useState([] as IGearBase[]);
-  const [selectedBase, setSelectedBase] = useState({} as IGearBase);
   const [base, setBase] = useState({} as IGearBase);
   const [mods, setMods] = useState([] as IGearMod[]);
+  const [selectedBase, setSelectedBase] = useState({} as IGearBase);
+  const [selectedMod, setSelectedMod] = useState<TGearModName | null>(null);
+  const [basesList, setBasesList] = useState([] as IGearBase[]);
+
+  const selectedBaseHaveLength = Object.keys(selectedBase).length > 0;
+  const modsHaveLength = Object.keys(mods).length > 0;
+
+  const modsListOpts = useMemo<Partial<Record<TGearModName, string>>>(() => {
+    let opts = Object.fromEntries((Object.values(modsData) as IGearModData[]).map((mod: IGearModData) => {
+      return [mod.name, (mod.shortDescr || mod.descr)];
+    }));
+
+    if (selectedBase.nodurability) {
+      delete opts.ethereal;
+    }
+
+    return opts;
+  }, [modsData, selectedBase]);
 
   function handleBaseSelect(code: keyof IGearBase) {
     setSelectedBase(basesList.find(i => i.code === code) || {} as IGearBase);
@@ -46,7 +63,6 @@ export default function Item({
         });
       });
     }
-    console.table(mods);
   }, [selectedBase, mods, setMods]);
 
   useEffect(() => {
@@ -62,6 +78,7 @@ export default function Item({
         return p;
       })
     });
+    setSelectedMod(null);
   }, [slot, base, mods, setGear]);
 
   useEffect(() => {
@@ -101,7 +118,7 @@ export default function Item({
               <BaseSelector>{selectedBase.name || slot}<i className='icon-arrow-down' /></BaseSelector>
             </FakeSelector>
 
-            {Object.keys(selectedBase).length > 0 &&
+            {selectedBaseHaveLength &&
               <ItemBase {...{ slot, base, setBase, mods, selectedBase }} />
             }
           </>
@@ -109,9 +126,22 @@ export default function Item({
           <Title>{slot}</Title>
         }
 
-        {(['amulet', 'left-ring', 'right-ring', 'torch', 'annihilus', 'charms'].includes(slot) || Object.keys(selectedBase).length > 0) &&
-          <ItemMods {...{ mods, setMods, selectedBase, reset }} />
+        {(['amulet', 'left-ring', 'right-ring', 'torch', 'annihilus', 'charms'].includes(slot) || selectedBaseHaveLength) &&
+          <>
+            <ItemMods {...{ mods, setMods, selectedMod }} />
+            
+            <CallToAction>
+              <FakeSelector options={modsListOpts} callBack={setSelectedMod}>
+                <Button blue arrowLeft={modsHaveLength || selectedBaseHaveLength}>Add Mod</Button>
+              </FakeSelector>
+
+              {(modsHaveLength || selectedBaseHaveLength) &&
+                <Button red arrowRight onClick={() => reset()}>reset item</Button>
+              }
+            </CallToAction>
+          </>
         }
+
 
       </Contents>
     </Wrapper>

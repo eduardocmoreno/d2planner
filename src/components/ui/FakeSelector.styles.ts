@@ -20,7 +20,7 @@ export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos }: {
   width: max-content;
   z-index: 1;
   ${position === 'bottom' && !vpRepos && css`
-    top: calc(100% + 2px);
+    top: calc(100% + var(--spacing-sm));
     left: 0;
   `}
   ${position === 'right' && css`
@@ -28,7 +28,7 @@ export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos }: {
     left: calc(100% + 10px);
   `}
   ${vpRepos && position === 'bottom' && css`
-    top: -2px;
+    top: -var(--spacing-sm);
     transform: translateY(-100%);
   `}
   ${vpRepos && position === 'right' && css`

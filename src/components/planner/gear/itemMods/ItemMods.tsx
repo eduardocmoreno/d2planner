@@ -1,11 +1,9 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import { GearContext } from "../Gear";
 import ItemMod from "./ItemMod";
-import FakeSelector from "components/ui/FakeSelector";
-import Button from "components/ui/Button";
 import { capitalize } from "helpers";
-import { CallToAction, Mods } from "./itemMods.styles";
+import { Mods } from "./itemMods.styles";
 
 /* 
 const mod = 'dmg%';
@@ -51,26 +49,13 @@ const values = Object.values(allItems).filter(u => {
 values.filter((v,i) => i === values.indexOf(v));
 */
 
-export default function ItemMods({ mods, setMods, selectedBase, reset }: {
+export default function ItemMods({ mods, setMods, selectedMod }: {
   mods: IGearMod[];
   setMods: React.Dispatch<React.SetStateAction<IGearMod[]>>;
-  selectedBase: IGearBase,
-  reset: Function
+  selectedMod: TGearModName | null;
 }) {
   const { charData } = useContext(PlannerContext);
-  const { modsData, partialClassSkillMods } = useContext(GearContext);
-
-  const modsListOpts = useMemo<Partial<Record<TGearModName, string>>>(() => {
-    let opts = Object.fromEntries((Object.values(modsData) as IGearModData[]).map((mod: IGearModData) => {
-      return [mod.name, (mod.shortDescr || mod.descr)];
-    }));
-
-    if(selectedBase.nodurability) {
-      delete opts.ethereal;
-    }
-
-    return opts;
-  }, [modsData, selectedBase]);
+  const { partialClassSkillMods } = useContext(GearContext);
 
   const treeSkillsOpts = useRef(Object.fromEntries(
     charData.skills.trees.map(({ id, name }) => [id, capitalize(name)])
@@ -93,7 +78,6 @@ export default function ItemMods({ mods, setMods, selectedBase, reset }: {
     }
   }
 
-  const [selectedMod, setSelectedMod] = useState<TGearModName | null>(null);
   const [subModOptions, setSubModOptions] = useState(subModOptsInit);
 
   useEffect(() => {
@@ -119,8 +103,6 @@ export default function ItemMods({ mods, setMods, selectedBase, reset }: {
         }
       }
     });
-
-    setSelectedMod(null);
   }, [mods]);
 
 
@@ -172,17 +154,6 @@ export default function ItemMods({ mods, setMods, selectedBase, reset }: {
           {mods.map(mod => <ItemMod key={mod.subModName || mod.name} {...{ mod, setMods, subModOptions }} />)}
         </Mods>
       }
-
-      <CallToAction>
-        <FakeSelector options={modsListOpts} callBack={setSelectedMod}>
-          <Button blue arrowLeft={Object.entries(mods).length > 0 || Object.entries(selectedBase).length > 0}>Add Mod</Button>
-        </FakeSelector>
-
-        {//RESET BUTON IS LOCATED HERE DUE TO BETTER POSITIONING INTO THE LAYOUT
-          (Object.entries(mods).length > 0 || Object.entries(selectedBase).length > 0) &&
-          <Button red arrowRight onClick={() => reset()}>reset item</Button>
-        }
-      </CallToAction>
     </>
   )
 }
