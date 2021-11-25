@@ -9,8 +9,9 @@ const Main = styled.main`
   box-shadow: 0 0 150px rgba(var(--color-red-rgb), .5);
   ${pseudo('before', 'after')}
   &::before {
-    background: url(${boxBgImg}) center;
+    background: url(${boxBgImg}) top center;
     inset: 0;
+    filter: saturate(50%);
     z-index: -2;
   }
   &::after {

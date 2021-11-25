@@ -6,7 +6,7 @@ import { PointsRemaining, StatsWrapper, Wrapper } from "./attrs.styles";
 
 export default function Attrs() {
 
-  const { charLevel, quests, attrs, dispatchAttrs, attrPoints, setAttrPoints } = useContext(PlannerContext);
+  const { charLevel, quests, attrs, dispatchAttrs, attrPoints, setAttrPoints, skillPoints } = useContext(PlannerContext);
   const attrPointsAppied = useRef(0);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Attrs() {
   return (
     <Wrapper>
       <PointsRemaining>
-        <div><strong>{attrPoints}</strong> attribute points remaining</div>
+        <hr/><span><strong>{attrPoints}</strong> Attribute Pts</span> <hr/> <span><strong>{skillPoints}</strong> Skill Pts</span> <hr/>
       </PointsRemaining>
       <StatsWrapper>
         <Attr attr="strength" />

@@ -7,12 +7,12 @@ export const Wrapper = styled.div`
   flex-direction: column;
   ${GoldenFrame}{
     flex-direction: column;
+    border-bottom: 0;
   };
 `;
 
 export const ButtonsWrapper = styled.div`
   display: flex;
-  margin-top: var(--spacing-md);
   ${Button}{
     flex: 1;
     padding-right: 0;

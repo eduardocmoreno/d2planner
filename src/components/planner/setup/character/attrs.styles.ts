@@ -16,23 +16,22 @@ export const PointsRemaining = styled.div`
   font-size: 1.4rem;
   line-height: 1;
   white-space: nowrap;
-  ::before,
-  ::after {
-    content: "";
-    width: 100%;
-    border-top: 1px dashed var(--color-gold);
-  }
   strong {
     margin-right: .15em;
     color: var(--color-gold);
     font-family: var(--font-family-main);
     font-size: 2rem;
   }
+  hr {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--color-gold-800);
+  }
 `;
 
 export const StatsWrapper = styled.div`
   flex: 1;
   display: grid;
-  gap: 1.5em;
+  gap: 1em;
   grid-template-columns: repeat(4, 1fr);
 `;

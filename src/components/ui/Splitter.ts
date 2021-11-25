@@ -22,7 +22,6 @@ const Splitter = styled.div`
     width: 100%;
     height: 4px;
     background: linear-gradient(var(--color-gold) 50%, var(--color-gold-900) 50%);
-    box-shadow: 0 5px 6px rgba(0 0 0 / .5);
   }
 `;
 

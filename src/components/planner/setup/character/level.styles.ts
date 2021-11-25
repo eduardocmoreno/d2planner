@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Button from "components/ui/Button";
 import GoldenFrame, { FrameContent } from "components/ui/GoldenFrame";
 import { Input } from "components/ui/Input";
 
@@ -9,15 +8,13 @@ export const Wrapper = styled.div`
   flex-direction: column;
   ${GoldenFrame}{
     flex-direction: column;
+    border-bottom: 0;
   };
   ${FrameContent} {
     form {
       flex: 1;
       display: flex;
     }
-  }
-  ${Button} {
-    margin-top: var(--spacing-md);
   }
 `;
 

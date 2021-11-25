@@ -2,7 +2,9 @@ import styled from "styled-components";
 
 export const MainWrapper = styled.div`
   display: flex;
-  height: 10.5em;
+  gap: 1em;
+  height: 10em;
+  margin-top: 2em;
 `;
 
 export const SubWrapper = styled.div`
@@ -14,6 +16,5 @@ export const SubWrapper = styled.div`
   }
   :nth-child(2){
     flex: 4;
-    margin-left: 2em;
   }
 `;

@@ -105,16 +105,15 @@ export default function Item({
   }, [basesList])
 
   return (
-    <Wrapper>
+    <Wrapper haveProps={modsHaveLength || selectedBaseHaveLength}>
       <Icon>
         <img src={require(`assets/images/items/${icon}.png`).default} alt={slot} />
       </Icon>
+
       <Contents>
         {basesList.length > 0 ?
           <>
-            <FakeSelector
-              options={baseListOpts}
-              callBack={handleBaseSelect}>
+            <FakeSelector options={baseListOpts} callBack={handleBaseSelect}>
               <BaseSelector>{selectedBase.name || slot}<i className='icon-arrow-down' /></BaseSelector>
             </FakeSelector>
 
@@ -129,10 +128,10 @@ export default function Item({
         {(['amulet', 'left-ring', 'right-ring', 'torch', 'annihilus', 'charms'].includes(slot) || selectedBaseHaveLength) &&
           <>
             <ItemMods {...{ mods, setMods, selectedMod }} />
-            
+
             <CallToAction>
               <FakeSelector options={modsListOpts} callBack={setSelectedMod}>
-                <Button blue arrowLeft={modsHaveLength || selectedBaseHaveLength}>Add Mod</Button>
+                <Button blue arrowLeft={modsHaveLength || selectedBaseHaveLength}>add mod</Button>
               </FakeSelector>
 
               {(modsHaveLength || selectedBaseHaveLength) &&
@@ -141,8 +140,6 @@ export default function Item({
             </CallToAction>
           </>
         }
-
-
       </Contents>
     </Wrapper>
   )

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.ul`
-  margin-top: .75em;
+  margin-top: var(--spacing-lg);
   font-size: 1.4rem;
   li {
     display: flex;

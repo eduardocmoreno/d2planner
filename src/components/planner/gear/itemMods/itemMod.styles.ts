@@ -44,6 +44,7 @@ export const Mod = styled.div(({ isValid }: { isValid?: boolean }) => css`
     color: var(--color-red-400);
   `}
   font-size: 1.6rem;
+  line-height: 1.5;
   .sign,
   .unit,
   .value,

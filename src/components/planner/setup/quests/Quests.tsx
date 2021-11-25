@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
-import { Description, Details, Difficulty, Item, List, Name, ToggleController, Wrapper } from "./quests.styles";
+import { Description, Details, Difficulty, Item, List, Name, ToggleController } from "./quests.styles";
+import GoldenFrame from "components/ui/GoldenFrame";
 
 export default function Quests() {
   const { quests, dispatchQuests } = useContext(PlannerContext);
@@ -11,10 +12,10 @@ export default function Quests() {
   }, [quests]);
 
   return (
-    <Wrapper>
-      <List>
+    <>
+      <GoldenFrame as={List}>
         <Item head>
-          <Description />
+          <Description onClick={() => dispatchQuests({ type: 'TOGGLEALL' })}>Reward Quests</Description>
           {['normal', 'nightmare', 'hell'].map(diff => {
             return (
               <Difficulty key={diff}
@@ -28,6 +29,7 @@ export default function Quests() {
             )
           })}
         </Item>
+
         {quests.map(({ name, act, adds, reward, difficulty }) => {
           return (
             <Item key={name}>
@@ -58,14 +60,14 @@ export default function Quests() {
             </Item>
           )
         })}
-      </List>
 
-      <ToggleController>
-        <label>
-          <input type="checkbox" checked={toggleAllQuests} onChange={() => dispatchQuests({ type: 'TOGGLEALL' })} />
-          Select all quests?
-        </label>
-      </ToggleController>
-    </Wrapper>
+        <ToggleController>
+          <label>
+            Select all quests
+            <input type="checkbox" checked={toggleAllQuests} onChange={() => dispatchQuests({ type: 'TOGGLEALL' })} />
+          </label>
+        </ToggleController>
+      </GoldenFrame>
+    </>
   )
 }

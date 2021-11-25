@@ -1,22 +1,18 @@
 import styled, { css } from "styled-components";
 
-export const Wrapper = styled.div`
-  margin-top: 2em;
-`;
-
 export const listHoverEffect = css`
   user-select: none;
   transition: var(--duration-fast);
   &:hover {
     cursor: pointer;
-    color: var(--color-gold);
-    text-shadow: 0 0 10px rgba(var(--color-gold-rgb), 0.5);
+    color: var(--color-gold-200);
   }
 `;
 
 export const List = styled.div`
-  padding: 0 0.7em 0.7em;
-  background: rgba(0 0 0 / 0.3);
+  flex-direction: column;
+  margin: 2em 0 0;
+  padding: 1.25em;
 `;
 
 export const Item = styled.div(({ head }: { head?: boolean }) => css`
@@ -26,9 +22,9 @@ export const Item = styled.div(({ head }: { head?: boolean }) => css`
     margin-top: 1em;
   }
   ${head && css`
-    margin-bottom: 0.5em;
-    padding: 0.7em 0 0.5em;
-    border-bottom: 1px solid var(--color-gold);
+    //margin-bottom: 0.5em;
+    padding-bottom: .75em;
+    border-bottom: 1px solid var(--color-gold-900);
     color: var(--color-gold);
     font-family: var(--font-family-main);
     font-size: 1.6rem;
@@ -44,6 +40,7 @@ export const Item = styled.div(({ head }: { head?: boolean }) => css`
 
 export const Description = styled.div`
   color: var(--color-gold);
+  text-align: left;
   ${listHoverEffect}
 `;
 
@@ -56,7 +53,7 @@ export const Name = styled.div`
 
 export const Details = styled.small`
   display: block;
-  color: var(--color-blue);
+  color: var(--color-blue-300);
   font-size: 1.2rem;
   font-style: italic;
 `;
@@ -68,11 +65,21 @@ export const Difficulty = styled.div`
 `;
 
 export const ToggleController = styled.div`
-  margin-top: 1.5em;
-  color: $gold;
-  text-align: center;
-  user-select: none;
-  input {
-    margin-right: 0.5em;
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid var(--color-gold-800);
+  label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-gold);
+    text-align: center;
+    user-select: none;
+    input {
+      margin-left: 0.5em;
+    }
+    :hover {
+      color: var(--color-gold-200);
+    }
   }
 `;

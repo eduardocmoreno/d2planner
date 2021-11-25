@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Input } from "components/ui/Input";
-import { List, ListItem, Selector, Wrapper } from "./FakeSelector.styles";
+import { ChildSlot, List, ListItem, Selector, Wrapper } from "./FakeSelector.styles";
 
 export default function FakeSelector({ children, position = 'bottom', search = true, options, callBack }: {
   children: React.ReactNode;
@@ -121,7 +121,7 @@ export default function FakeSelector({ children, position = 'bottom', search = t
 
   return (
     <Wrapper className="fake-selector" ref={wrapperElem} onMouseMove={() => setEventType('mouseMove')}>
-      <div onClick={() => setIsActive(prev => !prev)}>{children}</div>
+      <ChildSlot onClick={() => setIsActive(prev => !prev)}>{children}</ChildSlot>
 
       {isActive &&
         <Selector {...{ isActive, position, vpRepos }}

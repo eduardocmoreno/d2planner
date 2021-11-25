@@ -9,6 +9,10 @@ export const Wrapper = styled.div`
   }
 `;
 
+export const ChildSlot = styled.div`
+  display: flex;
+`;
+
 export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos }: {
   isActive: boolean;
   position: 'bottom' | 'right';
@@ -16,7 +20,6 @@ export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos }: {
 }) => css`
   display: ${isActive ? 'block' : 'none'};
   position: absolute;
-  min-width: 100%;
   width: max-content;
   z-index: 1;
   ${position === 'bottom' && !vpRepos && css`

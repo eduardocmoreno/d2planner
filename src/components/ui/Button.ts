@@ -14,7 +14,7 @@ const Button = styled.button(({ disabled, red, blue, green, big, arrowLeft, arro
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.25em 0.7em;
+  padding: 0.35em 0.7em;
   margin: 0;
   box-shadow: inset 0 0 10px rgba(0 0 0 / 0.5);
   border: 2px solid;
@@ -29,10 +29,12 @@ const Button = styled.button(({ disabled, red, blue, green, big, arrowLeft, arro
   white-space: nowrap;
   cursor: pointer;
   transition: var(--duration-default);
-  line-height: 1.1;
+  line-height: 100%;
+  i[class^=icon-]{
+    transform: scale(.85);
+  }
   ${!noArrows && css`
     ${pseudo('before', 'after')};
-    
     &::before,
     &::after {
       top: calc(50% - 3px);
@@ -43,12 +45,12 @@ const Button = styled.button(({ disabled, red, blue, green, big, arrowLeft, arro
     }
     
     &::before {
-      right: -5px;
+      right: -4px;
       transform: rotate(45deg);
     }
     
     &::after {
-      left: -5px;
+      left: -4px;
       transform: rotate(-45deg) scaleX(-1);
     }
 
