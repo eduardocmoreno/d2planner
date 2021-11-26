@@ -1,60 +1,63 @@
-import { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
-import GoldenFrame, { FrameContent, FrameLabel } from "components/ui/GoldenFrame";
-import Button from "components/ui/Button";
+import GoldenFrame, { FrameLabel } from "components/ui/GoldenFrame";
 import Tooltip from "components/ui/Tooltip";
 import { LevelInput, Result, Wrapper } from "./level.styles";
 
 export default function Level() {
   const { charLevel, setCharLevel } = useContext(PlannerContext);
-  const [inputValue, setInputValue] = useState('');
+  const [input, setInput] = useState('');
+  const inputElem = useRef<HTMLInputElement>(null);
+
+  const tooltipAttrs = {
+    as: Tooltip,
+    center: true,
+    focus: true,
+    'data-tooltip': "1 to 99"
+  };
 
   //fn: handle form submit
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleSubmit() {
+    setInput('');
 
-    setInputValue('');
-
-    if (/^([1-9][0-9]?){1,2}$/g.test(inputValue)) {
-      setCharLevel(parseInt(inputValue));
-      setInputValue(inputValue);
+    if (/^([1-9][0-9]?){1,2}$/g.test(input)) {
+      setCharLevel(parseInt(input));
+      setInput(input);
     }
   }
 
   //fn: reset character
   function reset() {
     setCharLevel(1);
-    setInputValue('');
+    setInput('');
   }
+
+  useEffect(() => { inputElem.current?.focus(); });
 
   return (
     <Wrapper>
-      <Tooltip as={GoldenFrame} data-tooltip="1 to 99" center focus>
+      <GoldenFrame {...tooltipAttrs}>
         <FrameLabel>Level</FrameLabel>
-        <FrameContent>
-          {charLevel > 1 ?
+        {charLevel > 1 ?
+          <>
             <Result>{charLevel}</Result>
-            :
-            <form id="char-level-form" onSubmit={handleSubmit}>
-              <LevelInput
-                type="number"
-                placeholder="00"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                required={true}
-                max={99}
-                min={1}
-              />
-            </form>
-          }
-        </FrameContent>
-      </Tooltip>
-
-      {charLevel > 1 ?
-        <Button big red onClick={reset}>respec</Button>
-        :
-        <Button big blue form="char-level-form">OK</Button>
-      }
+            <Tooltip as="button" data-tooltip={`Are you sure?\nThis action will\nreset all hard-points\nused on attributes\nand skills!`} onClick={reset}>RESPEC</Tooltip>
+          </>
+          :
+          <LevelInput
+            type="number"
+            placeholder="00"
+            ref={inputElem}
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onBlur={e => handleSubmit()}
+            onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+            required={true}
+            max={99}
+            min={1}
+          />
+        }
+      </GoldenFrame>
     </Wrapper>
   )
 }

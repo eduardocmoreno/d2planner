@@ -61,6 +61,7 @@
 
   --golden-border: var(--color-gold) var(--color-gold-700) var(--color-gold-900);
   --golden-line: var(--color-gold) var(--color-gold-900);
+  --golden-dotted-line: 1px dotted var(--color-gold-900);
 
   --input-focus-glow: inset 0 0 15px rgba(0 0 0 / .5), 0 0 .15em rgba(var(--color-blue-rgb), .5);
 }

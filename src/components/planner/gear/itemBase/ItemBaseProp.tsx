@@ -47,7 +47,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
         let result = <span>{base.maxDef}</span>;
 
         if (base.maxDef > selectedBase.maxDef) {
-          result = <Tooltip as="span" className="highlight" center data-tooltip={`Base Defense: ${selectedBase.maxDef}`}>{base.maxDef}</Tooltip>
+          result = <Tooltip as="span" className="highlight" data-tooltip={`Base Defense: ${selectedBase.maxDef}`}>{base.maxDef}</Tooltip>
         }
 
         return <li>Defense: {result}</li>
@@ -76,7 +76,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
             dataTooltip += `\n${capitalize(rhSlot?.slot as string)}: +${rhDmgMod}`;
           }
 
-          result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{base.minDmg}-{base.maxDmg}</Tooltip>
+          result = <Tooltip as="span" className="highlight" data-tooltip={dataTooltip}>{base.minDmg}-{base.maxDmg}</Tooltip>
         }
 
         if (charClass !== 'barbarian' && selectedBase.twoHanded && selectedBase.oneOrTwoHanded) {
@@ -94,7 +94,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
         let dataTooltip = `Base Two-Hand Damage: ${selectedBase.twoHandMinDmg}-${selectedBase.twoHandMaxDmg}`;
 
         if (base.twoHandMinDmg > selectedBase.twoHandMinDmg || base.twoHandMaxDmg > selectedBase.twoHandMaxDmg) {
-          result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{base.twoHandMinDmg}-{base.twoHandMaxDmg}</Tooltip>
+          result = <Tooltip as="span" className="highlight" data-tooltip={dataTooltip}>{base.twoHandMinDmg}-{base.twoHandMaxDmg}</Tooltip>
         }
 
         return <li>Two-Hand Damage: {result}</li>
@@ -108,7 +108,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
         let dataTooltip = `Base Throw Damage: ${selectedBase.throwMinDmg}-${selectedBase.throwMaxDmg}`;
 
         if (base.throwMinDmg > selectedBase.throwMinDmg || base.throwMaxDmg > selectedBase.throwMaxDmg) {
-          result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{base.throwMinDmg}-{base.throwMaxDmg}</Tooltip>
+          result = <Tooltip as="span" className="highlight" data-tooltip={dataTooltip}>{base.throwMinDmg}-{base.throwMaxDmg}</Tooltip>
         }
 
         return <li>Throw Damage: {result}</li>
@@ -119,7 +119,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
     case 'block': {
       if (prop in base) {
         let dataTooltip = `${capitalize(charClass)} Block Factor: ${charData.stats.block}%\nBase Block: ${selectedBase.block}%\nMax Block Allowed: 75%`;
-        return <li>Chance to Block: <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{base.block! > 75 ? 75 : base.block!}%</Tooltip></li>
+        return <li>Chance to Block: <Tooltip as="span" className="highlight" data-tooltip={dataTooltip}>{base.block! > 75 ? 75 : base.block!}%</Tooltip></li>
       }
       return null;
     }
@@ -129,7 +129,7 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
         let result = <span>{base.levelReq}</span>;
 
         if (charLevel < base.levelReq) {
-          result = <Tooltip as="span" className="warn" center data-tooltip={`Current Character Level: ${charLevel}`}>{selectedBase.levelReq}</Tooltip>;
+          result = <Tooltip as="span" className="warn" data-tooltip={`Current Character Level: ${charLevel}`}>{selectedBase.levelReq}</Tooltip>;
         }
 
         return <li>Required Level: {result}</li>
@@ -148,11 +148,11 @@ export default function ItemProp({ base, mods, selectedBase, prop }: {
 
         if (attrReq! < selectedBase[prop]) {
           dataTooltip += `\nBase Requirement: ${selectedBase[prop]}`;
-          result = <Tooltip as="span" className="highlight" center data-tooltip={dataTooltip}>{attrReq}</Tooltip>
+          result = <Tooltip as="span" className="highlight" data-tooltip={dataTooltip}>{attrReq}</Tooltip>
         }
 
         if (attrs[attrName!].total! < reqVal) {
-          result = <Tooltip as="span" className="warn" center data-tooltip={dataTooltip}>{reqVal}</Tooltip>
+          result = <Tooltip as="span" className="warn" data-tooltip={dataTooltip}>{reqVal}</Tooltip>
         }
 
         return <li>Required {capitalize(attrName!)}: {result}</li>

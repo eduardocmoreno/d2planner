@@ -1,31 +1,29 @@
 import styled from "styled-components";
-import Button from "components/ui/Button";
-import GoldenFrame, { FrameLabel } from "components/ui/GoldenFrame";
-
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  ${GoldenFrame}{
-    flex-direction: column;
-    border-bottom: 0;
-  };
-`;
+import { FrameLabel } from "components/ui/GoldenFrame";
 
 export const ButtonsWrapper = styled.div`
   display: flex;
-  ${Button}{
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 1;
-    padding-right: 0;
-    padding-left: 0;
-    :not(:first-child){
-      flex: .5;
-      border-left: 0;
+    padding: .5em 0;
+    margin: -.5em 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-gold);
+    font-weigth: normal;
+    line-height: 100%;
+    :hover {
+      color: var(--color-gold-200);
     }
   }
 `;
 
 export const Label = styled(FrameLabel)`
-  font-size: 1.2rem;
+  padding: 0;
+  font-size: 1.3rem;
 `;
 
 export const Results = styled.div`
@@ -36,11 +34,32 @@ export const Results = styled.div`
   justify-content: center;
   color: #666;
   font-family: var(--font-family-main);
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  line-height: 1;
+  line-height: 100%;
   span {
     color: var(--color-gold);
-    font-size: 2.8rem;
+    font-size: 3.5rem;
+    text-indent: -.05em;
+    letter-spacing: -.05em;
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  :before {
+    top: -.5em;
+  }
+  :after {
+    top: calc(-.5em + 2px);
+  }
+  :not(:hover){
+    ${ButtonsWrapper}{
+      display: none;
+    }
+  }
+  :not(:first-child){
+    border-left: var(--golden-dotted-line);
   }
 `;

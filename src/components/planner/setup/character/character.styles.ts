@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const MainWrapper = styled.div`
   display: flex;
   gap: 1em;
-  height: 10em;
-  margin-top: 2em;
+  height: 9em;
 `;
 
 export const SubWrapper = styled.div`

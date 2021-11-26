@@ -71,7 +71,7 @@ export const Wrapper = styled.div(({ haveProps }: { haveProps: boolean}) => css`
 //     padding: 1.5em calc(var(--spacing-lg) - 2px);
 //     border: 2px solid var(--color-gold-900);
 //     ${pseudo('before')};
-//     ::before {
+//     :before {
 //       top: 2px;
 //       left: 2px;
 //       height: 0;

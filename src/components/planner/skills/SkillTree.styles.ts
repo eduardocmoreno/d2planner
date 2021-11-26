@@ -62,7 +62,7 @@ export const CellFigure = styled.figure(({ isIterable, isActive, isGranted }: {
   `}
   ${isGranted && css`
     position: relative;
-    ::after {
+    :after {
       position: absolute;
       inset: 3px;
       background: rgba(var(--color-blue-rgb), .2);

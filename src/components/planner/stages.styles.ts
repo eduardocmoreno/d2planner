@@ -1,10 +1,9 @@
 import styled, { css } from "styled-components";
 
 export const StagesWrapper = styled.div`
-  padding: 2rem;
+  padding: 2em 1em 1em;
   background: rgba(0 0 0 / 0.3);
-  border: solid var(--color-red-700);
-  border-width: 2px 0;
+  border-top: 2px solid var(--color-red-700);
 `;
 
 export const Stage = styled.div(({ isActive }: { isActive: boolean }) => css`

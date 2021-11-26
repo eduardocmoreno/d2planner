@@ -62,7 +62,7 @@ export default function SkillDetails({ skillIdOnHover }: {
                     <PropName>
                       {name}
                       {info &&
-                        <Tooltip center data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
+                        <Tooltip data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                       }
                     </PropName>
                     <PropValue isActive={selectedSkill.level.points > 0}>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{units[unit]}</PropValue>
@@ -82,7 +82,7 @@ export default function SkillDetails({ skillIdOnHover }: {
                       <PropName>
                         {bonus}
                         {info &&
-                          <Tooltip center data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
+                          <Tooltip data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                         }
                       </PropName>
                       <PropValue isActive={selectedSkill.level.points > 0}>

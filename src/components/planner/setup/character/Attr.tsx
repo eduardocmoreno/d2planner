@@ -1,7 +1,5 @@
 import { MouseEvent, useContext, useEffect } from "react";
 import { PlannerContext } from "pages/Planner";
-import GoldenFrame, { FrameContent } from "components/ui/GoldenFrame";
-import Button from "components/ui/Button";
 import Tooltip from "components/ui/Tooltip";
 import { capitalize, getItemMod } from "helpers";
 import { ButtonsWrapper, Label, Results, Wrapper } from "./attr.styles";
@@ -58,7 +56,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nSpent Points: ${applied}` : ''}\n`;
 
-  if (attrModsFiltered.length) {
+  if (attrModsFiltered.length > 0) {
     attrModsFiltered.forEach((g, i) => {
       tooltipDetails += `${capitalize(g.slot)}: +${(getItemMod(g.mods, attr)?.value || 0) + (getItemMod(g.mods, 'allAttrs')?.value || 0) + Math.floor((getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value || 0) * charLevel)}`;
       i + 1 !== attrModsFiltered.length && (tooltipDetails += `\n`)
@@ -74,31 +72,19 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
   let titleHtmlAttr = 'Hold shift to +/- 10 points, Hold ctrl/cmd to +/- all remaining points';
 
   return (
-    <Wrapper>
-      <GoldenFrame {...tooltipAttrs}>
-        <Label>{attr}</Label>
-        <FrameContent>
-          <Results>
-            {total! > base! ? <span>{total}</span> : base}
-          </Results>
-        </FrameContent>
-      </GoldenFrame>
-
-      <ButtonsWrapper>
-        <Button blue big
-          title={titleHtmlAttr}
-          onClick={(e) => handleClick(e, 'ADD')}
-          {...(applied! > 0 && { arrowLeft: true })}
-          {...(attrPoints === 0 && { disabled: true })}
-        ><i className="icon-plus" /></Button>
-
-        {applied! > 0 &&
-          <Button red big arrowRight
-            title={titleHtmlAttr}
-            onClick={(e) => handleClick(e, 'SUB')}
-          ><i className="icon-dash" /></Button>
-        }
-      </ButtonsWrapper>
+    <Wrapper {...((attrModsFiltered.length > 0 || applied! > 0) && tooltipAttrs)}>
+      <Label>{attr}</Label>
+      
+      <Results>
+        {total! > base! ? <span>{total}</span> : base}
+      </Results>
+      
+      {charLevel > 1 &&
+        <ButtonsWrapper>
+          <button title={titleHtmlAttr} onClick={(e) => handleClick(e, 'ADD')} ><i className="icon-plus" /></button>
+          <button title={titleHtmlAttr} onClick={(e) => handleClick(e, 'SUB')} ><i className="icon-dash" /></button>
+        </ButtonsWrapper>
+      }
     </Wrapper>
   )
 }

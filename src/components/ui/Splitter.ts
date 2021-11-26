@@ -5,7 +5,7 @@ const Splitter = styled.div`
   margin: 2em 0;
   padding: 12px 0;
   ${pseudo('before', 'after')};
-  &::before {
+  &:before {
     top: 50%;
     left: 50%;
     width: 11px;
@@ -16,7 +16,7 @@ const Splitter = styled.div`
     transform: translate(-50%, -50%) rotate(45deg);
     z-index: 1;
   }
-  &::after {
+  &:after {
     top: calc(50% - 2px);
     left: 0;
     width: 100%;

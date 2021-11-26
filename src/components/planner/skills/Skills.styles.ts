@@ -48,12 +48,12 @@ export const Tab = styled.div(({ active }: { active: boolean }) => css`
     border-bottom: 2px solid var(--color-gold);
     box-shadow: inset 0 -.5em 2em rgba(0 0 0 / 1);
     color: #fff;
-    background: var(--color-gold);
+    background: var(--color-gold-700);
     font-size: 1.4rem;
     line-height: 1;
     cursor: default;
     ${pseudo('after')}
-    &::after {
+    &:after {
       top: calc(100% - 3px);
       height: 0;
       width: 0;

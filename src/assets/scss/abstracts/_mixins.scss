@@ -20,7 +20,7 @@ $breakpoints: (
 @mixin pseudo($args...) {
   position: relative;
   @each $pseudo in $args {
-    &::#{$pseudo} {
+    &:#{$pseudo} {
       display: block;
       position: absolute;
       content: "";

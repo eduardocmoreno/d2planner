@@ -3,6 +3,7 @@ import Attr from "./Attr";
 import { PlannerContext } from "pages/Planner";
 import { questsRewardsReducer } from "reducers/quests";
 import { PointsRemaining, StatsWrapper, Wrapper } from "./attrs.styles";
+import GoldenFrame from "components/ui/GoldenFrame";
 
 export default function Attrs() {
 
@@ -32,15 +33,16 @@ export default function Attrs() {
 
   return (
     <Wrapper>
-      <PointsRemaining>
-        <hr/><span><strong>{attrPoints}</strong> Attribute Pts</span> <hr/> <span><strong>{skillPoints}</strong> Skill Pts</span> <hr/>
-      </PointsRemaining>
-      <StatsWrapper>
+      <StatsWrapper as={GoldenFrame}>
         <Attr attr="strength" />
         <Attr attr="dexterity" />
         <Attr attr="vitality" />
         <Attr attr="energy" />
       </StatsWrapper>
+      
+      <PointsRemaining>
+        <span><strong>{skillPoints}</strong> Skill Pts</span> <hr/> <span><strong>{attrPoints}</strong> Attribute Pts</span>
+      </PointsRemaining>
     </Wrapper>
   )
 }

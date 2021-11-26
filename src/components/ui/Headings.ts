@@ -11,18 +11,18 @@ export const PageTitle = styled.h2`
   white-space: nowrap;
   text-transform: uppercase;
   ${pseudo('before', 'after')}
-  &::before,
-  &::after {
+  &:before,
+  &:after {
     top: 50%;
     position: relative;
     width: 100%;
     height: 4px;
     background: linear-gradient(var(--color-gold) 50%, var(--color-gold-900) 50%);
   }
-  &::before {
+  &:before {
     margin-right: 1em;
   }
-  &::after {
+  &:after {
     margin-left: 1em;
   }
 `;

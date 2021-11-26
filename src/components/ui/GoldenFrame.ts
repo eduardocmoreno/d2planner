@@ -21,9 +21,4 @@ export const FrameLabel = styled.div`
   letter-spacing: var(--letter-spacing);
 `;
 
-export const FrameContent = styled.div`
-  flex: 1;
-  display: flex;
-`;
-
 export default GoldenFrame;

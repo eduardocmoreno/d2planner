@@ -12,7 +12,7 @@ export const PointsRemaining = styled.div`
   gap: 1em;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.4em;
+  margin-top: 1em;
   font-size: 1.4rem;
   line-height: 1;
   white-space: nowrap;
@@ -25,13 +25,13 @@ export const PointsRemaining = styled.div`
   hr {
     width: 100%;
     border: 0;
-    border-bottom: 1px solid var(--color-gold-800);
+    border-bottom: var(--golden-dotted-line);
   }
 `;
 
 export const StatsWrapper = styled.div`
   flex: 1;
   display: grid;
-  gap: 1em;
   grid-template-columns: repeat(4, 1fr);
+  padding: .5em 0;
 `;

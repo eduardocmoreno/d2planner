@@ -125,8 +125,7 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
                 </CellFigure>
                 {(points > 0 || toSingle > 0) &&
                   <CellCount>
-                    <Tooltip center
-                      data-tooltip={tooltip.trim()}>
+                    <Tooltip data-tooltip={tooltip.trim()}>
                       <Count hasBonus={bonus > 0}>
                         {total}
                       </Count>

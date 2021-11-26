@@ -62,11 +62,11 @@ export const PropDetails = styled.li`
   display: flex;
   flex-wrap: wrap;
   font-size: 1.2rem;
-  ::before {
+  :before {
     flex: 1;
     order: 2;
     margin: 0 .3em .3em;
-    border-bottom: 1px dashed #333;
+    border-bottom: 1px dotted rgba(255 255 255 / .07);
     content: '';
   }
 `;

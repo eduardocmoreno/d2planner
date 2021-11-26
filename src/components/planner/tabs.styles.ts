@@ -43,7 +43,7 @@ export const Tab = styled.div`
     font-size: 2rem;
     font-weight: bold;
     ${pseudo('after')}
-    &::after {
+    &:after {
       top: calc(100% - 3px);
       height: 0;
       width: 0;

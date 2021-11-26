@@ -11,7 +11,7 @@ export const listHoverEffect = css`
 
 export const List = styled.div`
   flex-direction: column;
-  margin: 2em 0 0;
+  margin: 1em 0 0;
   padding: 1.25em;
 `;
 
@@ -22,9 +22,8 @@ export const Item = styled.div(({ head }: { head?: boolean }) => css`
     margin-top: 1em;
   }
   ${head && css`
-    //margin-bottom: 0.5em;
     padding-bottom: .75em;
-    border-bottom: 1px solid var(--color-gold-900);
+    border-bottom: var(--golden-dotted-line);
     color: var(--color-gold);
     font-family: var(--font-family-main);
     font-size: 1.6rem;
@@ -67,7 +66,7 @@ export const Difficulty = styled.div`
 export const ToggleController = styled.div`
   margin-top: 1em;
   padding-top: 1em;
-  border-top: 1px solid var(--color-gold-800);
+  border-top: var(--golden-dotted-line);
   label {
     display: flex;
     justify-content: center;

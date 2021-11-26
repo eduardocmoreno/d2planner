@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 import { PlannerContext } from "pages/Planner";
 import Item from "./item/Item";
 import { Items } from "./gear.styles";
+import ItemsGroup from "./ItemsGroup";
 
 export const GearContext = createContext({} as IGearContext);
 
@@ -46,6 +47,9 @@ const Gear = React.memo(() => {
       booleanMods: booleanMods.current,
       rangeMods: rangeMods.current
     }}>
+
+      {/* <ItemsGroup slots={['head', 'amulet']} /> */}
+
       <Items>
         <Item slot="head" icon="icon-head" />
 

@@ -1,6 +1,6 @@
 *,
-::before,
-::after {
+:before,
+:after {
   box-sizing: border-box;
   outline: none;
   color: inherit;
@@ -12,6 +12,7 @@
   text-size-adjust: none;
 }
 body {
+  padding-bottom: 5em;
   background: #000;
   color: #ddd;
   font-family: var(--font-family-pair), Arial, sans-serif;
