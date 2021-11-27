@@ -105,6 +105,7 @@ export default function Skills() {
           {skillsTreesTabs.map(tree => <SkillTree key={tree.id} {...{ tree, setSkillIdOnHover }} />)}
         </Trees>
       </TreesSection>
+      
       <SkillDetails {...{ skillIdOnHover }} />
     </Wrapper>
   )

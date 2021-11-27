@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import Tooltip from "components/ui/Tooltip";
-import { Details, PointsRemaining, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper } from "./skillsDetails.styles";
+import { Details, PointsRemaining, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper, ResetSkills } from "./skillsDetails.styles";
 import GoldenFrame from "components/ui/GoldenFrame";
 
 export default function SkillDetails({ skillIdOnHover }: {
   skillIdOnHover: number;
 }) {
 
-  const { charLevel, skills, skillPoints } = useContext(PlannerContext);
+  const { charLevel, charData, skills, skillPoints, dispatchSkills } = useContext(PlannerContext);
   const [selectedSkill, setSelectedSkill] = useState({} as ISkill);
 
   const units: Record<TUnit, string> = {
@@ -102,6 +102,15 @@ export default function SkillDetails({ skillIdOnHover }: {
           <SkillDescription>Move the mouse over the skills!</SkillDescription>
         }
       </Details>
+
+      <ResetSkills>
+        <button onClick={
+          () => dispatchSkills({
+            type: 'INIT',
+            initialState: charData.skills.list
+          })
+        }>reset skills</button>
+      </ResetSkills>
     </Wrapper>
   );
 }

@@ -2,13 +2,10 @@ import styled, { css } from "styled-components";
 
 export const Wrapper = styled.div`
   flex-direction: column;
-  padding: .75em;
+  padding: 1em .75em;
 `;
 
 export const PointsRemaining = styled.div`
-  margin: 1em 0 1.5em;
-  padding-bottom: 1.5em;
-  border-bottom: var(--golden-dotted-line);
   color: #fff;
   text-align: center;
   strong {
@@ -50,6 +47,9 @@ export const SkillProps = styled.ul`
   gap: var(--spacing-md);
   flex-direction: column;
   margin: 1.5em 0;
+  :last-child{
+    margin-bottom: 0;
+  }
 `;
 
 export const PropDetails = styled.li`
@@ -96,13 +96,27 @@ export const InfoIcon = styled.i`
   color: var(--color-blue-700);
 `;
 
+export const ResetSkills = styled.div`
+  display: flex;
+  justify-content: center;
+  button {
+    background: transparent;
+    border: 0;
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    :hover {
+      color: var(--color-red);
+    }
+  }
+`;
+
 export const Details = styled.div(({ isActive }: { isActive: boolean }) => css`
   flex: 1;
-  //padding: 1em .75em;
-  //background: rgba(0 0 0 / .6);
-  //border-width: 2px 0 0;
-  //border-style: solid;
-  //border-color: var(--color-gold-900);
+  margin: 1em 0;
+  padding: 1em 0;
+  border: var(--golden-dotted-line);
+  border-width: 1px 0;
   
   ${isActive && css`
     ${PropName}{
