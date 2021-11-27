@@ -45,7 +45,7 @@ export default function Skills() {
   useEffect(() => {
     skillPointsApplied.current = skills.map(s => s.level.points).reduce((a, b) => a + b, 0) || 0;
   }, [skills]);
-  
+
   useEffect(() => {
     dispatchSkills({
       type: "ALL_SKILLS",

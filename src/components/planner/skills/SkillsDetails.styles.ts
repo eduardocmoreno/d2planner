@@ -46,7 +46,7 @@ export const SkillProps = styled.ul`
   display: flex;
   gap: var(--spacing-md);
   flex-direction: column;
-  margin: 1.5em 0;
+  margin: 1em 0;
   :last-child{
     margin-bottom: 0;
   }
@@ -84,6 +84,7 @@ export const PropValue = styled.div(({ warn }: { warn?: boolean }) => css`
 export const PropBonus = styled.div`
   flex: 100%;
   margin-bottom: .25em;
+  color: #666;
   font-family: var(--font-family-main);
   font-style: normal;
   text-transform: uppercase;
@@ -122,7 +123,8 @@ export const Details = styled.div(({ isActive }: { isActive: boolean }) => css`
     ${PropName}{
       color: var(--color-gold);
     }
-    ${PropValue}{
+    ${PropValue},
+    ${PropBonus}{
       color: #eee;
     }
   `}

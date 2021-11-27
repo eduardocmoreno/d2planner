@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
-import GoldenFrame, { FrameLabel } from "components/ui/GoldenFrame";
+import { FrameLabel } from "components/ui/GoldenFrame";
 import Tooltip from "components/ui/Tooltip";
 import { LevelInput, Wrapper } from "./level.styles";
 import { Results } from "./character.styles";

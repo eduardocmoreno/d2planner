@@ -2,7 +2,7 @@ import { SetStateAction, useContext } from "react";
 import { PlannerContext } from "pages/Planner";
 import { CellContent, CellCount, CellFigure, Count, TreeCell, Wrapper } from "./skillTree.styles";
 import Tooltip from "components/ui/Tooltip";
-import { capitalize } from "helpers";
+import { capitalize, getSkill } from "helpers";
 
 
 export default function SkillTree({ tree, setSkillIdOnHover }: {
@@ -11,17 +11,13 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
 }) {
   const { charClass, charLevel, skills, dispatchSkills, skillPoints, setSkillPoints } = useContext(PlannerContext);
 
-  function getSkillProps(skills: ISkill[], id: number): ISkill {
-    return skills.find(s => s.id === id) || {} as ISkill;
-  }
-
   /* 
   // HANDLE REQUIREMENTS
   */
   function isPreSkillReqActived(id: number) {
     let preReqActived = [];
 
-    for (const i of getSkillProps(skills, id).preReq) {
+    for (const i of getSkill(skills, id).preReq) {
       preReqActived.push(skills.find(s => s.id === i)!.level.points > 0 ? true : false);
     }
 
@@ -31,7 +27,7 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
   function isPostSkillReqActived(id: number) {
     let postReqActived = [];
 
-    for (const i of getSkillProps(skills, id).postReq) {
+    for (const i of getSkill(skills, id).postReq) {
       postReqActived.push(skills.find(s => s.id === i)!.level.points > 0 ? true : false);
     }
 
@@ -39,7 +35,7 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
   }
 
   function isSkillIterable(id: number) {
-    let skill = getSkillProps(skills, id);
+    let skill = getSkill(skills, id);
     return charLevel >= skill.levelReq && skillPoints > 0 && (isPreSkillReqActived(id) || (skill.level.points > 0 && !isPostSkillReqActived(id)));
   }
 
@@ -47,7 +43,7 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
   // HANDLE SKILLS LVL COUNT
   */
   function handleSkillPoints(e: React.MouseEvent<HTMLElement>, id: number) {
-    let { level: { points } } = getSkillProps(skills, id);
+    let { level: { points } } = getSkill(skills, id);
     let batch = 1;
 
     if (e.shiftKey) batch = 5;
@@ -90,7 +86,7 @@ export default function SkillTree({ tree, setSkillIdOnHover }: {
     <Wrapper isActive={tree.isActive} charClass={charClass} name={tree.name} img={require(`assets/images/skills/${charClass}/${tree.name}/connectors.png`).default}>
       {tree.map.map((id, index) => {
         if (id > 0) {
-          const { name, level: { points, bonus: { toAll, toClass, toTree, toSingle }, total } } = getSkillProps(skills, id);
+          const { name, level: { points, bonus: { toAll, toClass, toTree, toSingle }, total } } = getSkill(skills, id);
           const bonus = toAll + toClass + toTree + toSingle;
           let tooltip: string = ``;
           if (points) {

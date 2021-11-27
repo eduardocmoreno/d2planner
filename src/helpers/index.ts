@@ -26,6 +26,10 @@ export const getSubModValuesReduced = (gear: IGear[], modName: TGearModName, sub
     .reduce((a, b) => (a || 0) + (b || 0), 0) || null;
 }
 
+export const getSkill = (skills: ISkill[], id: number): ISkill => {
+  return skills.find(s => s.id === id) || {} as ISkill;
+}
+
 
 /*
 //HOW MUCH DEX DO I NEED TO MAX BLOCK (75%)??

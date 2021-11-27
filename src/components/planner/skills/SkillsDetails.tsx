@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { PlannerContext } from "pages/Planner";
 import Tooltip from "components/ui/Tooltip";
 import { Details, PointsRemaining, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper, ResetSkills } from "./skillsDetails.styles";
 import GoldenFrame from "components/ui/GoldenFrame";
+import { capitalize, getSkill } from "helpers";
 
 export default function SkillDetails({ skillIdOnHover }: {
   skillIdOnHover: number;
 }) {
-
   const { charLevel, charData, skills, skillPoints, dispatchSkills } = useContext(PlannerContext);
-  const [selectedSkill, setSelectedSkill] = useState({} as ISkill);
-
+  const currentSkill = getSkill(skills, skillIdOnHover);  
+  const isActive = currentSkill.level?.points > 0 || currentSkill.level?.bonus.toSingle > 0;
   const units: Record<TUnit, string> = {
     seconds: 's',
     yards: 'yards',
@@ -27,40 +27,35 @@ export default function SkillDetails({ skillIdOnHover }: {
     }
   }
 
-  useEffect(() => {
-    let findSkill = skills.find(s => s.id === skillIdOnHover)!;
-    setSelectedSkill(findSkill);
-  }, [skills, skillIdOnHover]);
-
   return (
     <Wrapper as={GoldenFrame}>
       <PointsRemaining>
         <div><strong>{skillPoints}</strong> <small>Skill Pts Remaining</small></div>
       </PointsRemaining>
 
-      <Details isActive={selectedSkill?.level?.total > 0}>
-        {selectedSkill?.name ?
+      <Details isActive={isActive}>
+        {currentSkill.name ?
           <>
-            <SkillTitle>{selectedSkill.name}</SkillTitle>
+            <SkillTitle>{currentSkill.name}</SkillTitle>
 
-            <SkillDescription>{selectedSkill.effect}.</SkillDescription>
+            <SkillDescription>{currentSkill.effect}.</SkillDescription>
 
             <SkillProps>
-              {selectedSkill.level.points > 0 ?
+              {isActive ?
                 <PropDetails>
                   <PropName>Current skill level:</PropName>
-                  <PropValue>{selectedSkill.level.total}</PropValue>
+                  <PropValue>{currentSkill.level.total}</PropValue>
                 </PropDetails>
                 :
                 <PropDetails>
                   <PropName>Required level:</PropName>
-                  <PropValue warn={charLevel < selectedSkill.levelReq}>{selectedSkill.levelReq}</PropValue>
+                  <PropValue warn={charLevel < currentSkill.levelReq}>{currentSkill.levelReq}</PropValue>
                 </PropDetails>
               }
 
-              {selectedSkill.attibutes.map(({ name, unit, value, info, prefix }, i) => {
+              {currentSkill.attibutes.map(({ name, unit, value, info, prefix }) => {
                 return (
-                  <PropDetails key={name}>
+                  <PropDetails key={info ? `${name}_${capitalize(info)}` : name}>
                     <PropName>
                       {name}
                       {info &&
@@ -73,12 +68,12 @@ export default function SkillDetails({ skillIdOnHover }: {
               })}
             </SkillProps>
 
-            {selectedSkill.synergies &&
+            {currentSkill.synergies &&
               <>
-                <SkillDescription><span>{selectedSkill.name}</span> receives a bonus per each synergy level listed below:</SkillDescription>
+                <SkillDescription><span>{currentSkill.name}</span> receives a bonus per each synergy level listed below:</SkillDescription>
 
                 <SkillProps>
-                  {selectedSkill.synergies.map(({ id, bonus, info, adds }) =>
+                  {currentSkill.synergies.map(({ id, bonus, info, adds }) =>
                     <PropDetails key={id}>
                       <PropBonus>{skills.find(s => s.id === id)?.name}</PropBonus>
 
@@ -90,7 +85,7 @@ export default function SkillDetails({ skillIdOnHover }: {
                       </PropName>
 
                       <PropValue>
-                        {specialBehavior(selectedSkill) ?? `+${adds}%`}
+                        {specialBehavior(currentSkill) ?? `+${adds}%`}
                       </PropValue>
                     </PropDetails>
                   )}
