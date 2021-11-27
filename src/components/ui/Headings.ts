@@ -28,11 +28,14 @@ export const PageTitle = styled.h2`
 `;
 
 export const SectionTitle = styled.h3`
-  margin: 1em 0;
+  margin: 1.5em 0 1em;
   color: var(--color-gold);
   text-align: center;
   font-size: 2.2rem;
   text-transform: uppercase;
+  :first-child{
+    margin-top: 0;
+  }
   & + p {
     margin-top: -1.2em;
   }

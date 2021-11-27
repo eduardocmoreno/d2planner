@@ -27,7 +27,6 @@ const Button = styled.button(({ disabled, red, blue, green, big, arrowLeft, arro
   font-size: ${big ? '1.6rem' : '1.2rem'};
   font-weight: bold;
   white-space: nowrap;
-  transition: var(--duration-default);
   line-height: 100%;
   i[class^=icon-]{
     transform: scale(.85);

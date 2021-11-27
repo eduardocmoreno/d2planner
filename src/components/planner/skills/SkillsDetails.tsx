@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import Tooltip from "components/ui/Tooltip";
-import { Details, Header, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper } from "./skillsDetails.styles";
+import { Details, PointsRemaining, InfoIcon, PropBonus, PropDetails, PropName, PropValue, SkillDescription, SkillProps, SkillTitle, Wrapper } from "./skillsDetails.styles";
+import GoldenFrame from "components/ui/GoldenFrame";
 
 export default function SkillDetails({ skillIdOnHover }: {
   skillIdOnHover: number;
@@ -32,11 +33,12 @@ export default function SkillDetails({ skillIdOnHover }: {
   }, [skills, skillIdOnHover]);
 
   return (
-    <Wrapper>
-      <Header>
+    <Wrapper as={GoldenFrame}>
+      <PointsRemaining>
         <div><strong>{skillPoints}</strong> <small>Skill Pts Remaining</small></div>
-      </Header>
-      <Details>
+      </PointsRemaining>
+
+      <Details isActive={selectedSkill?.level?.total > 0}>
         {selectedSkill?.name ?
           <>
             <SkillTitle>{selectedSkill.name}</SkillTitle>
@@ -44,28 +46,28 @@ export default function SkillDetails({ skillIdOnHover }: {
             <SkillDescription>{selectedSkill.effect}.</SkillDescription>
 
             <SkillProps>
-
               {selectedSkill.level.points > 0 ?
                 <PropDetails>
                   <PropName>Current skill level:</PropName>
-                  <PropValue isActive={selectedSkill.level.total > 0}>{selectedSkill.level.total}</PropValue>
+                  <PropValue>{selectedSkill.level.total}</PropValue>
                 </PropDetails>
                 :
                 <PropDetails>
                   <PropName>Required level:</PropName>
-                  <PropValue isActive={false} warn={charLevel < selectedSkill.levelReq}>{selectedSkill.levelReq}</PropValue>
+                  <PropValue warn={charLevel < selectedSkill.levelReq}>{selectedSkill.levelReq}</PropValue>
                 </PropDetails>
               }
+
               {selectedSkill.attibutes.map(({ name, unit, value, info, prefix }, i) => {
                 return (
-                  <PropDetails key={i}>
+                  <PropDetails key={name}>
                     <PropName>
                       {name}
                       {info &&
                         <Tooltip data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                       }
                     </PropName>
-                    <PropValue isActive={selectedSkill.level.points > 0}>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{units[unit]}</PropValue>
+                    <PropValue>{prefix}{value instanceof Object ? `${value.min}-${value.max}` : value}{units[unit]}</PropValue>
                   </PropDetails>
                 )
               })}
@@ -79,13 +81,15 @@ export default function SkillDetails({ skillIdOnHover }: {
                   {selectedSkill.synergies.map(({ id, bonus, info, adds }) =>
                     <PropDetails key={id}>
                       <PropBonus>{skills.find(s => s.id === id)?.name}</PropBonus>
+
                       <PropName>
                         {bonus}
                         {info &&
                           <Tooltip data-tooltip={info}><InfoIcon className="icon-info" /></Tooltip>
                         }
                       </PropName>
-                      <PropValue isActive={selectedSkill.level.points > 0}>
+
+                      <PropValue>
                         {specialBehavior(selectedSkill) ?? `+${adds}%`}
                       </PropValue>
                     </PropDetails>

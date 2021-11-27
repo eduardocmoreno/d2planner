@@ -20,8 +20,10 @@ export const Selector = styled(GoldenFrame)(({ isActive, position, vpRepos }: {
 }) => css`
   display: ${isActive ? 'block' : 'none'};
   position: absolute;
+  padding: 2px;
   width: max-content;
-  z-index: 1;
+  background: var(--color-blue-900);
+  z-index: 2;
   ${position === 'bottom' && !vpRepos && css`
     top: calc(100% + var(--spacing-sm));
     left: 0;

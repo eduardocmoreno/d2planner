@@ -5,6 +5,7 @@ import SkillTree from "./SkillTree";
 import SkillDetails from "./SkillsDetails";
 import { Tab, Trees, TreesSection, TreesTabs, Wrapper } from "./skills.styles";
 import { getItemModValuesReduced, getSubModValuesReduced } from "helpers";
+import GoldenFrame from "components/ui/GoldenFrame";
 
 export default function Skills() {
   const { charData, charLevel, skills, dispatchSkills, setSkillPoints, quests, gear } = useContext(PlannerContext);
@@ -99,7 +100,8 @@ export default function Skills() {
             <Tab active={isActive} key={id} onClick={() => handleTabs(id)}>{name.replace('-', '\n')}</Tab>
           )}
         </TreesTabs>
-        <Trees>
+        
+        <Trees as={GoldenFrame}>
           {skillsTreesTabs.map(tree => <SkillTree key={tree.id} {...{ tree, setSkillIdOnHover }} />)}
         </Trees>
       </TreesSection>

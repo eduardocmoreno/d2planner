@@ -11,6 +11,7 @@ const Tooltip = styled.div<ITooltip>(({ focus }) => css`
   :before,
   :after {
     display: none;
+    z-index: 2;
   }
   :before {
     content: attr(data-tooltip);
@@ -26,7 +27,7 @@ const Tooltip = styled.div<ITooltip>(({ focus }) => css`
     font-family: var(--font-family-pair);
     text-align: center;
     transform: translate(-50%, calc(-100% - 10px));
-    line-height: 1.4;
+    line-height: 1.2;
     white-space: pre;
   }
   :after {

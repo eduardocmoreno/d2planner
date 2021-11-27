@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 
 export const listHoverEffect = css`
   user-select: none;
-  transition: var(--duration-fast);
   &:hover {
     cursor: pointer;
     color: var(--color-gold-200);
@@ -52,7 +51,7 @@ export const Name = styled.div`
 
 export const Details = styled.small`
   display: block;
-  color: var(--color-blue-300);
+  color: #666;
   font-size: 1.2rem;
   font-style: italic;
 `;

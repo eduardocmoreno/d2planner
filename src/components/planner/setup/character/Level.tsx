@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
 import GoldenFrame, { FrameLabel } from "components/ui/GoldenFrame";
 import Tooltip from "components/ui/Tooltip";
-import { LevelInput, Result, Wrapper } from "./level.styles";
+import { LevelInput, Wrapper } from "./level.styles";
+import { Results } from "./character.styles";
 
 export default function Level() {
   const { charLevel, setCharLevel } = useContext(PlannerContext);
@@ -35,18 +36,18 @@ export default function Level() {
   useEffect(() => { inputElem.current?.focus(); });
 
   return (
-    <Wrapper>
-      <GoldenFrame {...tooltipAttrs}>
-        <FrameLabel>Level</FrameLabel>
-        {charLevel > 1 ?
-          <>
-            <Result>{charLevel}</Result>
-            <Tooltip as="button" data-tooltip={`Are you sure?\nThis action will\nreset all hard-points\nused on attributes\nand skills!`} onClick={reset}>RESPEC</Tooltip>
-          </>
-          :
+    <Wrapper {...tooltipAttrs}>
+      <FrameLabel>Level</FrameLabel>
+      {charLevel > 1 ?
+        <>
+          <Results isActive={charLevel > 1}>{charLevel}</Results>
+          <Tooltip as="button" data-tooltip={`Are you sure?\nThis action will\nreset all hard-points\napplied to attributes\nand skills!`} onClick={reset}>RESPEC</Tooltip>
+        </>
+        :
+        <Results isActive={false}>
           <LevelInput
             type="number"
-            placeholder="00"
+            placeholder="..."
             ref={inputElem}
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -56,8 +57,8 @@ export default function Level() {
             max={99}
             min={1}
           />
-        }
-      </GoldenFrame>
+        </Results>
+      }
     </Wrapper>
   )
 }

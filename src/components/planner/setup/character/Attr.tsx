@@ -1,8 +1,10 @@
 import { MouseEvent, useContext, useEffect } from "react";
 import { PlannerContext } from "pages/Planner";
-import Tooltip from "components/ui/Tooltip";
 import { capitalize, getItemMod } from "helpers";
-import { ButtonsWrapper, Label, Results, Wrapper } from "./attr.styles";
+import Tooltip from "components/ui/Tooltip";
+import { ButtonsWrapper, Wrapper } from "./attr.styles";
+import { Results } from "./character.styles";
+import { FrameLabel } from "components/ui/GoldenFrame";
 
 export default function Attr({ attr }: { attr: keyof IAttrs }) {
   const { charLevel, attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
@@ -73,10 +75,10 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   return (
     <Wrapper {...((attrModsFiltered.length > 0 || applied! > 0) && tooltipAttrs)}>
-      <Label>{attr}</Label>
+      <FrameLabel>{attr}</FrameLabel>
       
-      <Results>
-        {total! > base! ? <span>{total}</span> : base}
+      <Results isActive={total! > base!}>
+        {total! > base! ? total : base}
       </Results>
       
       {charLevel > 1 &&

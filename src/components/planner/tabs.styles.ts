@@ -8,7 +8,7 @@ export const Tabs = styled.div`
 
 export const Tab = styled.div`
   --inner-glow: inset 0 -.5em 1em rgba(0 0 0 / 0.5);
-  --inner-glow-hover: inset 0 -.8em 2em rgba(0 0 0 / 0.8);
+  --inner-glow-hover: inset 0 -1em 2em rgba(0 0 0 / 0.9);
   display: flex;
   flex: auto;
   align-items: center;
@@ -22,15 +22,13 @@ export const Tab = styled.div`
   &:not(.active) {
     margin-top: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
-    background: var(--color-blue-900);
+    background: rgba(var(--color-blue-900-rgb), .75);
     box-shadow: var(--inner-glow);
     font-size: 1.6rem;
     &:not(.active) {
       cursor: pointer;
-      transition-duration: var(--duration-default);
-      transition-property: background-color, box-shadow;
       &:hover {
-        background: var(--color-blue-800);
+        background: rgba(var(--color-blue-rgb), .35);
         box-shadow: var(--inner-glow-hover);
       }
     }

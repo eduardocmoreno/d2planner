@@ -1,38 +1,32 @@
 import styled, { css } from "styled-components";
 
 export const Wrapper = styled.div`
-  display: flex;
   flex-direction: column;
+  padding: .75em;
 `;
 
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--spacing-sm);
-  height: calc(2.7em - var(--spacing-sm));
-  box-shadow: inset 0 0 2em rgba(0 0 0 / .5);
-  background: var(--color-green-800);
+export const PointsRemaining = styled.div`
+  margin: 1em 0 1.5em;
+  padding-bottom: 1.5em;
+  border-bottom: var(--golden-dotted-line);
   color: #fff;
+  text-align: center;
   strong {
+    display: block;
+    color: var(--color-gold);
     font-family: var(--font-family-main);
-    font-size: 2rem;
+    font-size: 4rem;
+    letter-spacing: -.1em;
+    text-indent: -.1em;
+    line-height: 100%;
   }
   small {
     font-size: 1.2rem;
   }
 `;
 
-export const Details = styled.div`
-  flex: 1;
-  padding: 1em .75em;
-  background: rgba(0 0 0 / .6);
-  border-width: 2px 0;
-  border-style: solid;
-  border-color: var(--color-green-600);
-`;
-
 export const SkillTitle = styled.h3`
+  color: var(--color-gold);
   font-size: 1.6rem;
   text-align: center;
   text-transform: uppercase;
@@ -74,21 +68,17 @@ export const PropDetails = styled.li`
 export const PropName = styled.div`
   display: flex;
   align-items: center;
-  color: var(--color-gold);
+  color: #444;
   order: 1;
   letter-spacing: -.03em;
 `;
 
-export const PropValue = styled.div(({ isActive, warn }: { isActive: boolean, warn?: boolean }) => css`
-  --prop-color: #444;
-  ${isActive && css`
-    --prop-color: var(--color-green);
-  `}
-  ${warn && css`
-    --prop-color: var(--color-red);
-  `}
-  color: var(--prop-color);
+export const PropValue = styled.div(({ warn }: { warn?: boolean }) => css`
+  color: #444;
   order: 3;
+  ${warn && css`
+    color: var(--color-red);
+  `}
 `);
 
 export const PropBonus = styled.div`
@@ -105,3 +95,21 @@ export const InfoIcon = styled.i`
   margin-left: .25em;
   color: var(--color-blue-700);
 `;
+
+export const Details = styled.div(({ isActive }: { isActive: boolean }) => css`
+  flex: 1;
+  //padding: 1em .75em;
+  //background: rgba(0 0 0 / .6);
+  //border-width: 2px 0 0;
+  //border-style: solid;
+  //border-color: var(--color-gold-900);
+  
+  ${isActive && css`
+    ${PropName}{
+      color: var(--color-gold);
+    }
+    ${PropValue}{
+      color: #eee;
+    }
+  `}
+`);

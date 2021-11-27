@@ -3,7 +3,7 @@ import { pseudo } from "styles/mixins";
 
 export const Wrapper = styled.div`
   display: flex;
-  gap: var(--spacing-sm);
+  gap: .5em;
   min-height: 10em;
   & > :nth-child(2){
     flex: 1;
@@ -17,8 +17,9 @@ export const TreesSection = styled.div`
 
 export const TreesTabs = styled.div`
   display: flex;
-  gap: var(--spacing-sm);
+  gap: .25em;
   height: 2.7em;
+  z-index: 1;
 `;
 
 export const Tab = styled.div(({ active }: { active: boolean }) => css`
@@ -26,31 +27,29 @@ export const Tab = styled.div(({ active }: { active: boolean }) => css`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.2rem;
   font-family: var(--font-family-main);
   text-align: center;
   text-transform: uppercase;
   white-space: pre;
-  z-index: 1;
   ${!active && css`
-    margin: 0 0 var(--spacing-sm);
-    box-shadow: inset 0 -.5em 2em rgba(0 0 0 / 0.5);
+    margin: 0 0 .25em;
+    box-shadow: inset 0 -.8em 2em rgba(0 0 0 / 0.5);
     background: rgba(255 255 255 / .06);
     color: var(--color-gold);
-    font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color var(--duration-default);
     :hover {
-      background: rgba(255 255 255 / .085);
+      background: rgba(255 255 255 / .15);
+      box-shadow: inset 0 -1em 2em rgba(0 0 0 / 0.8);
     }
   `}
   ${active && css`
     margin-bottom: -2px;
+    padding-bottom: 2px;
     border-bottom: 2px solid var(--color-gold);
     box-shadow: inset 0 -.5em 2em rgba(0 0 0 / 1);
     color: #fff;
     background: var(--color-gold-700);
-    font-size: 1.4rem;
-    line-height: 1;
     cursor: default;
     ${pseudo('after')}
     &:after {
@@ -66,11 +65,6 @@ export const Tab = styled.div(({ active }: { active: boolean }) => css`
 `);
 
 export const Trees = styled.div`
-  flex: 1;
   padding: 30px 15px;
-  border-width: 2px 0;
-  border-style: solid;
-  border-top-color: var(--color-gold-900);
-  border-bottom-color: var(--color-gold);
-  background: rgba(0 0 0 / .3);
+  border-top-color: var(--color-gold-900) !important;
 `;

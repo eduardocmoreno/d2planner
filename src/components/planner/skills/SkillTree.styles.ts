@@ -30,7 +30,7 @@ export const CellFigure = styled.figure(({ isIterable, isActive, isGranted }: {
   isGranted: boolean
 }) => css`
   padding: 3px;
-  box-shadow: inset 0 0 5px #000;
+  box-shadow: inset 0 0 5px rgba(0 0 0 / 0.75);
   img {
     width: 64px;
     height: 64px;
@@ -46,7 +46,7 @@ export const CellFigure = styled.figure(({ isIterable, isActive, isGranted }: {
     cursor: pointer;
     :active {
       img {
-        transform: scale(.95);
+        transform: translate(1px, 1px) scale(.98);
       }
     }
     :hover {
@@ -54,8 +54,8 @@ export const CellFigure = styled.figure(({ isIterable, isActive, isGranted }: {
     }
   `}
   ${isIterable && !isActive && !isGranted && css`
-    img {
-      :not(:hover) {
+    :not(:hover) {
+      img {
         filter: brightness(85%) saturate(50%);
       }
     }
@@ -80,7 +80,6 @@ export const CellCount = styled.div`
   position: absolute;
   right: 100%;
   top: 0;
-  z-index: 1;
 `;
 
 export const Count = styled.div(({ hasBonus }: {

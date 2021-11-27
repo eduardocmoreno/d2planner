@@ -3,18 +3,17 @@ import styled from "styled-components";
 const GoldenFrame = styled.div`
   flex: 1;
   display: flex;
-  padding: var(--spacing-sm);
   border: 2px solid;
   border-color: var(--golden-border);
   box-shadow: inset 0 0 1.5em rgba(0 0 0 / .5);
-  background: var(--color-blue-900);
+  background: rgba(var(--color-blue-900-rgb), .5);
 `;
 
 export const FrameLabel = styled.div`
   --letter-spacing: -.1em;
-  padding: 0.3em 0;
   color: var(--color-gold);
   font-family: var(--font-family-main);
+  font-size: 1.4rem;
   text-align: center;
   text-transform: uppercase;
   text-indent: var(--letter-spacing);
