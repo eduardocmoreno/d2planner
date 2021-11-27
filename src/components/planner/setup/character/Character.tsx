@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef } from "react";
 import { PlannerContext } from "pages/Planner";
-import { questsRewardsReducer } from "reducers/quests";
 import { Wrapper, PointsRemaining } from "./character.styles";
 import Level from "./Level";
 import Attr from "./Attr";
 import GoldenFrame from "components/ui/GoldenFrame";
+import { questsRewardsReducer } from "helpers";
 
 export default function Character() {
   const { charLevel, quests, attrs, dispatchAttrs, attrPoints, setAttrPoints, skillPoints } = useContext(PlannerContext);
@@ -23,9 +23,7 @@ export default function Character() {
     let attrPtsCalc = levelAttrPts + questsAttrPts - attrPointsAppied.current;
 
     if (attrPtsCalc < 0) {
-      dispatchAttrs({
-        type: 'RESET'
-      })
+      dispatchAttrs({ type: 'RESET' });
     } else {
       setAttrPoints(attrPtsCalc);
     }

@@ -17,7 +17,7 @@ const Tooltip = styled.div<ITooltip>(({ focus }) => css`
     content: attr(data-tooltip);
     top: 0;
     left: 50%;
-    padding: 0.5em 0.75em;
+    padding: .5em .75em .25em;
     border-bottom: 1px solid var(--color-gold);
     background: var(--color-blue-800);
     box-shadow: 0 0 20px rgba(0 0 0 / 0.5), inset 0 -5px 20px rgba(0 0 0 / 0.5);
@@ -27,7 +27,7 @@ const Tooltip = styled.div<ITooltip>(({ focus }) => css`
     font-family: var(--font-family-pair);
     text-align: center;
     transform: translate(-50%, calc(-100% - 10px));
-    line-height: 1.2;
+    line-height: 1.4;
     white-space: pre;
   }
   :after {

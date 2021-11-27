@@ -90,8 +90,20 @@ export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
       });
     }
 
-    case 'INIT':
     case 'RESET': {
+      return prev.map(s => {
+        return {
+          ...s,
+          level: {
+            ...s.level,
+            points: 0,
+            total: s.level.bonus.toAll + s.level.bonus.toClass + s.level.bonus.toTree + s.level.bonus.toSingle
+          }
+        }
+      });
+    }
+
+    case 'INIT': {
       return action.initialState!.map(s => {
         return {
           ...s,
@@ -102,8 +114,5 @@ export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
         }
       });
     }
-
-    default:
-      return prev;
   }
 }

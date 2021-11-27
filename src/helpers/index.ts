@@ -30,6 +30,16 @@ export const getSkill = (skills: ISkill[], id: number): ISkill => {
   return skills.find(s => s.id === id) || {} as ISkill;
 }
 
+export const questsRewardsReducer = (quests: IQuest[], reward: IQuest['reward']) => {
+  return quests
+    .filter(q => q.reward === reward)
+    .map(q => {
+      let diffCount = q.difficulty.filter(d => d.active === true).length;
+      return diffCount * q.adds;
+    })
+    .reduce((a: number, b: number) => a + b, 0);
+};
+
 
 /*
 //HOW MUCH DEX DO I NEED TO MAX BLOCK (75%)??

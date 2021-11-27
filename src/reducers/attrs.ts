@@ -1,5 +1,4 @@
 export default function attrsReducer(prev: IAttrs, action: IAttrsReducer) {
-
   switch (action.type) {
     case 'ADD':
     case 'SUB': {
@@ -63,10 +62,8 @@ export default function attrsReducer(prev: IAttrs, action: IAttrsReducer) {
       return newState;
     }
 
-    case 'INIT':
+    case 'INIT': {
       return action.payload!.initialState!;
-
-    default:
-      return prev;
+    }
   }
 }

@@ -46,7 +46,7 @@ export const SkillProps = styled.ul`
   display: flex;
   gap: var(--spacing-md);
   flex-direction: column;
-  margin: 1em 0;
+  margin: 1.25em 0;
   :last-child{
     margin-bottom: 0;
   }

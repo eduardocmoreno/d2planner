@@ -1,10 +1,9 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { questsRewardsReducer } from "reducers/quests";
 import { PlannerContext } from "pages/Planner";
 import SkillTree from "./SkillTree";
 import SkillDetails from "./SkillsDetails";
 import { Tab, Trees, TreesSection, TreesTabs, Wrapper } from "./skills.styles";
-import { getItemModValuesReduced, getSubModValuesReduced } from "helpers";
+import { getItemModValuesReduced, getSubModValuesReduced, questsRewardsReducer } from "helpers";
 import GoldenFrame from "components/ui/GoldenFrame";
 
 export default function Skills() {
@@ -83,10 +82,7 @@ export default function Skills() {
     let skillPtsCalc = levelFactor + questsSkillPts - skillPointsApplied.current;
 
     if (skillPtsCalc < 0) {
-      dispatchSkills({
-        type: 'INIT',
-        initialState: charData.skills.list
-      })
+      dispatchSkills({ type: 'RESET' });
     } else {
       setSkillPoints(skillPtsCalc);
     }
@@ -100,12 +96,12 @@ export default function Skills() {
             <Tab active={isActive} key={id} onClick={() => handleTabs(id)}>{name.replace('-', '\n')}</Tab>
           )}
         </TreesTabs>
-        
+
         <Trees as={GoldenFrame}>
           {skillsTreesTabs.map(tree => <SkillTree key={tree.id} {...{ tree, setSkillIdOnHover }} />)}
         </Trees>
       </TreesSection>
-      
+
       <SkillDetails {...{ skillIdOnHover }} />
     </Wrapper>
   )

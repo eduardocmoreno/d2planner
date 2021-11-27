@@ -5,7 +5,7 @@ import Quests from "./quests/Quests";
 export default function StgOne() {
   return (
     <>
-      <SectionTitle>level and stats</SectionTitle>
+      <SectionTitle>level and attributes</SectionTitle>
       <Character />
 
       <SectionTitle>quests</SectionTitle>
