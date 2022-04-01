@@ -1,6 +1,6 @@
 import questsInit from "../config/quests";
 
-export default function questsReducer(prevQuests: IQuest[], action: IQuestsReducer) {
+export default function questsReducer(prevQuests: Quest[], action: QuestsReducer) {
   switch (action.type) {
     case 'TOGGLE':
       return prevQuests.map(q => {

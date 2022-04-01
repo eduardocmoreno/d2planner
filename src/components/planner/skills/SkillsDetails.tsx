@@ -11,7 +11,7 @@ export default function SkillDetails({ skillIdOnHover }: {
   const { charLevel, skills, skillPoints, dispatchSkills } = useContext(PlannerContext);
   const currentSkill = getSkill(skills, skillIdOnHover);
   const isActive = currentSkill.level?.points > 0 || currentSkill.level?.bonus.toSingle > 0;
-  const units: Record<TUnit, string> = {
+  const units: Record<Unit, string> = {
     seconds: 's',
     yards: 'yards',
     percent: '%',
@@ -19,7 +19,7 @@ export default function SkillDetails({ skillIdOnHover }: {
     hits: 'hits'
   }
 
-  function specialBehavior(skill: ISkill) {
+  function specialBehavior(skill: Skill) {
     //25. Cleansing - Prayer as synergy
     //28. Meditation - Prayer as synergy
     if ([25, 28].includes(skill.id)) {

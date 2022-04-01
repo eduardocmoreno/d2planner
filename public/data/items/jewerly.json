@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Sun",
+    "code": "sun",
+    "type": "amul"
+  },
+  {
+    "name": "Cross",
+    "code": "cro",
+    "type": "amul"
+  },
+  {
+    "name": "Star",
+    "code": "sta",
+    "type": "amul"
+  },
+  {
+    "name": "Eturn",
+    "code": "etu",
+    "type": "ring"
+  },
+  {
+    "name": "Sloop",
+    "code": "slo",
+    "type": "ring"
+  },
+  {
+    "name": "Eband",
+    "code": "eba",
+    "type": "ring"
+  },
+  {
+    "name": "Orange",
+    "code": "ora",
+    "type": "ring"
+  },
+  {
+    "name": "Chain",
+    "code": "cha",
+    "type": "ring"
+  }
+]

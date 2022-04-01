@@ -1,86 +1,198 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { PlannerContext } from "pages/Planner";
-import Item from "./item/Item";
-import { Items } from "./gear.styles";
-import ItemsGroup from "./ItemsGroup";
+import Slot from "./Slot";
+import gearInit from "config/gear";
+import { includes } from "helpers";
+import { GearWrapper, Slots } from "./gear.styles";
+import Panel from "./Panel";
 
-export const GearContext = createContext({} as IGearContext);
+export const GearContext = createContext({} as GearContext);
 
-const Gear = React.memo(() => {
-  const { charData, charClass } = useContext(PlannerContext);
-  const armorsData = useRef([] as IGearBase[]);
-  const weaponsData = useRef([] as IGearBase[]);
-  const modsData = useRef({} as TGearModsData);
-  const partialClassSkillMods = useRef<Partial<TGearModName[]>>(['treeSkills', 'singleSkill']);
-  const boclMods = useRef<Partial<TGearModName[]>>(['strength/lvl', 'dexterity/lvl', 'vitality/lvl', 'ar/lvl', 'ds/lvl', 'mf/lvl', 'def/lvl', 'ltngRes/lvl', 'maxDmg/lvl', 'eMaxDmg/lvl', 'dmgDemon/lvl', 'dmgUndead/lvl', 'life/lvl', 'mana/lvl']);
-  const booleanMods = useRef<Partial<TGearModName[]>>(['ethereal', 'noHeal', 'ignoreDef', 'knockback', 'hitBlinds', 'indestruct', 'noFreeze', 'halfFreeze', 'rip']);
-  const rangeMods = useRef<Partial<TGearModName[]>>(['fireDmg', 'coldDmg', 'ltngDmg']);
-  const [hasTwoHanded, setHasTwoHanded] = useState(false);
+export default function Gear() {
+  const { charClass, charData, newGear } = useContext(PlannerContext);
+
+  const [armorData, setArmorData] = useState([] as Item[]);
+  const [weaponsData, setWeaponsData] = useState([] as Item[]);
+  const [modsData, setModsData] = useState({} as ItemModsData);
+
+  const [selectedSlot, setSelectedSlot] = useState({} as GearSlotSelected);
+  const [selectedItem, setSelectedItem] = useState<string | null>();
+
+  const slotsElem = useRef<HTMLDivElement>(null);
+
+  const getPosition = useCallback(() => {
+    return (slotsElem.current?.offsetHeight || 0) - (selectedSlot.position || 0);
+  }, [selectedSlot]);
+
+  const ctxProviderValue: GearContext = {
+    armorData,
+    weaponsData,
+    modsData,
+
+    partialClassSkillMods: ['treeSkills', 'singleSkill'],
+    boclMods: ['strength/lvl', 'dexterity/lvl', 'vitality/lvl', 'ar/lvl', 'ds/lvl', 'mf/lvl', 'def/lvl', 'ltngRes/lvl', 'maxDmg/lvl', 'eMaxDmg/lvl', 'dmgDemon/lvl', 'dmgUndead/lvl', 'life/lvl', 'mana/lvl'],
+    booleanMods: ['ethereal', 'noHeal', 'ignoreDef', 'knockback', 'hitBlinds', 'indestruct', 'noFreeze', 'halfFreeze', 'rip'],
+    rangeMods: ['fireDmg', 'coldDmg', 'ltngDmg'],
+
+    selectedSlot,
+    setSelectedSlot
+  }
 
   useEffect(() => {
     fetch(`/data/items/armor.json`)
       .then(res => res.json())
-      .then((data: IGearBase[]) => {
-        armorsData.current = data;
+      .then((data: Item[]) => {
+        setArmorData(data);
       });
 
     fetch(`/data/items/weapons.json`)
       .then(res => res.json())
-      .then((data: IGearBase[]) => {
-        weaponsData.current = data.filter(i => charData.classItems.includes(i.type));
+      .then((data: Item[]) => {
+        setWeaponsData(data.filter(i => charData.classItems.includes(i.type as string)));
       });
 
     fetch(`/data/items/mods.json`)
       .then(res => res.json())
-      .then((data: TGearModsData) => {
-        modsData.current = data;
+      .then((data: ItemModsData) => {
+        setModsData(data);
       });
   }, [charData, charClass]);
 
-  return (
-    <GearContext.Provider value={{
-      armorsData: armorsData.current,
-      weaponsData: weaponsData.current,
-      modsData: modsData.current,
-      partialClassSkillMods: partialClassSkillMods.current,
-      boclMods: boclMods.current,
-      booleanMods: booleanMods.current,
-      rangeMods: rangeMods.current
-    }}>
-
-      {/* <ItemsGroup slots={['head', 'amulet']} /> */}
-
-      <Items>
-        <Item slot="head" icon="icon-head" />
-
-        <Item slot="torso" icon="icon-armor" />
-
-        <Item slot="right-hand" icon="icon-weapons" setHasTwoHanded={setHasTwoHanded} />
-
-        {!hasTwoHanded &&
-          <Item slot="left-hand" icon="icon-shield" />
+  useLayoutEffect(() => {
+    if (!!selectedSlot.name) {
+      function handleClickOutside(e: any) {
+        if ((e.target === slotsElem.current && !Array.from(slotsElem.current?.childNodes!).some(c => c.contains(e.target))) || e.key === 'Escape') {
+          setSelectedSlot({} as GearSlotSelected);
         }
+      }
 
-        <Item slot="gloves" icon="icon-gloves" />
+      ['mousedown', 'keydown'].forEach(e => {
+        window.addEventListener(e, handleClickOutside);
+      });
 
-        <Item slot="belt" icon="icon-belt" />
+      return () => {
+        ['mousedown', 'keydown'].forEach(e => {
+          window.removeEventListener(e, handleClickOutside);
+        });
+      };
+    }
+  });
 
-        <Item slot="boots" icon="icon-boots" />
+  const slotRelatedItems: Record<GearSlot, ItemType[]> = {
+    'head': ['helm', 'circ'],
+    'boots': ['boot'],
+    'right-hand': [],
+    'left-hand': ['shie', 'ashd'],
+    'torso': ['tors'],
+    'belt': ['belt'],
+    'gloves': ['glov'],
+    'amulet': [],
+    'left-ring': [],
+    'right-ring': [],
+    'torch': [],
+    'annihilus': [],
+    'small-charms': [],
+    'large-charms': [],
+    'grand-charms': []
+  }
 
-        <Item slot="amulet" icon="icon-amulet" />
+  const getSlotRelatedItems = (items: Item[], types: ItemType[]) => {
+    return items.filter(a => includes(types, a.type!))
+  }
 
-        <Item slot="left-ring" icon="icon-ring-left" />
+  const baseList: Record<GearSlot, Item[]> = useMemo(() => {
+    return {
+      'head': getSlotRelatedItems(armorData, ['helm', 'circ']),
+      'boots': getSlotRelatedItems(armorData, ['boot']),
+      'right-hand': weaponsData.filter(i => charData.classItems.includes(i.type!)),
+      'left-hand': getSlotRelatedItems(armorData, ['shie', 'ashd']),
+      'torso': getSlotRelatedItems(armorData, ['tors']),
+      'belt': getSlotRelatedItems(armorData, ['belt']),
+      'gloves': getSlotRelatedItems(armorData, ['glov']),
+      'amulet': [] as Item[],
+      'left-ring': [] as Item[],
+      'right-ring': [] as Item[],
+      'torch': [] as Item[],
+      'annihilus': [] as Item[],
+      'small-charms': [] as Item[],
+      'large-charms': [] as Item[],
+      'grand-charms': [] as Item[],
+    }
+  }, [charData.classItems, armorData, weaponsData]);
 
-        <Item slot="right-ring" icon="icon-ring-right" />
+  return (
+    <GearContext.Provider value={ctxProviderValue}>
+      <GearWrapper anySlotSelected={!!selectedSlot.name}>
+        <Slots ref={slotsElem}>
+          {gearInit.map(g => <Slot key={g.slot} name={g.slot} icon={g.icon} />)}
+        </Slots>
 
-        <Item slot="torch" icon="icon-torch" />
+        {!!selectedSlot.name && <Panel position={getPosition()} />}
 
-        <Item slot="annihilus" icon="icon-annihilus" />
-
-        <Item slot="charms" icon="icon-charms" />
-      </Items>
+      </GearWrapper>
     </GearContext.Provider>
   )
-});
+}
 
-export default Gear;
+
+/* 
+Refactoring armor API based on original
+Object.values(references.armor).map(a => {
+    let newBase = {};
+
+    newBase.name = a.name;
+    newBase.code = a.code;
+
+    if(a.ubercode){
+        newBase.uberCode = a.ubercode;
+    }
+
+    if(a.ultracode){
+        newBase.ultraCode = a.ultracode;
+    }
+
+    newBase = {
+        ...newBase,
+        type: a.type,
+        lvl: a.level,
+        lvlReq: a.levelreq,
+        durability: a.durability,
+        noDurability: a.nodurability,
+        sockets: a.gemsockets,
+        minDef: a.minac,
+        maxDef: a.maxac
+    }
+
+    if(a.block){
+        newBase.minDef = a.maxac;
+    }
+
+    if(a.reqstr){
+        newBase.strReq = a.reqstr;
+    }
+
+    if(a.strbonus){
+        newBase.strBonus = a.strbonus;
+    }
+
+    if(a.reqdex){
+        newBase.dexReq = a.reqdex;
+    }
+
+    if(a.dexbonus){
+        newBase.dexBonus = a.dexbonus;
+    }
+
+    if(a.magiclvl){
+        newBase.magicLvl = a.magiclvl;
+    }
+
+    if(a.costmult){
+        newBase.costMult = a.costmult;
+    }
+
+    newBase.image = a.hd;
+    
+    return newBase;
+});
+*/

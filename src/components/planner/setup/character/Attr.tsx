@@ -1,36 +1,15 @@
-import { MouseEvent, useContext, useEffect } from "react";
+import { MouseEvent, useContext } from "react";
 import { PlannerContext } from "pages/Planner";
-import { capitalize, getItemMod } from "helpers";
 import Tooltip from "components/ui/Tooltip";
 import { ButtonsWrapper, Wrapper } from "./attr.styles";
 import { Results } from "./character.styles";
 import { FrameLabel } from "components/ui/GoldenFrame";
 
-export default function Attr({ attr }: { attr: keyof IAttrs }) {
-  const { charLevel, attrs, dispatchAttrs, attrPoints, setAttrPoints, gear } = useContext(PlannerContext);
+export default function Attr({ attr }: { attr: keyof Attrs }) {
+  const { charLevel, attrs, dispatchAttrs, attrPoints, setAttrPoints } = useContext(PlannerContext);
   const { total, applied, base } = attrs[attr];
 
-  const attrModsFiltered = gear.filter(g => getItemMod(g.mods, attr)?.value || getItemMod(g.mods, 'allAttrs')?.value || getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value);
-
-  const attrModsReduced = attrModsFiltered
-    .map(g =>
-      (getItemMod(g.mods, attr)?.value || 0) +
-      (getItemMod(g.mods, 'allAttrs')?.value || 0) +
-      Math.floor((getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value || 0) * charLevel)
-    )
-    .reduce((a, b) => a! + b!, 0) || 0;
-
-  useEffect(() => {
-    dispatchAttrs({
-      type: 'BONUS',
-      payload: {
-        attr,
-        batch: attrModsReduced
-      }
-    });
-  }, [attr, dispatchAttrs, attrModsReduced]);
-
-  function handleClick(e: MouseEvent<HTMLElement>, type: IAttrsReducer['type']) {
+  function handleClick(e: MouseEvent<HTMLElement>, type: AttrsReducer['type']) {
     let batch = 1;
     let source = 0;
     let factor = 1;
@@ -58,13 +37,6 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
 
   let tooltipDetails = `Base: ${base}${applied! > 0 ? `\nSpent Points: ${applied}` : ''}\n`;
 
-  if (attrModsFiltered.length > 0) {
-    attrModsFiltered.forEach((g, i) => {
-      tooltipDetails += `${capitalize(g.slot)}: +${(getItemMod(g.mods, attr)?.value || 0) + (getItemMod(g.mods, 'allAttrs')?.value || 0) + Math.floor((getItemMod(g.mods, `${attr}/lvl` as TGearModName)?.value || 0) * charLevel)}`;
-      i + 1 !== attrModsFiltered.length && (tooltipDetails += `\n`)
-    });
-  }
-
   const tooltipAttrs = {
     as: Tooltip,
     center: true,
@@ -74,7 +46,7 @@ export default function Attr({ attr }: { attr: keyof IAttrs }) {
   let titleHtmlAttr = 'Hold shift to +/- 10 points, Hold ctrl/cmd to +/- all remaining points';
 
   return (
-    <Wrapper {...((attrModsFiltered.length > 0 || applied! > 0) && tooltipAttrs)}>
+    <Wrapper {...(!!applied && tooltipAttrs)}>
       <FrameLabel>{attr}</FrameLabel>
       
       <Results isActive={total! > base!}>

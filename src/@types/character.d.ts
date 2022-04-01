@@ -1,7 +1,7 @@
-interface ICharData {
+interface CharData {
   skills: {
-    trees: ISkillTree[];
-    list: ISkill[];
+    trees: SkillTree[];
+    list: Skill[];
   };
   stats: {
     strength: number;
@@ -10,13 +10,13 @@ interface ICharData {
     energy: number;
     block: number;
   };
-  classItems: IGearBase["type"];
-  classWeaponSpeed: Record<TWeaponClass, number[]>;
+  classItems: ItemType;
+  classWeaponSpeed: Record<ItemWeaponClass, number[]>;
 }
 
-type TCharClass = 'amazon' | 'assassin' | 'barbarian' | 'druid' | 'necromancer' | 'paladin' | 'sorceress';
+type CharClass = 'amazon' | 'assassin' | 'barbarian' | 'druid' | 'necromancer' | 'paladin' | 'sorceress';
 
-type TPaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot';
+type PaladinItems = 'helm' | 'tors' | 'shie' | 'glov' | 'boot' | 'belt' | 'ashd' | 'circ' | 'axe' | 'wand' | 'club' | 'scep' | 'mace' | 'hamm' | 'swor' | 'knif' | 'tkni' | 'taxe' | 'jave' | 'spea' | 'pole' | 'staf' | 'bow' | 'xbow' | 'tpot';
 
 //"1hs" | "stf" | "1ht" | "2ht" | "bow" | "xbw" | "ht1";
 

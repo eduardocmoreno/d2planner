@@ -6,16 +6,19 @@ import Tabs from "components/planner/Tabs";
 import { PageTitle } from "components/ui/Headings";
 
 import plannerInit from "config/planner";
-import questsInit from "config/quests";
 import attrsInit from "config/attrs";
-import gearInit from "config/gear";
+import questsInit from "config/quests";
+// import gearInit from "config/gear";
+// import itemsInit from "config/items";
 
-import questsReducer from "reducers/quests";
 import attrsReducer from "reducers/attrs";
+import questsReducer from "reducers/quests";
 import skillsReducer from "reducers/skills";
+//import gearReducer from "reducers/gear";
+//import itemsReducer from "reducers/items";
 
 //context
-export const PlannerContext = createContext({} as IPlannerContext);
+export const PlannerContext = createContext({} as PlannerContext);
 
 
 // TODO: IMPLEMENT REACT-TRACKED TO THE APP
@@ -29,7 +32,7 @@ export default function Planner() {
 
   //state
   const [planner, setPlanner] = useState(plannerInit);
-  const [charData, setCharData] = useState({} as ICharData);
+  const [charData, setCharData] = useState({} as CharData);
 
   const [charLevel, setCharLevel] = useState(99);
   const [attrs, dispatchAttrs] = useReducer(attrsReducer, attrsInit);
@@ -40,12 +43,14 @@ export default function Planner() {
   const [skills, dispatchSkills] = useReducer(skillsReducer, []);
   const [skillPoints, setSkillPoints] = useState(0);
 
-  const [gear, setGear] = useState(gearInit);
+  //const [newGear, dispatchGear] = useReducer(gearReducer, gearInit);
+
+  //const [items, dispatchItems] = useReducer(itemsReducer, itemsInit);
 
   const [isLoading, setIsLoading] = useState(false);
 
   //props
-  const plannerContextProps: IPlannerContext = {
+  const plannerContextProps: PlannerContext = {
     charClass, charData,
 
     planner, setPlanner,
@@ -59,7 +64,9 @@ export default function Planner() {
     skills, dispatchSkills,
     skillPoints, setSkillPoints,
 
-    gear, setGear
+    //newGear, dispatchGear,
+
+    //items, dispatchItems
   }
 
   //on mount: retrieve character data
@@ -70,7 +77,7 @@ export default function Planner() {
         //const response = await fetch(`https://d2calc-24ee1-default-rtdb.firebaseio.com/class/${charClass}.json`);
         const response = await fetch(`/data/classes/${charClass}.json`);
         const data = await response.json();
-        const { skills, stats }: ICharData = data;
+        const { skills, stats }: CharData = data;
 
         setCharData(data);
 
@@ -118,7 +125,7 @@ export default function Planner() {
   return (
     <>
       <PageTitle>{charLevel > 1 && `Level ${charLevel} `}{charClass}</PageTitle>
-      {!isLoading && Object.keys(charData).length > 0 ?
+      {!isLoading && !!Object.keys(charData).length ?
         <PlannerContext.Provider value={plannerContextProps}>
           <Tabs />
           <Stages />

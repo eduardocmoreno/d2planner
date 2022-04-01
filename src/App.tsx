@@ -10,7 +10,7 @@ function App() {
       <Main>
         <Switch>
           <Redirect exact from="/" to="/class/paladin" />
-          {routes.map(({ name, path, exact, Component }: IRoute) =>
+          {routes.map(({ name, path, exact, Component }: RouteProps) =>
             <Route
               key={name}
               path={path}

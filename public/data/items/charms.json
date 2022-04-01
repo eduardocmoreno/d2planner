@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Monster",
+    "code": "mon",
+    "type": "gcha"
+  },
+  {
+    "name": "Lace",
+    "code": "lac",
+    "type": "gcha"
+  },
+  {
+    "name": "Eye",
+    "code": "eye",
+    "type": "gcha"
+  },
+
+
+  {
+    "name": "Paper",
+    "code": "pap",
+    "type": "lcha"
+  },
+  {
+    "name": "Horn",
+    "code": "hor",
+    "type": "lcha"
+  },
+  {
+    "name": "Obelisk",
+    "code": "obe",
+    "type": "lcha"
+  },
+
+
+  {
+    "name": "Football",
+    "code": "foo",
+    "type": "scha"
+  },
+  {
+    "name": "Bear Claw",
+    "code": "bea",
+    "type": "scha"
+  },
+  {
+    "name": "Coin",
+    "code": "coi",
+    "type": "scha"
+  },
+  
+  
+  {
+    "name": "Torch",
+    "code": "tor",
+    "type": "lcha"
+  },
+  {
+    "name": "Annihilus",
+    "code": "ann",
+    "type": "scma"
+  }
+]

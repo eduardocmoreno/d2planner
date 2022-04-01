@@ -1,17 +1,19 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Input } from "components/ui/Input";
 import { ChildSlot, List, ListItem, Selector, Wrapper } from "./FakeSelector.styles";
+import GoldenFrame from "./GoldenFrame";
 
-export default function FakeSelector({ children, position = 'bottom', search = true, options, callBack }: {
+export default function FakeSelector({ children, position = 'bottom', align = 'left', textAlign = 'left', search = true, options, callBack }: {
   children: React.ReactNode;
   position?: 'bottom' | 'right';
+  align?: 'left' | 'center' | 'right';
+  textAlign?: 'left' | 'center' | 'right';
   search?: boolean;
   options: {};
   callBack: Function;
 }) {
-
   //refs
-  const optionsRefs = useRef<any>([]);
+  const listHTMLElements = useRef<any[]>([]);
   const optIdxRef = useRef<number>(0);
   const wrapperElem = useRef<HTMLDivElement>(null);
   const selectorElem = useRef<HTMLDivElement>(null);
@@ -36,7 +38,7 @@ export default function FakeSelector({ children, position = 'bottom', search = t
     e.key === 'ArrowUp' && setOptIdx(prev => prev > 0 ? prev - 1 : prev);
     e.key === 'Escape' && setIsActive(false);
 
-    if (e.key === 'Enter' && Object.keys(filteredOptions).length > 0) {
+    if (e.key === 'Enter' && !!Object.keys(filteredOptions).length) {
       callBack(Object.keys(filteredOptions)[optIdx]);
       setIsActive(false);
     }
@@ -60,11 +62,12 @@ export default function FakeSelector({ children, position = 'bottom', search = t
 
     //reset any past search input value
     setSearchInput('');
+    setOptIdx(0);
   }, [isActive]);
 
   useLayoutEffect(() => {
     //if no options, no filter opts nor is active, then return false
-    if (!isActive || !optionsRefs.current.length || Object.entries(filteredOptions).length < 1) {
+    if (!isActive || !listHTMLElements.current.length || Object.entries(filteredOptions).length < 1) {
       return;
     }
 
@@ -81,7 +84,7 @@ export default function FakeSelector({ children, position = 'bottom', search = t
     let listOffHeight = list.offsetHeight;
 
     //capture the html list option elem layout position
-    let item = optionsRefs.current[optIdx];
+    let item = listHTMLElements.current[optIdx];
     let itemOffTop = item.offsetTop;
     let itemOffHeight = item.offsetHeight;
 
@@ -120,13 +123,15 @@ export default function FakeSelector({ children, position = 'bottom', search = t
   });
 
   return (
-    <Wrapper className="fake-selector" ref={wrapperElem} onMouseMove={() => setEventType('mouseMove')}>
+    <Wrapper
+      ref={wrapperElem}
+      onMouseMove={() => setEventType('mouseMove')}
+      {...{ isActive, position, vpRepos, align, textAlign }}>
+
       <ChildSlot onClick={() => setIsActive(prev => !prev)}>{children}</ChildSlot>
 
       {isActive &&
-        <Selector {...{ isActive, position, vpRepos }}
-          ref={selectorElem}
-          onKeyDown={e => focusOptionByKeyDown(e)}>
+        <Selector as={GoldenFrame} ref={selectorElem} onKeyDown={focusOptionByKeyDown}>
 
           {search &&
             <Input
@@ -136,24 +141,26 @@ export default function FakeSelector({ children, position = 'bottom', search = t
               onChange={e => setSearchInput(e.target.value)} />
           }
 
-          <List ref={listElem} isEmpty={Object.entries(filteredOptions).length === 0}>
-            {Object.entries(filteredOptions).map(([k, v], i) => {
-              return (
-                <ListItem
-                  ref={el => optionsRefs.current[i] = el}
-                  isActive={optIdx === i}
-                  key={k}
-                  onMouseMove={() => setOptIdx(i)}
-                  onClick={() => {
-                    callBack(k);
-                    setIsActive(prev => !prev);
-                    setSearchInput('');
-                  }}>
-                  {v as string}
-                </ListItem>
-              );
-            })}
-          </List>
+          {filteredOptions &&
+            <List ref={listElem} isEmpty={Object.entries(filteredOptions).length === 0}>
+              {Object.entries(filteredOptions).map(([k, v], i) => {
+                return (
+                  <ListItem
+                    isActive={optIdx === i}
+                    ref={el => listHTMLElements.current[i] = el}
+                    key={k}
+                    onMouseMove={() => setOptIdx(i)}
+                    onClick={() => {
+                      callBack(k);
+                      setIsActive(prev => !prev);
+                      setSearchInput('');
+                    }}>
+                    {v as string}
+                  </ListItem>
+                );
+              })}
+            </List>
+          }
         </Selector>
       }
     </Wrapper>

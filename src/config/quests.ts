@@ -1,4 +1,4 @@
-const questDifficulties: IQuestsDifficulty[] = [
+const questDifficulties: QuestDifficulty[] = [
   {
     level: 'normal',
     active: false
@@ -13,7 +13,7 @@ const questDifficulties: IQuestsDifficulty[] = [
   }
 ]
 
-const questsInit: IQuest[] = [
+const questsInit: Quest[] = [
   {
     name: 'Den of Evil',
     act: 'I',

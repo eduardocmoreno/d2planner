@@ -1,22 +1,22 @@
-interface IQuestsDifficulty {
+interface QuestDifficulty {
   level: string;
   active: boolean;
 }
 
-interface IQuest {
+interface Quest {
   name: string;
   act: string;
   reward: 'SKILLS' | 'ATTRS';
   adds: number;
-  difficulty: IQuestsDifficulty[];
+  difficulty: QuestDifficulty[];
 }
 
 //skill quests dispatch action
-interface IQuestsReducer {
+interface QuestsReducer {
   type: 'TOGGLE' | 'TOGGLEBYDIFFICULTY' | 'TOGGLEBYQUEST' | 'TOGGLEALL' | 'RESET';
   payload?: {
     difficulty?: string;
     quest?: string;
-    initialState?: IQuest[] | unknown;
+    initialState?: Quest[] | unknown;
   }
 }

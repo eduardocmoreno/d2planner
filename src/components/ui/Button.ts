@@ -14,9 +14,7 @@ const Button = styled.button(({ disabled, red, blue, green, big, arrowLeft, arro
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.35em 0.7em;
-  margin: 0;
-  box-shadow: inset 0 0 10px rgba(0 0 0 / 0.5);
+  padding: 0.35em 0.7em; 
   border: 2px solid;
   border-color: var(--golden-border);
   box-shadow: inset 0 0 1em rgba(0 0 0 / 0.8);

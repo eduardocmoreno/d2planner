@@ -433,7 +433,7 @@ The following items increase the shield damage: Redeemer, Astreons Iron Ward, St
 Damage +X, which is the attribute that the above items have, is added directly to the shield damage just like the Holy Shield bonus. This means that any %ED bonuses which work with Smite will apply (e.g. Fanaticism). (Thanks to Mikeandroe for helping test).
 
 
-The following things do not work with Smite:
+The following things DO NOT WORK with Smite:
 Leech (life/mana)
 Deadly Strike/Critical Strike (confirmed by both Oramin and Vash-dm independently in 1.11)
 Knockback (apart from the standard Knockback on the skill)

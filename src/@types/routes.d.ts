@@ -1,9 +1,9 @@
 /// <reference types="react" />
 
 //route
-interface IRoute {
+interface RouteProps {
   path: string;
   name: string;
   exact?: boolean;
-  Component: ComponentType;
+  Component: React.ComponentType;
 }

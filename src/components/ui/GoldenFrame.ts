@@ -1,12 +1,16 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const GoldenFrame = styled.div`
+export const GoldenFrameStyle = css`
   flex: 1;
   display: flex;
   border: 2px solid;
   border-color: var(--golden-border);
-  box-shadow: inset 0 0 1.5em rgba(0 0 0 / .5);
+  box-shadow: var(--inner-shadow);
   background: rgba(var(--color-blue-900-rgb), .5);
+`;
+
+const GoldenFrame = styled.div`
+  ${GoldenFrameStyle}
 `;
 
 export const FrameLabel = styled.div`

@@ -1,4 +1,4 @@
-interface ISkill {
+interface Skill {
   id: number;
   name: string;
   effect: string;
@@ -16,7 +16,6 @@ interface ISkill {
   levelReq: number;
   preReq: number[];
   postReq: number[];
-
   attibutes: {
     name: string;
     info: string;
@@ -25,7 +24,7 @@ interface ISkill {
       min: number[];
       max: number[];
     };
-    unit: TUnit;
+    unit: Unit;
     prefix: string;
     value: number | {
       min: number;
@@ -39,22 +38,22 @@ interface ISkill {
     info: string;
     adds: number;
   }[];
-};
+}
 
 //skill trees
-interface ISkillTree {
+interface SkillTree {
   id: number;
   name: string;
   map: number[];
   isActive: boolean;
 }
 
-type TUnit = 'yards' | 'seconds' | 'percent' | 'points' | 'hits';
+type Unit = 'yards' | 'seconds' | 'percent' | 'points' | 'hits';
 
 //skill reducer action
-interface ISkillsReducer {
+interface SkillsReducer {
   type: 'INIT' | 'INC_POINTS' | 'DEC_POINTS' | 'ALL_SKILLS' | 'CLASS_SKILLS' | 'TREE_SKILLS' | 'SINGLE_SKILL' | 'RESET';
   id?: number;
   batch?: number;
-  initialState?: ISkill[];
+  initialState?: Skill[];
 }

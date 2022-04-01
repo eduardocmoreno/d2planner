@@ -1,4 +1,4 @@
-export default function attrsReducer(prev: IAttrs, action: IAttrsReducer) {
+export default function attrsReducer(prev: Attrs, action: AttrsReducer) {
   switch (action.type) {
     case 'ADD':
     case 'SUB': {
@@ -7,7 +7,7 @@ export default function attrsReducer(prev: IAttrs, action: IAttrsReducer) {
 
       const factor = action.type === 'SUB' ? -1 : 1;
 
-      const newState: IAttrs = {
+      const newState: Attrs = {
         ...prev,
         [attr!]: {
           ...prev[attr!],
@@ -23,7 +23,7 @@ export default function attrsReducer(prev: IAttrs, action: IAttrsReducer) {
       const { attr, batch } = action.payload!;
       const { base, applied } = prev[attr!];
 
-      const newState: IAttrs = {
+      const newState: Attrs = {
         ...prev,
         [attr!]: {
           ...prev[attr!],
@@ -36,7 +36,7 @@ export default function attrsReducer(prev: IAttrs, action: IAttrsReducer) {
     }
 
     case 'RESET': {
-      const newState: IAttrs = {
+      const newState: Attrs = {
         strength: {
           ...prev.strength,
           applied: 0,

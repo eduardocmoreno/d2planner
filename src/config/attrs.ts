@@ -1,11 +1,11 @@
-const initProps: IAttrProps = {
+const initProps: AttrProps = {
   base: 0,
   applied: 0,
   bonus: 0,
   total: 0
 }
 
-const attrsInit: IAttrs = {
+const attrsInit: Attrs = {
   strength: {
     ...initProps
   },

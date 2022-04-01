@@ -5,8 +5,7 @@
     "shortDescr": "All Skills",
     "inputMin": 1,
     "inputMax": 50,
-    "step": 1,
-    "ref": [1, 5]
+    "step": 1
   },
   "classSkills": { 
     "name": "classSkills",
@@ -14,8 +13,7 @@
     "shortDescr": "Class Skill Levels",
     "inputMin": 1,
     "inputMax": 50,
-    "step": 1,
-    "ref": [1, 3]
+    "step": 1
   },
   "treeSkills": { 
     "name": "treeSkills",
@@ -23,8 +21,7 @@
     "shortDescr": "Tree Skills",
     "inputMin": 1,
     "inputMax": 50,
-    "step": 1,
-    "ref": [1, 7]
+    "step": 1
   },
   "singleSkill": { 
     "name": "singleSkill",
@@ -32,8 +29,7 @@
     "shortDescr": "Single Skill",
     "inputMin": 1,
     "inputMax": 50,
-    "step": 1,
-    "ref": [1, 7]
+    "step": 1
   },
 
   "allAttrs": { 
@@ -42,8 +38,7 @@
     "shortDescr": "All Attributes",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [1, 50]
+    "step": 1
   },
   "strength": { 
     "name": "strength",
@@ -51,8 +46,7 @@
     "shortDescr": "Strength",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [1, 50]
+    "step": 1
   },
   "strength/lvl": { 
     "name": "strength/lvl",
@@ -60,8 +54,7 @@
     "shortDescr": "Strength / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.375, 0.75]
+    "step": 0.025
   },
   "dexterity": { 
     "name": "dexterity",
@@ -69,8 +62,7 @@
     "shortDescr": "Dexterity",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [1, 35]
+    "step": 1
   },
   "dexterity/lvl": { 
     "name": "dexterity/lvl",
@@ -78,8 +70,7 @@
     "shortDescr": "Dexterity / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.5, 0.5]
+    "step": 0.025
   },
   "vitality": { 
     "name": "vitality",
@@ -87,8 +78,7 @@
     "shortDescr": "Vitality",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [1, 40]
+    "step": 1
   },
   "vitality/lvl": { 
     "name": "vitality/lvl",
@@ -96,8 +86,7 @@
     "shortDescr": "Vitality / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.5, 0.5]
+    "step": 0.025
   },
   "energy": { 
     "name": "energy",
@@ -105,8 +94,7 @@
     "shortDescr": "Energy",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [1, 50]
+    "step": 1
   },
   "life": { 
     "name": "life",
@@ -114,8 +102,7 @@
     "shortDescr": "Life",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [15, 150]
+    "step": 1
   },
   "life/lvl": { 
     "name": "life/lvl",
@@ -123,8 +110,7 @@
     "shortDescr": "Life / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.5, 1.5]
+    "step": 0.025
   },
   "mana": { 
     "name": "mana",
@@ -132,8 +118,7 @@
     "shortDescr": "Mana",
     "inputMin": 1,
     "inputMax": 250,
-    "step": 1,
-    "ref": [25, 175]
+    "step": 1
   },
   "mana/lvl": { 
     "name": "mana/lvl",
@@ -141,8 +126,7 @@
     "shortDescr": "Mana / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.625, 2]
+    "step": 0.025
   },
 
   "dmg": { 
@@ -151,17 +135,15 @@
     "shortDescr": "Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [30, 400]
+    "step": 1
   },
-  "eDmg": { 
-    "name": "eDmg",
+  "dmg%": { 
+    "name": "dmg%",
     "descr": "+{a}% Enhanced Damage",
     "shortDescr": "Enhanced Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [5, 400]
+    "step": 1
   },
   "minDmg": { 
     "name": "minDmg",
@@ -169,8 +151,7 @@
     "shortDescr": "Minimum Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [1, 15]
+    "step": 1
   },
   "maxDmg": { 
     "name": "maxDmg",
@@ -178,8 +159,7 @@
     "shortDescr": "Maximum Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [3, 66]
+    "step": 1
   },
   "maxDmg/lvl": { 
     "name": "maxDmg/lvl",
@@ -187,8 +167,7 @@
     "shortDescr": "Maximum Damage / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [1, 3.125]
+    "step": 0.025
   },
   "eMaxDmg/lvl": { 
     "name": "eMaxDmg/lvl",
@@ -196,8 +175,7 @@
     "shortDescr": "Enhanced Maximum Damage / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [2, 3]
+    "step": 0.025
   },
   "dmgDemon": { 
     "name": "dmgDemon",
@@ -205,8 +183,7 @@
     "shortDescr": "Damage To Demons",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [50, 380]
+    "step": 1
   },
   "dmgDemon/lvl": { 
     "name": "dmgDemon/lvl",
@@ -214,8 +191,7 @@
     "shortDescr": "Damage To Demons / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [1, 1.875]
+    "step": 0.025
   },
   "dmgUndead": { 
     "name": "dmgUndead",
@@ -231,8 +207,7 @@
     "shortDescr": "Damage To Undead / lvl",
     "inputMin": 0.25,
     "inputMax": 10,
-    "step": 0.025,
-    "ref": [2, 7.5]
+    "step": 0.025
   },
   "fireDmg": { 
     "name": "fireDmg",
@@ -240,8 +215,7 @@
     "shortDescr": "Fire Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [3, 500]
+    "step": 1
   },
   "coldDmg": { 
     "name": "coldDmg",
@@ -249,8 +223,7 @@
     "shortDescr": "Cold Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [2, 500]
+    "step": 1
   },
   "ltngDmg": { 
     "name": "ltngDmg",
@@ -258,8 +231,7 @@
     "shortDescr": "Lightning Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [1, 511]
+    "step": 1
   },
   "poisDmg": { 
     "name": "poisDmg",
@@ -267,8 +239,7 @@
     "shortDescr": "Poison Damage",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [36, 500]
+    "step": 1
   },
  
   "def": { 
@@ -277,17 +248,15 @@
     "shortDescr": "Defense",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [-8, 775]
+    "step": 1
   },
-  "eDef": { 
-    "name": "eDef",
+  "def%": { 
+    "name": "def%",
     "descr": "+{a}% Enhanced Defense",
     "shortDescr": "Enhanced Defense",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [10, 325]
+    "step": 1
   },
   "def/lvl": { 
     "name": "def/lvl",
@@ -295,17 +264,23 @@
     "shortDescr": "Defense / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [1, 5]
+    "step": 0.025
   },
   "dmgRed": { 
     "name": "dmgRed",
-    "descr": "Damage Reduced By {a}%",
+    "descr": "Damage Reduced By {a}",
     "shortDescr": "Damage Reduction",
     "inputMin": 1,
     "inputMax": 50,
-    "step": 1,
-    "ref": [10, 35]
+    "step": 1
+  },
+  "dmgRed%": { 
+    "name": "dmgRed%",
+    "descr": "Damage Reduced By {a}%",
+    "shortDescr": "Damage Reduction %",
+    "inputMin": 1,
+    "inputMax": 50,
+    "step": 1
   },
   "block": { 
     "name": "block",
@@ -313,8 +288,7 @@
     "shortDescr": "Block",
     "inputMin": 1,
     "inputMax": 55,
-    "step": 1,
-    "ref": [10, 55]
+    "step": 1
   },
   "fhr": { 
     "name": "fhr",
@@ -322,8 +296,7 @@
     "shortDescr": "Fast Hit Recovery",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 55]
+    "step": 1
   },
 
   "mf": { 
@@ -332,8 +305,7 @@
     "shortDescr": "Magic Find",
     "inputMin": 1,
     "inputMax": 9999,
-    "step": 1,
-    "ref": [10, 100]
+    "step": 1
   },
   "mf/lvl": { 
     "name": "mf/lvl",
@@ -341,8 +313,7 @@
     "shortDescr": "Magic Find / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.5, 1.25]
+    "step": 0.025
   },
   "req": { 
     "name": "req",
@@ -350,8 +321,7 @@
     "shortDescr": "Requirements",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [-100, 20]
+    "step": 1
   },
  
   "fcr": { 
@@ -360,8 +330,7 @@
     "shortDescr": "Faster Cast Rate",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 50]
+    "step": 1
   },
   "frw": { 
     "name": "frw",
@@ -369,8 +338,7 @@
     "shortDescr": "Faster Run/Walk",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 45]
+    "step": 1
   },
   "ar": { 
     "name": "ar",
@@ -378,8 +346,7 @@
     "shortDescr": "Attack Rating",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [20, 632]
+    "step": 1
   },
   "eAr": { 
     "name": "eAr",
@@ -387,8 +354,7 @@
     "shortDescr": "Bonus To Attack Rating",
     "inputMin": 1,
     "inputMax": 999,
-    "step": 1,
-    "ref": [10, 300]
+    "step": 1
   },
   "ar/lvl": { 
     "name": "ar/lvl",
@@ -396,8 +362,7 @@
     "shortDescr": "Attack Rating / lvl",
     "inputMin": 0.25,
     "inputMax": 15,
-    "step": 0.025,
-    "ref": [1.25, 12]
+    "step": 0.025
   },
   "ias": { 
     "name": "ias",
@@ -405,8 +370,7 @@
     "shortDescr": "Increased Attack Speed",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 80]
+    "step": 1
   },
   "ow": { 
     "name": "ow",
@@ -414,8 +378,7 @@
     "shortDescr": "Open Wounds",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 100]
+    "step": 1
   },
   "cb": { 
     "name": "cb",
@@ -423,8 +386,7 @@
     "shortDescr": "Crushing Blow",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [5, 75]
+    "step": 1
   },
   "ds": { 
     "name": "ds",
@@ -432,8 +394,7 @@
     "shortDescr": "Deadly Strike",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [15, 100]
+    "step": 1
   },
   "ds/lvl": { 
     "name": "ds/lvl",
@@ -441,8 +402,7 @@
     "shortDescr": "Deadly Strike / lvl",
     "inputMin": 0.25,
     "inputMax": 5,
-    "step": 0.025,
-    "ref": [0.375, 1.5]
+    "step": 0.025
   },
   "lifeSteal": { 
     "name": "lifeSteal",
@@ -450,8 +410,7 @@
     "shortDescr": "Life Stolen",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [3, 18]
+    "step": 1
   },
   "manaSteal": { 
     "name": "manaSteal",
@@ -459,8 +418,7 @@
     "shortDescr": "Mana Stolen",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [2, 100]
+    "step": 1
   },
 
   "allRes": { 
@@ -469,8 +427,7 @@
     "shortDescr": "All Resistances",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [5, 75]
+    "step": 1
   },
   "fireRes": { 
     "name": "fireRes",
@@ -478,8 +435,7 @@
     "shortDescr": "Fire Resist",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [-30, 75]
+    "step": 1
   },
   "coldRes": { 
     "name": "coldRes",
@@ -487,8 +443,7 @@
     "shortDescr": "Cold Resist",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 80]
+    "step": 1
   },
   "ltngRes": { 
     "name": "ltngRes",
@@ -496,8 +451,7 @@
     "shortDescr": "Lightning Resist",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [15, 75]
+    "step": 1
   },
   "poisRes": { 
     "name": "poisRes",
@@ -505,8 +459,7 @@
     "shortDescr": "Poison Resist",
     "inputMin": 1,
     "inputMax": 100,
-    "step": 1,
-    "ref": [10, 100]
+    "step": 1
   },
   "maxFireRes": { 
     "name": "maxFireRes",
@@ -514,8 +467,7 @@
     "shortDescr": "Maximum Fire Resist",
     "inputMin": 1,
     "inputMax": 25,
-    "step": 1,
-    "ref": [5, 15]
+    "step": 1
   },
   "maxColdRex": { 
     "name": "maxColdRex",
@@ -523,8 +475,7 @@
     "shortDescr": "Maximum Cold Resist",
     "inputMin": 1,
     "inputMax": 25,
-    "step": 1,
-    "ref": [5, 15]
+    "step": 1
   },
   "maxLtngRes": { 
     "name": "maxLtngRes",
@@ -532,8 +483,7 @@
     "shortDescr": "Maximum Lightning Resist",
     "inputMin": 1,
     "inputMax": 25,
-    "step": 1,
-    "ref": [5, 10]
+    "step": 1
   },
   "maxPoisRes": { 
     "name": "maxPoisRes",
@@ -541,8 +491,7 @@
     "shortDescr": "Maximum Poison Resist",
     "inputMin": 1,
     "inputMax": 25,
-    "step": 1,
-    "ref": [5, 20]
+    "step": 1
   },
 
   "ethereal": { 

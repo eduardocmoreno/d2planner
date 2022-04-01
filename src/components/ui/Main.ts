@@ -17,7 +17,7 @@ const Main = styled.main`
   }
   &:after {
     border: 4px solid;
-    border-color: var(--color-red) var(--color-red-700) var(--color-red-900);
+    border-color: var(--reddish-border);
     background-size: contain;
     inset: 1.5rem;
     z-index: -1;

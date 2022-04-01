@@ -3,41 +3,44 @@
 type setStateAsNumber = React.Dispatch<React.SetStateAction<number>>;
 
 //planner context
-interface IPlannerContext {
+interface PlannerContext {
   charClass: string;
 
-  charData: ICharData;
+  charData: CharData;
 
-  planner: IPlanner[];
-  setPlanner: React.Dispatch<React.SetStateAction<IPlanner[]>>;
+  planner: Planner[];
+  setPlanner: React.Dispatch<React.SetStateAction<Planner[]>>;
 
   charLevel: number;
   setCharLevel: setStateAsNumber;
 
-  attrs: IAttrs;
-  dispatchAttrs: React.Dispatch<IAttrsReducer>;
+  attrs: Attrs;
+  dispatchAttrs: React.Dispatch<AttrsReducer>;
 
   attrPoints: number;
   setAttrPoints: setStateAsNumber;
 
-  quests: IQuest[];
-  dispatchQuests: React.Dispatch<IQuestsReducer>;
+  quests: Quest[];
+  dispatchQuests: React.Dispatch<QuestsReducer>;
 
-  skills: ISkill[];
-  dispatchSkills: React.Dispatch<ISkillsReducer>;
+  skills: Skill[];
+  dispatchSkills: React.Dispatch<SkillsReducer>;
 
   skillPoints: number;
   setSkillPoints: setStateAsNumber;
 
-  gear: IGear[];
-  setGear: React.Dispatch<React.SetStateAction<IGear[]>>;
-};
+  // newGear: Gear[];
+  // dispatchGear: React.Dispatch<GearReducer>;
+
+  // items: Item[];
+  // dispatchItems: React.Dispatch<ItemsReducer>;
+}
 
 
 //planner tab
-interface IPlanner {
+interface Planner {
   id: number;
   name: string;
-  Component: ComponentType;
+  Component: React.ComponentType;
   isActive: boolean;
 }

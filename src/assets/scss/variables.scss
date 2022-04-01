@@ -46,6 +46,7 @@
   --color-green-800: #223606;
   --color-green-900: #111b03;
   --color-green-rgb: 84, 136, 15;
+  --color-green-900-rgb: 17, 27, 3;
   --color-green: var(--color-green-500);
 
   --font-family-main: "D2font";
@@ -60,9 +61,12 @@
   --duration-faster: 0.15s;
   --duration-slower: 0.35s;
 
+  --reddish-border: var(--color-red) var(--color-red-700) var(--color-red-900);
   --golden-border: var(--color-gold) var(--color-gold-700) var(--color-gold-900);
   --golden-line: var(--color-gold) var(--color-gold-900);
   --golden-dotted-line: 1px dotted var(--color-gold-900);
+
+  --inner-shadow: inset 0 0 1.5em rgba(0 0 0 / .5);
 
   --input-focus-glow: inset 0 0 15px rgba(0 0 0 / .5), 0 0 .15em rgba(var(--color-blue-rgb), .5);
 }

@@ -1,4 +1,4 @@
-export default function skillsReducer(prev: ISkill[], action: ISkillsReducer) {
+export default function skillsReducer(prev: Skill[], action: SkillsReducer) {
   switch (action.type) {
     case 'INC_POINTS':
     case 'DEC_POINTS': {

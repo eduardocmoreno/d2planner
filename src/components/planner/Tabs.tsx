@@ -8,7 +8,7 @@ export default function PlannerTabs() {
 
   //handle: tabs
   const handleTabs = (id: number) => {
-    setPlanner(planner.map((t: IPlanner) => {
+    setPlanner(planner.map((t: Planner) => {
       return {
         ...t,
         isActive: id === t.id ? true : false
@@ -18,7 +18,7 @@ export default function PlannerTabs() {
 
   return (
     <Tabs>
-      {planner.map(({ id, name, isActive }: IPlanner) =>
+      {planner.map(({ id, name, isActive }: Planner) =>
         <Tab
           key={id}
           className={isActive ? 'active' : ''}

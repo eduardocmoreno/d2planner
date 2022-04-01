@@ -6,7 +6,7 @@ import { capitalize, getSkill } from "helpers";
 
 
 export default function SkillTree({ tree, setSkillIdOnHover }: {
-  tree: ISkillTree;
+  tree: SkillTree;
   setSkillIdOnHover: React.Dispatch<SetStateAction<number>>;
 }) {
   const { charClass, charLevel, skills, dispatchSkills, skillPoints, setSkillPoints } = useContext(PlannerContext);

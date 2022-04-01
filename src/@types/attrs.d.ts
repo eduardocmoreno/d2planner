@@ -1,29 +1,29 @@
-interface IAttrProps {
+interface AttrProps {
   base?: number;
   bonus?: number;
   applied?: number;
   total?: number;
 }
 
-interface IAttrs {
-  strength: IAttrProps;
-  dexterity: IAttrProps;
-  vitality: IAttrProps;
-  energy: IAttrProps;
+interface Attrs {
+  strength: AttrProps;
+  dexterity: AttrProps;
+  vitality: AttrProps;
+  energy: AttrProps;
 }
 
-interface IAttrPoints {
+interface AttrPoints {
   total: number;
   remaining: number;
   byLevel: number;
   byQuests: number;
 }
 
-interface IAttrsReducer {
+interface AttrsReducer {
   type: 'ADD' | 'SUB' | 'BONUS' | 'INIT' | 'RESET';
   payload?: {
-    attr?: keyof IAttrs;
+    attr?: keyof Attrs;
     batch?: number;
-    initialState?: IAttrs;
+    initialState?: Attrs;
   }
 }
